@@ -28,7 +28,13 @@
 - [x] Phase 2.6 - Register Form Component
 - [x] Phase 2.7 - Header Update für Auth State
 - [x] **PHASE 2 ABGESCHLOSSEN! ✅**
-- [ ] **→ NÄCHSTER SCHRITT: Phase 3.1 - TailorProfile Model & API**
+- [x] Phase 3.1 - Tailor Types & Dummy Data
+- [x] Phase 3.2 - TailorCard Component
+- [x] Phase 3.3 - TailorGrid Component
+- [x] Phase 3.4 - Tailors Page (Frontend Only)
+- [x] Phase 3.5 - Tailors API Route
+- [x] Phase 3.6 - Tailors Page (API Integration)
+- [ ] **→ NÄCHSTER SCHRITT: Phase 3.7 - Tailor Profile Page**
 
 ---
 
@@ -487,8 +493,8 @@ Datei: app/components/layout/Header.tsx (editieren)
 
 ### ✅ 3.1 Tailor Types & Dummy Data
 
-**Status:** [ ] Todo  
-**Dauer:** 1h  
+**Status:** [x] Fertig
+**Dauer:** 1h
 **Dateien:** `app/types/tailor.ts`, `app/lib/dummyData.ts`
 
 **Prompt:**
@@ -511,8 +517,8 @@ Beide Dateien.
 
 ### ✅ 3.2 TailorCard Component
 
-**Status:** [ ] Todo  
-**Dauer:** 2h  
+**Status:** [x] Fertig
+**Dauer:** 2h
 **Dateien:** `app/components/marketplace/TailorCard.tsx`
 
 **Prompt:**
@@ -542,8 +548,8 @@ Datei: app/components/marketplace/TailorCard.tsx
 
 ### ✅ 3.3 TailorGrid Component
 
-**Status:** [ ] Todo  
-**Dauer:** 1h  
+**Status:** [x] Fertig
+**Dauer:** 1h
 **Dateien:** `app/components/marketplace/TailorGrid.tsx`
 
 **Prompt:**
@@ -564,8 +570,8 @@ Datei: app/components/marketplace/TailorGrid.tsx
 
 ### ✅ 3.4 Tailors Page (Frontend Only)
 
-**Status:** [ ] Todo  
-**Dauer:** 2h  
+**Status:** [x] Fertig
+**Dauer:** 2h
 **Dateien:** `app/(marketplace)/tailors/page.tsx`
 
 **Prompt:**
@@ -588,8 +594,8 @@ Datei: app/(marketplace)/tailors/page.tsx
 
 ### ✅ 3.5 Tailors API Route
 
-**Status:** [ ] Todo  
-**Dauer:** 2h  
+**Status:** [x] Fertig
+**Dauer:** 2h
 **Dateien:** `app/api/tailors/route.ts`
 
 **Prompt:**
@@ -612,8 +618,8 @@ Datei: app/api/tailors/route.ts
 
 ### ✅ 3.6 Tailors Page (API Integration)
 
-**Status:** [ ] Todo  
-**Dauer:** 2h  
+**Status:** [x] Fertig
+**Dauer:** 2h
 **Dateien:** `app/(marketplace)/tailors/page.tsx` (ersetzen), `app/hooks/useTailors.ts`
 
 **Prompt:**
