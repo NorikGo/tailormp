@@ -2,11 +2,23 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useAuth } from "@/app/hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
+  const router = useRouter();
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -14,6 +26,15 @@ export default function Header() {
     { href: "/products", label: "Produkte" },
     { href: "/about", label: "Über uns" },
   ];
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.push("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b">
@@ -37,14 +58,46 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Desktop Auth Buttons */}
+          {/* Desktop Auth Section */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button variant="outline" asChild>
-              <Link href="/login">Login</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/register">Registrieren</Link>
-            </Button>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="gap-2">
+                    <User size={18} />
+                    {user.email}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>Mein Konto</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard" className="cursor-pointer">
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="cursor-pointer">
+                      Profil
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+                    <LogOut size={16} className="mr-2" />
+                    Abmelden
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button variant="outline" asChild>
+                  <Link href="/login">Login</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/register">Registrieren</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -73,16 +126,48 @@ export default function Header() {
               </Link>
             ))}
             <div className="flex flex-col gap-3 pt-4 border-t">
-              <Button variant="outline" asChild>
-                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                  Login
-                </Link>
-              </Button>
-              <Button asChild>
-                <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
-                  Registrieren
-                </Link>
-              </Button>
+              {user ? (
+                <>
+                  <div className="px-3 py-2 text-sm text-slate-600">
+                    <div className="font-medium text-slate-900">{user.email}</div>
+                    <div className="text-xs mt-1">
+                      {user.role === "tailor" ? "Schneider" : "Kunde"}
+                    </div>
+                  </div>
+                  <Button variant="outline" asChild>
+                    <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                      Dashboard
+                    </Link>
+                  </Button>
+                  <Button variant="outline" asChild>
+                    <Link href="/profile" onClick={() => setMobileMenuOpen(false)}>
+                      Profil
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      handleLogout();
+                    }}
+                  >
+                    Abmelden
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="outline" asChild>
+                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                      Login
+                    </Link>
+                  </Button>
+                  <Button asChild>
+                    <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+                      Registrieren
+                    </Link>
+                  </Button>
+                </>
+              )}
             </div>
           </nav>
         </div>

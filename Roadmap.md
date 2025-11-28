@@ -21,7 +21,14 @@
 - [x] Phase 1.6 - Placeholder Seiten
 - [x] **PHASE 1 ABGESCHLOSSEN! ✅**
 - [x] Phase 2.1 - Auth Hook + Types
-- [ ] **→ NÄCHSTER SCHRITT: Phase 2.2 - Login API Route**
+- [x] Phase 2.2 - Login API Route
+- [x] Phase 2.3 - Register API Route
+- [x] Phase 2.4 - Logout API Route
+- [x] Phase 2.5 - Login Form Component
+- [x] Phase 2.6 - Register Form Component
+- [x] Phase 2.7 - Header Update für Auth State
+- [x] **PHASE 2 ABGESCHLOSSEN! ✅**
+- [ ] **→ NÄCHSTER SCHRITT: Phase 3.1 - TailorProfile Model & API**
 
 ---
 
@@ -289,8 +296,8 @@ Beide Dateien erstellen.
 
 ### ✅ 2.2 Login API Route
 
-**Status:** [ ] Todo  
-**Dauer:** 2h  
+**Status:** [x] Fertig
+**Dauer:** 2h
 **Dateien:** `app/api/auth/login/route.ts`, `app/lib/validations.ts`
 
 **Prompt:**
@@ -315,15 +322,15 @@ Beide Dateien.
 
 **Test:**
 
-- [ ] POST mit korrekten Daten → 200
-- [ ] POST mit falschen Daten → 401
+- [x] POST mit korrekten Daten → 200
+- [x] POST mit falschen Daten → 401
 
 ---
 
 ### ✅ 2.3 Register API Route
 
-**Status:** [ ] Todo  
-**Dauer:** 2h  
+**Status:** [x] Fertig
+**Dauer:** 2h
 **Dateien:** `app/api/auth/register/route.ts`
 
 **Prompt:**
@@ -349,14 +356,14 @@ Datei: app/api/auth/register/route.ts
 
 **Test:**
 
-- [ ] POST → 201, Email-Verifizierung
+- [x] POST → 201, Email-Verifizierung
 
 ---
 
 ### ✅ 2.4 Logout API Route
 
-**Status:** [ ] Todo  
-**Dauer:** 30min  
+**Status:** [x] Fertig
+**Dauer:** 30min
 **Dateien:** `app/api/auth/logout/route.ts`
 
 **Prompt:**
@@ -375,8 +382,8 @@ Datei: app/api/auth/logout/route.ts
 
 ### ✅ 2.5 Login Form
 
-**Status:** [ ] Todo  
-**Dauer:** 3h  
+**Status:** [x] Fertig
+**Dauer:** 3h
 **Dateien:** `app/components/forms/LoginForm.tsx`, `app/(auth)/login/page.tsx`
 
 **Prompt:**
@@ -409,8 +416,8 @@ Beide Dateien.
 
 ### ✅ 2.6 Register Form
 
-**Status:** [ ] Todo  
-**Dauer:** 3h  
+**Status:** [x] Fertig
+**Dauer:** 3h
 **Dateien:** `app/components/forms/RegisterForm.tsx`, `app/(auth)/register/page.tsx`
 
 **Prompt:**
@@ -439,8 +446,8 @@ Beide Dateien.
 
 ### ✅ 2.7 Header Update (Auth State)
 
-**Status:** [ ] Todo  
-**Dauer:** 1h  
+**Status:** [x] Fertig
+**Dauer:** 1h
 **Dateien:** `app/components/layout/Header.tsx` (anpassen)
 
 **Prompt:**
