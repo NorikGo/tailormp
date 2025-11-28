@@ -1,0 +1,1169 @@
+# 🎯 TECHNISCHE SPEZIFIKATION: TAILORMARKET
+
+## 1. SYSTEMÜBERBLICK
+
+### 1.1 Konzept & Vision
+**TailorMarket** ist eine Zwei-Seiten-Marketplace-Plattform, die qualifizierte Schneider aus Lohnschwachländern (primär Vietnam, Thailand, Indien, Pakistan) mit Kunden in westlichen Märkten (Deutschland, EU, USA) verbindet. Die Plattform ermöglicht:
+- **Schneidern:** Zugang zu einem globalen Markt, den sie sonst nie erreichen würden
+- **Kunden:** Zugang zu maßgeschneiderter Kleidung zu deutlich günstigeren Preisen ohne Qualitätseinbußen
+
+### 1.2 Kernfunktionalität
+- Marketplace für maßgeschneiderte Kleidung (primär Anzüge)
+- Online-Measurement-Tool für Körpermaße
+- Schneider-Profile mit Portfolio, Bewertungen und Spezialisierungen
+- Bestellsystem mit Tracking
+- Mehrsprachige Unterstützung
+- Zahlungsabwicklung
+- Review & Rating System
+
+---
+
+## 2. TECHNOLOGIE-STACK
+
+### 2.1 Frontend
+**Framework & Libraries:**
+- **Next.js 16.0.3** (React 19.2.0)
+  - App Router (nicht Pages Router)
+  - Server Components als Standard
+  - Client Components wo Interaktivität nötig
+- **TypeScript 5.9.3** (Strict Mode)
+- **Tailwind CSS 4.1.17** (Utility-First CSS)
+- **shadcn/ui** (Slate Theme)
+  - Komponenten: Button, Input, Card, Form, Badge (erweiterbar)
+
+**Rendering-Strategie:**
+- SSR (Server-Side Rendering) für SEO-relevante Seiten
+- CSR (Client-Side Rendering) für interaktive Dashboards
+- ISR (Incremental Static Regeneration) für Schneider-Profile
+
+### 2.2 Backend & Datenbank
+**Backend-as-a-Service:**
+- **Supabase** (PostgreSQL 15)
+  - Authentication (Email/Password, später OAuth)
+  - PostgreSQL Datenbank
+  - Storage (Produkt-Bilder, Schneider-Portfolio)
+  - Row Level Security (RLS) aktiviert
+  - Real-time Subscriptions (optional für Benachrichtigungen)
+
+**ORM & Datenzugriff:**
+- **Prisma 6.19.0**
+  - Type-Safe Database Client
+  - Migration Management
+  - Introspection & Schema Sync
+
+**API-Architektur:**
+- Next.js API Routes (`app/api/...`)
+- RESTful Endpoints
+- Server Actions für Formulare
+- Optionale tRPC-Integration in späteren Phasen
+
+### 2.3 Development Tools
+- **Git** (GitHub Repository: Private)
+- **VS Code** mit Extensions (ESLint, Prettier, Tailwind IntelliSense, Prisma)
+- **Claude Code** für AI-gestützte Entwicklung
+
+---
+
+## 3. DATENBANK-ARCHITEKTUR
+
+### 3.1 Entity-Relationship-Model
+
+**Kernentitäten:**
+
+#### **User** (Basis für alle Nutzer)
+```
+- id: String (CUID)
+- email: String (unique)
+- password: String (hashed)
+- role: String ("customer" | "tailor")
+- createdAt: DateTime
+- updatedAt: DateTime
+```
+
+#### **Tailor** (1:1 mit User, optional)
+```
+- id: String (CUID)
+- userId: String (FK zu User)
+- name: String (Geschäfts-/Künstlername)
+- bio: String (Selbstbeschreibung)
+- country: String (ISO Code)
+- languages: String[] (z.B. ["en", "vi", "de"])
+- rating: Float (Durchschnittsbewertung 0-5)
+- totalOrders: Int (Anzahl abgeschlossener Bestellungen)
+- yearsExperience: Int
+- specialties: String[] (z.B. ["suits", "shirts", "traditional"])
+- isVerified: Boolean
+- createdAt: DateTime
+```
+
+#### **Product** (Angebote des Schneiders)
+```
+- id: String (CUID)
+- tailorId: String (FK zu Tailor)
+- title: String
+- description: String (Markdown)
+- price: Float (in EUR)
+- currency: String (default: "EUR")
+- category: String ("suit" | "shirt" | "pants" | "dress" | "traditional")
+- fabric: String (z.B. "Wool", "Cotton", "Linen")
+- customizationOptions: JSON (Knöpfe, Taschen, etc.)
+- productionTime: Int (Tage)
+- isActive: Boolean
+- createdAt: DateTime
+- updatedAt: DateTime
+```
+
+#### **ProductImage**
+```
+- id: String (CUID)
+- productId: String (FK zu Product)
+- url: String (Supabase Storage URL)
+- position: Int (Sortierung)
+- alt: String (Accessibility)
+```
+
+#### **Order** (Bestellung)
+```
+- id: String (CUID)
+- userId: String (FK zu User)
+- status: String ("pending" | "measuring" | "production" | "shipping" | "completed" | "cancelled")
+- totalAmount: Float
+- currency: String
+- shippingAddress: JSON
+- measurements: JSON (Körpermaße vom Measurement Tool)
+- notes: String (Spezialwünsche)
+- createdAt: DateTime
+- updatedAt: DateTime
+- completedAt: DateTime?
+```
+
+#### **OrderItem** (Produkte in Bestellung)
+```
+- id: String (CUID)
+- orderId: String (FK zu Order)
+- productId: String (FK zu Product)
+- tailorId: String (FK zu Tailor - Redundanz für Performance)
+- quantity: Int
+- unitPrice: Float (Preis zum Bestellzeitpunkt)
+- customizations: JSON (gewählte Optionen)
+- measurements: JSON (produktspezifische Maße)
+- status: String
+```
+
+#### **Review** (Bewertungen) - SPÄTER HINZUFÜGEN
+```
+- id: String (CUID)
+- orderId: String (FK zu Order)
+- tailorId: String (FK zu Tailor)
+- userId: String (FK zu User)
+- rating: Int (1-5)
+- comment: String
+- images: String[] (optional)
+- isVerified: Boolean (nur nach abgeschlossener Bestellung)
+- createdAt: DateTime
+```
+
+### 3.2 Row Level Security (RLS) Policies
+
+**Sicherheitsregeln pro Tabelle:**
+
+**User:**
+- SELECT: Nur eigenes Profil
+- INSERT: Authentifizierte User (Registrierung)
+- UPDATE: Nur eigenes Profil
+- DELETE: Nur eigenes Profil
+
+**Tailor:**
+- SELECT: Öffentlich (anon + authenticated)
+- INSERT/UPDATE/DELETE: Nur eigenes Profil (via userId)
+
+**Product:**
+- SELECT: Öffentlich (anon + authenticated)
+- INSERT/UPDATE/DELETE: Nur eigene Produkte (via Tailor-Relation)
+
+**ProductImage:**
+- SELECT: Öffentlich
+- INSERT/UPDATE/DELETE: Nur Bilder eigener Produkte
+
+**Order:**
+- SELECT: Nur eigene Orders ODER Orders mit eigenen Produkten (Schneider)
+- INSERT: Authentifizierte User
+- UPDATE: User (Status-Updates) + Schneider (Produktions-Updates)
+
+**OrderItem:**
+- SELECT: Via Order-Berechtigung
+- INSERT/UPDATE/DELETE: Via Order-Berechtigung
+
+---
+
+## 4. ANWENDUNGSARCHITEKTUR
+
+### 4.1 Ordnerstruktur
+
+```
+my-marketplace/
+├── app/
+│   ├── (auth)/                    # Auth-Routen Gruppe
+│   │   ├── login/
+│   │   │   └── page.tsx
+│   │   ├── register/
+│   │   │   └── page.tsx
+│   │   └── layout.tsx
+│   │
+│   ├── (marketplace)/             # Öffentliche Seiten
+│   │   ├── page.tsx               # Homepage
+│   │   ├── tailors/               # Schneider-Übersicht
+│   │   │   ├── page.tsx
+│   │   │   └── [id]/              # Einzelnes Schneider-Profil
+│   │   │       └── page.tsx
+│   │   ├── products/              # Produkt-Katalog
+│   │   │   ├── page.tsx
+│   │   │   └── [id]/              # Einzelnes Produkt
+│   │   │       └── page.tsx
+│   │   ├── about/
+│   │   │   └── page.tsx
+│   │   └── layout.tsx
+│   │
+│   ├── (customer-dashboard)/      # Kunden-Dashboard
+│   │   ├── dashboard/
+│   │   │   └── page.tsx
+│   │   ├── orders/
+│   │   │   ├── page.tsx
+│   │   │   └── [id]/
+│   │   │       └── page.tsx
+│   │   ├── measurements/
+│   │   │   └── page.tsx
+│   │   ├── profile/
+│   │   │   └── page.tsx
+│   │   └── layout.tsx
+│   │
+│   ├── (tailor-dashboard)/        # Schneider-Dashboard
+│   │   ├── dashboard/
+│   │   │   └── page.tsx
+│   │   ├── products/
+│   │   │   ├── page.tsx
+│   │   │   ├── new/
+│   │   │   │   └── page.tsx
+│   │   │   └── [id]/
+│   │   │       ├── edit/
+│   │   │       │   └── page.tsx
+│   │   │       └── page.tsx
+│   │   ├── orders/
+│   │   │   ├── page.tsx
+│   │   │   └── [id]/
+│   │   │       └── page.tsx
+│   │   ├── profile/
+│   │   │   └── page.tsx
+│   │   └── layout.tsx
+│   │
+│   ├── api/                       # API Routes
+│   │   ├── auth/
+│   │   │   ├── login/
+│   │   │   │   └── route.ts
+│   │   │   ├── register/
+│   │   │   │   └── route.ts
+│   │   │   └── logout/
+│   │   │       └── route.ts
+│   │   ├── tailors/
+│   │   │   ├── route.ts           # GET all, POST create
+│   │   │   └── [id]/
+│   │   │       └── route.ts       # GET, PUT, DELETE
+│   │   ├── products/
+│   │   │   ├── route.ts
+│   │   │   └── [id]/
+│   │   │       └── route.ts
+│   │   ├── orders/
+│   │   │   ├── route.ts
+│   │   │   └── [id]/
+│   │   │       └── route.ts
+│   │   ├── upload/                # Bild-Upload
+│   │   │   └── route.ts
+│   │   └── measurements/          # Measurement Tool API
+│   │       └── route.ts
+│   │
+│   ├── components/                # React Components
+│   │   ├── ui/                    # shadcn/ui Components
+│   │   │   ├── button.tsx
+│   │   │   ├── card.tsx
+│   │   │   ├── input.tsx
+│   │   │   ├── form.tsx
+│   │   │   └── badge.tsx
+│   │   ├── layout/
+│   │   │   ├── Header.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   └── Sidebar.tsx
+│   │   ├── marketplace/
+│   │   │   ├── TailorCard.tsx
+│   │   │   ├── ProductCard.tsx
+│   │   │   ├── TailorGrid.tsx
+│   │   │   ├── ProductGrid.tsx
+│   │   │   └── SearchBar.tsx
+│   │   ├── order/
+│   │   │   ├── OrderCard.tsx
+│   │   │   ├── OrderTimeline.tsx
+│   │   │   └── OrderDetails.tsx
+│   │   ├── measurement/
+│   │   │   ├── MeasurementTool.tsx
+│   │   │   ├── MeasurementGuide.tsx
+│   │   │   └── MeasurementPreview.tsx
+│   │   └── forms/
+│   │       ├── LoginForm.tsx
+│   │       ├── RegisterForm.tsx
+│   │       ├── ProductForm.tsx
+│   │       └── OrderForm.tsx
+│   │
+│   ├── lib/
+│   │   ├── supabaseClient.ts      # Supabase Client
+│   │   ├── utils.ts               # shadcn utils
+│   │   ├── validations.ts         # Zod Schemas
+│   │   ├── constants.ts           # App-weite Konstanten
+│   │   └── helpers.ts             # Helper Functions
+│   │
+│   ├── hooks/                     # Custom React Hooks
+│   │   ├── useAuth.ts
+│   │   ├── useTailor.ts
+│   │   ├── useProducts.ts
+│   │   └── useOrders.ts
+│   │
+│   ├── types/                     # TypeScript Definitionen
+│   │   ├── database.ts
+│   │   ├── api.ts
+│   │   └── components.ts
+│   │
+│   ├── globals.css
+│   └── layout.tsx                 # Root Layout
+│
+├── prisma/
+│   ├── schema.prisma
+│   └── migrations/
+│
+├── public/
+│   ├── images/
+│   ├── icons/
+│   └── fonts/
+│
+├── .env.local
+├── .gitignore
+├── next.config.ts
+├── tailwind.config.ts
+├── tsconfig.json
+└── package.json
+```
+
+### 4.2 Component-Hierarchie
+
+**Öffentliche Seiten:**
+```
+RootLayout
+  ├── Header (Navigation, Logo, Auth-Buttons)
+  │   ├── NavLinks
+  │   ├── SearchBar
+  │   └── UserMenu
+  ├── Main Content
+  │   └── Page-spezifischer Inhalt
+  └── Footer (Links, Kontakt, Social Media)
+```
+
+**Dashboard-Seiten:**
+```
+DashboardLayout
+  ├── Header (Dashboard-Navigation)
+  ├── Sidebar (Dashboard-Menü)
+  │   ├── Dashboard
+  │   ├── Orders
+  │   ├── Products (Tailor)
+  │   ├── Measurements (Customer)
+  │   └── Profile
+  └── Main Content
+      └── Dashboard-spezifischer Inhalt
+```
+
+---
+
+## 5. FUNKTIONALE ANFORDERUNGEN
+
+### 5.1 User Management
+
+#### 5.1.1 Registrierung
+**Customer:**
+- Email + Passwort
+- Optional: Social Login (Google, Facebook) - Phase 2
+- Email-Verifizierung erforderlich
+- Automatische Erstellung eines User-Profils
+
+**Tailor:**
+- Wie Customer + zusätzlich:
+- Erstellen eines Tailor-Profils
+- Upload von Portfolio-Bildern
+- Angabe von Erfahrung, Spezialisierungen, Sprachen
+- Verifizierungsprozess (manuell, Admin-Freigabe) - Phase 2
+
+#### 5.1.2 Authentication
+- Session-basiert via Supabase Auth
+- JWT Tokens (httpOnly Cookies)
+- Refresh Token Rotation
+- Password Reset via Email
+- Multi-Factor Authentication (Phase 2)
+
+#### 5.1.3 Authorization
+**Rollen:**
+- `customer` - Kann bestellen, bewerten
+- `tailor` - Kann Produkte erstellen, Orders verwalten
+- `admin` (Phase 2) - Kann alles verwalten
+
+**Berechtigungen:**
+- Basierend auf RLS Policies
+- Middleware-Schutz für geschützte Routen
+- API-Route Guards
+
+### 5.2 Marketplace-Funktionalität
+
+#### 5.2.1 Schneider-Discovery
+**Features:**
+- Liste aller verifizierten Schneider
+- Filter:
+  - Nach Land
+  - Nach Bewertung
+  - Nach Spezialisierung (Anzüge, Hemden, etc.)
+  - Nach Preisspanne
+  - Nach Produktionszeit
+- Sortierung:
+  - Bewertung (hoch → niedrig)
+  - Preis (niedrig → hoch)
+  - Produktionszeit (schnell → langsam)
+  - Anzahl Bestellungen (beliebt)
+- Suchfunktion (Freitext)
+- Pagination oder Infinite Scroll
+
+**Schneider-Profil:**
+- Header: Avatar, Name, Land, Flagge
+- Bewertung (Sterne + Anzahl Reviews)
+- Bio/Beschreibung
+- Portfolio (Bild-Galerie)
+- Spezialisierungen (Badges)
+- Sprachen
+- Erfahrung in Jahren
+- Durchschnittliche Produktionszeit
+- Preisbereich
+- Produkt-Katalog des Schneiders
+- Reviews von Kunden
+
+#### 5.2.2 Produkt-Discovery
+**Features:**
+- Katalog aller aktiven Produkte
+- Filter:
+  - Nach Kategorie (Anzug, Hemd, Hose, etc.)
+  - Nach Stoff (Wolle, Baumwolle, Leinen, etc.)
+  - Nach Preis
+  - Nach Produktionszeit
+  - Nach Schneider
+- Sortierung: Wie Schneider
+- Suchfunktion
+- Pagination
+
+**Produkt-Detailseite:**
+- Bild-Galerie (Carousel)
+- Titel, Beschreibung (Markdown)
+- Preis (prominente Anzeige)
+- Schneider-Info (Card mit Link zum Profil)
+- Produktionszeit
+- Stoff-Information
+- Anpassungsoptionen (Checkboxen, Radio Buttons)
+- "Jetzt bestellen" Button
+- Reviews für dieses Produkt
+
+#### 5.2.3 Measurement Tool
+**Integration:**
+- Drittanbieter-Tool (z.B. 3DLOOK, Bold Metrics)
+- ODER: Eigenes Tool mit Anleitung + Eingabefeldern
+
+**Funktionen:**
+- Schritt-für-Schritt Anleitung mit Bildern/Videos
+- Eingabe von Körpermaßen:
+  - Schulterbreite, Brustumfang, Taillenumfang
+  - Ärmellänge, Rückenlänge
+  - Hosenlänge, Schrittlänge (bei Hosen)
+  - etc. (produktabhängig)
+- Speicherung im User-Profil (Wiederverwendung)
+- Metrisches + Imperiales System
+- Validierung der Eingaben (realistische Werte)
+- Preview/Zusammenfassung vor Bestellung
+
+### 5.3 Bestellprozess
+
+#### 5.3.1 Warenkorb (Phase 1: Vereinfacht)
+**Vereinfachte Version:**
+- Direktbestellung (1 Produkt pro Bestellung)
+- Keine Warenkorb-Persistenz
+- Sofort zur Checkout-Seite
+
+**Erweitert (Phase 2):**
+- Multi-Item Warenkorb
+- Warenkorb-Persistenz (localStorage + DB)
+- Mengenänderung
+- Artikel entfernen
+
+#### 5.3.2 Checkout
+**Schritte:**
+
+**Schritt 1: Measurements**
+- Auswahl: Gespeicherte Maße ODER neue Messung
+- Measurement Tool Integration
+- Validierung
+
+**Schritt 2: Anpassungen**
+- Auswahl der Customization Options
+- Visual Feedback (wenn möglich)
+
+**Schritt 3: Lieferadresse**
+- Name, Adresse, Land, PLZ, Stadt
+- Telefonnummer
+- Email (vorausgefüllt)
+- "Als Standardadresse speichern" Option
+
+**Schritt 4: Spezialwünsche**
+- Freitextfeld für Notizen an den Schneider
+- Optional: Upload von Referenzbildern
+
+**Schritt 5: Bezahlung**
+- **Phase 1:** "Per Vorkasse" (manuell)
+- **Phase 2:** Payment Provider Integration:
+  - Stripe (bevorzugt)
+  - PayPal
+  - Klarna (für DACH)
+
+**Schritt 6: Bestellübersicht**
+- Alle Daten nochmal anzeigen
+- Gesamtpreis + ggf. Versandkosten
+- AGB Checkbox
+- "Jetzt kostenpflichtig bestellen" Button
+
+**Nach Bestellung:**
+- Bestellbestätigung (auf Seite)
+- Email-Bestätigung
+- Weiterleitung zu "Meine Bestellungen"
+
+#### 5.3.3 Order Tracking
+**Status-Flow:**
+```
+1. pending       → Bestellung eingegangen
+2. measuring     → Schneider prüft Maße (optional)
+3. production    → In Produktion
+4. shipping      → Versandt
+5. completed     → Zugestellt
+6. cancelled     → Storniert
+```
+
+**Features:**
+- Timeline-Visualisierung
+- Status-Updates via Email
+- Optional: Push-Notifications (Phase 2)
+- Chat mit Schneider (Phase 2)
+- Tracking-Nummer (wenn versandt)
+
+### 5.4 Dashboard-Funktionalität
+
+#### 5.4.1 Customer Dashboard
+**Übersicht:**
+- Anzahl aktiver Bestellungen
+- Letzte Bestellungen (Liste)
+- Gespeicherte Maße
+- Quick-Links (Neue Bestellung, Profil bearbeiten)
+
+**Meine Bestellungen:**
+- Liste aller Bestellungen
+- Filter nach Status
+- Sortierung nach Datum
+- Detail-Ansicht pro Bestellung
+- Möglichkeit zum Stornieren (wenn status = pending)
+
+**Gespeicherte Maße:**
+- Liste aller Measurement-Sets
+- Bearbeiten, Löschen
+- Standard-Set markieren
+
+**Profil:**
+- Email ändern
+- Passwort ändern
+- Standardadresse speichern
+- Benachrichtigungseinstellungen
+
+#### 5.4.2 Tailor Dashboard
+**Übersicht:**
+- KPIs:
+  - Anzahl offener Bestellungen
+  - Anzahl abgeschlossener Bestellungen (gesamt)
+  - Durchschnittliche Bewertung
+  - Umsatz (gesamt, diesen Monat)
+- Aktive Bestellungen (Liste)
+- Neueste Reviews
+
+**Meine Produkte:**
+- Liste aller Produkte (aktiv + inaktiv)
+- Sortierung, Filter
+- Produkt erstellen
+- Produkt bearbeiten
+- Produkt löschen
+- Produkt aktivieren/deaktivieren
+
+**Produkt erstellen/bearbeiten:**
+- Formular:
+  - Titel
+  - Beschreibung (Markdown Editor)
+  - Kategorie (Select)
+  - Preis (Number Input)
+  - Stoff (Text)
+  - Produktionszeit (Number Input, Tage)
+  - Anpassungsoptionen (JSON Editor oder UI)
+  - Bilder (Upload, max. 5)
+- Validierung
+- Preview
+
+**Bestellungen:**
+- Liste aller Bestellungen für meine Produkte
+- Filter nach Status
+- Sortierung nach Datum
+- Detail-Ansicht:
+  - Kunden-Info (Name, Email, Adresse)
+  - Bestellte Produkte + Anpassungen
+  - Maße des Kunden
+  - Spezialwünsche
+  - Status ändern (Buttons)
+  - Notizen für interne Zwecke
+
+**Mein Profil:**
+- Profil bearbeiten (Name, Bio, Spezialisierungen, etc.)
+- Portfolio verwalten (Bilder upload/delete)
+- Sprachen verwalten
+- Payout-Informationen (Phase 2)
+
+---
+
+## 6. UI/UX DESIGN-SPEZIFIKATIONEN
+
+### 6.1 Design-Prinzipien
+- **Minimal & Clean:** Fokus auf Produkte und Schneider
+- **Professional:** Vertrauenswürdig, seriös
+- **International:** Mehrsprachigkeit berücksichtigen
+- **Responsive:** Mobile-First Ansatz
+- **Accessible:** WCAG 2.1 AA Standard
+
+### 6.2 Design-System (shadcn/ui + Tailwind)
+
+**Farben (Slate Theme):**
+- Primary: Slate (für Header, Buttons, Links)
+- Secondary: Neutral tones
+- Accent: Für CTAs (z.B. "Jetzt bestellen")
+- Success: Grün (für positive Actions)
+- Warning: Gelb/Orange (für Warnungen)
+- Error: Rot (für Fehler)
+- Background: Weiß/Off-White
+- Text: Dunkelgrau (nicht reines Schwarz)
+
+**Typography:**
+- Headings: Font-Family von Tailwind (kann später customized werden)
+- Body: Gleiche Font-Family
+- Sizes: Tailwind's Scale (text-xs bis text-5xl)
+- Line Height: Generous (1.6 für Body)
+
+**Spacing:**
+- Tailwind's Spacing Scale (4px Basis)
+- Konsistente Abstände zwischen Sections
+- White Space großzügig nutzen
+
+**Components (shadcn/ui):**
+- Button Variants:
+  - default (Primary Action)
+  - secondary (Secondary Action)
+  - outline (Tertiary Action)
+  - ghost (Subtle Actions)
+  - destructive (Delete, Cancel)
+- Card: Für Produkte, Schneider, Orders
+- Form: Mit Validierungs-Feedback
+- Badge: Für Tags, Status
+- Input: Mit Error States
+- (Weitere Components nach Bedarf hinzufügen)
+
+**Icons:**
+- Lucide Icons (in shadcn/ui integriert)
+- Konsistente Icon-Größen
+- Icons mit Text-Labels für Klarheit
+
+### 6.3 Layout-Patterns
+
+**Header (Desktop):**
+```
+┌─────────────────────────────────────────────────────────┐
+│ LOGO     Home  Schneider  Produkte  Über uns    [Login] │
+│                                               [Register] │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Header (Mobile):**
+```
+┌─────────────────────────────────────┐
+│ ☰  LOGO                    [Login]  │
+└─────────────────────────────────────┘
+```
+
+**Homepage (Desktop):**
+```
+┌─────────────────────────────────────────────────────────┐
+│                   HERO SECTION                          │
+│  Headline: "Maßgeschneiderte Anzüge. Weltweit."        │
+│  Subtext: "..."                                         │
+│  [CTA: Schneider entdecken]                             │
+└─────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────┐
+│  WIE ES FUNKTIONIERT (3 Schritte mit Icons)            │
+└─────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────┐
+│  TOP SCHNEIDER (Grid mit TailorCards)                   │
+│  [Alle Schneider anzeigen]                              │
+└─────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────┐
+│  BELIEBTESTE PRODUKTE (Grid mit ProductCards)           │
+│  [Alle Produkte anzeigen]                               │
+└─────────────────────────────────────────────────────────┘
+```
+
+**Schneider-Profil:**
+```
+┌─────────────────────────────────────────────────────────┐
+│  HEADER (Avatar, Name, Land, Rating, Badges)            │
+└─────────────────────────────────────────────────────────┘
+
+┌───────────────────────┬─────────────────────────────────┐
+│ SIDEBAR               │ MAIN CONTENT                    │
+│ - Über mich           │ Bio-Text                        │
+│ - Portfolio           │ Portfolio-Galerie               │
+│ - Produkte            │ Produkt-Grid                    │
+│ - Bewertungen         │ Review-Liste                    │
+└───────────────────────┴─────────────────────────────────┘
+```
+
+**Dashboard (Sidebar-Layout):**
+```
+┌──────┬──────────────────────────────────────────────────┐
+│      │ HEADER                                           │
+│ S    ├──────────────────────────────────────────────────┤
+│ I    │                                                  │
+│ D    │                                                  │
+│ E    │         MAIN CONTENT AREA                        │
+│ B    │                                                  │
+│ A    │                                                  │
+│ R    │                                                  │
+│      │                                                  │
+└──────┴──────────────────────────────────────────────────┘
+```
+
+### 6.4 Component-Spezifikationen
+
+#### TailorCard
+**Layout:**
+- Card (shadcn/ui)
+- Avatar/Image (oben)
+- Name (Heading)
+- Country + Flag
+- Rating (Stars + Count)
+- Specialties (Badges)
+- Short Bio (truncated)
+- CTA Button: "Profil ansehen"
+
+**Hover State:**
+- Subtle elevation (shadow)
+- Smooth transition
+
+#### ProductCard
+**Layout:**
+- Card (shadcn/ui)
+- Product Image (1:1 Ratio)
+- Title
+- Tailor Name (small, with link)
+- Price (prominent)
+- Production Time (Badge)
+- CTA Button: "Details ansehen"
+
+**Hover State:**
+- Image zoom
+- Elevation
+
+#### OrderCard
+**Layout:**
+- Card (shadcn/ui)
+- Order Number
+- Date
+- Product Image (thumbnail)
+- Product Title + Tailor
+- Status Badge (mit Farbe)
+- Price
+- CTA Button: "Details ansehen"
+
+---
+
+## 7. SICHERHEITS- & DATENSCHUTZKONZEPT
+
+### 7.1 Authentifizierung
+- Passwords: bcrypt hashing (via Supabase)
+- Session Management: JWT Tokens (httpOnly Cookies)
+- Token Expiry: 7 Tage (Refresh Token), 1 Stunde (Access Token)
+- CSRF Protection: Built-in via Next.js
+- Rate Limiting auf Login/Register Endpoints (Phase 2)
+
+### 7.2 Autorisierung
+- Row Level Security (RLS) auf allen Tabellen
+- Middleware-Guards für geschützte Routen
+- API-Route Authorization Checks
+- Principle of Least Privilege
+
+### 7.3 Datenschutz (DSGVO-Konform)
+- Cookie Consent Banner (Phase 2)
+- Datenschutzerklärung + Impressum
+- Datenminimierung (nur notwendige Daten sammeln)
+- Recht auf Datenlöschung (Phase 2)
+- Datenportabilität (Export-Funktion, Phase 2)
+- SSL/TLS für alle Verbindungen
+- Keine Third-Party Tracking (Analytics nur mit Consent)
+
+### 7.4 Input Validation
+- Frontend: Zod Schemas für alle Formulare
+- Backend: Zusätzliche Validierung in API Routes
+- SQL Injection Prevention: Prisma (Parameterized Queries)
+- XSS Prevention: React (Auto-Escaping), Content Security Policy
+- File Upload Validation: Typ, Größe, Malware-Scan (Phase 2)
+
+---
+
+## 8. PERFORMANCE & SKALIERUNG
+
+### 8.1 Performance-Optimierung
+**Frontend:**
+- Image Optimization: next/image mit Lazy Loading
+- Code Splitting: Automatisch via Next.js
+- Prefetching: Links mit prefetch
+- Client-Side Caching: React Query oder SWR (Phase 2)
+- Bundle Size Monitoring
+
+**Backend:**
+- Database Indexing auf häufig abgefragte Felder (userId, tailorId, etc.)
+- Connection Pooling via Prisma
+- Query Optimization (N+1 vermeiden)
+- Caching Strategy (Redis, Phase 2)
+
+### 8.2 Skalierungsplan
+**Phase 1 (MVP):**
+- Monolith (Next.js App)
+- Supabase Free/Pro Tier
+- Shared Hosting ausreichend
+
+**Phase 2 (Growth):**
+- CDN für statische Assets (Vercel CDN)
+- Database Read Replicas
+- Caching Layer (Redis)
+- Background Jobs (Queue System)
+
+**Phase 3 (Scale):**
+- Microservices-Architektur (bei Bedarf)
+- Kubernetes/Container Orchestration
+- Multi-Region Deployment
+- Load Balancing
+
+---
+
+## 9. INTEGRATION VON DRITTANBIETERN
+
+### 9.1 Measurement Tool
+**Option A: Drittanbieter (empfohlen)**
+- 3DLOOK API
+- Bold Metrics API
+- Integration via iFrame oder SDK
+- Kostenpunkt: Variable pricing
+
+**Option B: Eigenes Tool**
+- UI mit Schritt-für-Schritt Anleitung
+- Eingabefelder für alle Maße
+- Validierung
+- Visuelles Feedback (Illustrationen)
+
+### 9.2 Payment Provider
+**Phase 1:**
+- Manuelle Bezahlung (Vorkasse)
+- Admin bestätigt Zahlungseingang manuell
+
+**Phase 2:**
+- Stripe Integration
+  - Checkout Session API
+  - Webhooks für Payment Events
+  - 3D Secure Support
+- Alternativ: PayPal, Klarna
+
+### 9.3 Shipping & Logistics
+**Phase 1:**
+- Schneider kümmert sich selbst um Versand
+- Tracking-Nummer manuell eingeben
+
+**Phase 2:**
+- Shipping Provider Integration (DHL, UPS, etc.)
+- Automatisches Label-Printing
+- Real-Time Tracking
+
+### 9.4 Email Service
+**Transactional Emails:**
+- Registrierung Bestätigung
+- Passwort Reset
+- Bestellbestätigung
+- Status-Updates
+- Review-Anfrage
+
+**Provider:**
+- Supabase Auth Emails (built-in)
+- Optional: SendGrid, Mailgun, AWS SES für Custom Templates
+
+### 9.5 Analytics (mit Consent)
+**Phase 2:**
+- Google Analytics 4 (mit Cookie Consent)
+- Plausible Analytics (privacy-friendly Alternative)
+- Custom Event Tracking
+
+---
+
+## 10. TESTING-STRATEGIE
+
+### 10.1 Testing-Pyramide
+
+**Unit Tests (Jest + React Testing Library):**
+- Utility Functions
+- Custom Hooks
+- Pure Components
+- Validation Schemas
+
+**Integration Tests:**
+- API Routes (Supertest)
+- Component Integration
+- Database Queries (Prisma)
+
+**End-to-End Tests (Playwright):**
+- Critical User Flows:
+  - Registration → Login → Order
+  - Tailor: Create Product → Receive Order
+  - Customer: Browse → Measure → Order
+
+### 10.2 Test Coverage Ziele
+- Unit Tests: >80%
+- Integration Tests: >60%
+- E2E Tests: Critical Paths
+
+---
+
+## 11. DEPLOYMENT & DEVOPS
+
+### 11.1 Deployment-Plattform
+**Empfehlung: Vercel (für Next.js optimiert)**
+- Automatisches Deployment bei Git Push
+- Preview Deployments für PRs
+- Edge Functions
+- Analytics
+- Free Tier für Start
+
+**Alternative: Netlify, Railway, AWS**
+
+### 11.2 CI/CD Pipeline
+**GitHub Actions:**
+```
+1. Linting (ESLint)
+2. Type Checking (TypeScript)
+3. Unit Tests
+4. Build
+5. Deploy (bei Main Branch)
+```
+
+### 11.3 Environments
+- **Development:** Lokal (`npm run dev`)
+- **Staging:** Vercel Preview Branch
+- **Production:** Vercel Main Branch
+
+### 11.4 Environment Variables
+**Verwaltung:**
+- Lokal: `.env.local` (git-ignored)
+- Vercel: Environment Variables Dashboard
+- Secrets: Niemals im Code, immer über ENV
+
+---
+
+## 12. MONITORING & FEHLERBEHANDLUNG
+
+### 12.1 Error Tracking
+**Phase 2:**
+- Sentry Integration
+  - Frontend Errors
+  - Backend Errors
+  - Performance Monitoring
+- Custom Error Boundaries (React)
+
+### 12.2 Logging
+- Structured Logging
+- Log Levels (info, warn, error)
+- No sensitive data in logs
+
+### 12.3 Monitoring
+**Phase 2:**
+- Uptime Monitoring (UptimeRobot)
+- Performance Metrics (Core Web Vitals)
+- Database Performance (Supabase Dashboard)
+
+---
+
+## 13. INTERNATIONALISIERUNG (I18N)
+
+### 13.1 Sprachen (Phase 2)
+**Priorität:**
+1. Deutsch (primärer Markt)
+2. Englisch (international)
+3. Vietnamesisch (für Schneider)
+4. Weitere nach Bedarf
+
+### 13.2 Implementation
+- next-intl oder react-i18next
+- Translations in JSON Files
+- Locale Detection (Browser, User Preference)
+- Currency Conversion (EUR, USD, VND)
+
+---
+
+## 14. ACCESSIBILITY (A11Y)
+
+### 14.1 Standards
+- WCAG 2.1 AA Compliance
+- Semantic HTML
+- ARIA Labels wo nötig
+- Keyboard Navigation
+- Screen Reader Support
+
+### 14.2 Testing
+- Lighthouse Accessibility Score >90
+- axe DevTools
+- Manual Testing mit Screen Reader
+
+---
+
+## 15. ENTWICKLUNGS-ROADMAP
+
+### Phase 1: MVP (8-12 Wochen)
+**Woche 1-2:**
+- Setup abgeschlossen ✅
+- Design System + shadcn/ui ✅
+- Header, Footer, Basic Layout
+
+**Woche 3-4:**
+- Auth System (Login, Register)
+- User Profile Management
+- Homepage
+
+**Woche 5-6:**
+- Schneider-Profile (View)
+- Produkt-Katalog (View)
+- Suche & Filter
+
+**Woche 7-8:**
+- Measurement Tool (Basic)
+- Bestellprozess
+- Checkout (ohne Payment)
+
+**Woche 9-10:**
+- Customer Dashboard
+- Tailor Dashboard
+- Order Management
+
+**Woche 11-12:**
+- Testing
+- Bug Fixes
+- Deployment
+- Soft Launch
+
+### Phase 2: Erweiterungen (8-12 Wochen)
+- Payment Integration (Stripe)
+- Review System
+- Advanced Search & Filters
+- Email Notifications
+- Shipping Integration
+- Analytics
+- Admin Dashboard
+
+### Phase 3: Skalierung (fortlaufend)
+- Mobile App (React Native)
+- Multi-Currency
+- Multi-Language
+- Advanced Measurement Tool (AR/VR)
+- Subscription Model für Schneider
+- Marketing Features (Coupons, Referrals)
+
+---
+
+## 16. ERFOLGS-METRIKEN (KPIs)
+
+### 16.1 Business Metrics
+- **Registrierungen:** Anzahl neuer User (Kunden + Schneider)
+- **GMV (Gross Merchandise Value):** Gesamtwert aller Bestellungen
+- **Conversion Rate:** Besucher → Käufer
+- **Average Order Value (AOV)**
+- **Customer Retention Rate**
+- **Tailor Retention Rate**
+
+### 16.2 Technical Metrics
+- **Page Load Time:** <2s (First Contentful Paint)
+- **Core Web Vitals:** Alle grün
+- **Uptime:** >99.9%
+- **API Response Time:** <200ms (p95)
+- **Error Rate:** <0.1%
+
+### 16.3 User Metrics
+- **Active Users:** DAU, MAU
+- **Session Duration**
+- **Bounce Rate:** <40%
+- **Customer Satisfaction (CSAT):** >4.5/5
+
+---
+
+## 17. RISIKEN & MITIGATIONS
+
+### 17.1 Technische Risiken
+**Risk:** Supabase Vendor Lock-in
+**Mitigation:** Prisma abstrahiert DB-Zugriff, Migration möglich
+
+**Risk:** Performance bei Skalierung
+**Mitigation:** Caching, CDN, Database Optimization
+
+**Risk:** Security Vulnerabilities
+**Mitigation:** Regular Updates, Security Audits, Penetration Testing
+
+### 17.2 Business Risiken
+**Risk:** Niedriges Schneider-Onboarding
+**Mitigation:** Marketing, Anreize, Einfacher Onboarding-Prozess
+
+**Risk:** Niedriges Kundenvertrauen
+**Mitigation:** Verifizierung, Reviews, Geld-zurück-Garantie
+
+**Risk:** Qualitätsprobleme
+**Mitigation:** Schneider-Vetting, Review-System, Dispute Resolution
+
+---
+
+# ZUSAMMENFASSUNG
+
+**TailorMarket** ist eine ambitionierte, aber technisch solide Marketplace-Plattform. Der Tech-Stack (Next.js, Supabase, Prisma, Tailwind, shadcn/ui) ist modern, skalierbar und developer-friendly.
+
+**Kernvorteile des gewählten Stacks:**
+- ✅ Schnelle Entwicklung (shadcn/ui spart Wochen)
+- ✅ Type-Safe (TypeScript + Prisma)
+- ✅ Skalierbar (Next.js + Supabase)
+- ✅ Wartbar (klare Struktur, moderne Tools)
+- ✅ Cost-Effective (Free Tiers für Start)
+
+**Mit dieser Spezifikation hast du einen klaren Fahrplan für die komplette Entwicklung. Jeder Entwickler (oder Claude Code) kann mit diesem Dokument direkt loslegen.**
+
+---
+
+**Du bist jetzt bereit für den neuen Chat! 🚀**
