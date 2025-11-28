@@ -13,31 +13,21 @@
 - [x] RLS Policies eingerichtet
 - [x] Auth funktioniert (Test)
 - [x] Storage konfiguriert
-- [x] Phase 1.1 - Header Component
-- [x] Phase 1.2 - Footer Component
-- [x] Phase 1.3 - Root Layout Integration
-- [x] Phase 1.4 - Homepage Hero Section
-- [x] Phase 1.5 - "Wie es funktioniert" Section
-- [x] Phase 1.6 - Placeholder Seiten
-- [x] **PHASE 1 ABGESCHLOSSEN! ✅**
-- [x] Phase 2.1 - Auth Hook + Types
-- [ ] **→ NÄCHSTER SCHRITT: Phase 2.2 - Login API Route**
+- [ ] **→ NÄCHSTER SCHRITT: Phase 1.1 - Header Component**
 
 ---
 
 ## PHASE 1: FOUNDATION & LAYOUT (Woche 1-2)
 
 ### ✅ 1.1 Header Component
-
-**Status:** [x] Fertig
-**Dauer:** 2-3h
-**Dateien:** `app/components/layout/Header.tsx`, `app/lib/utils.ts`
+**Status:** [ ] Todo  
+**Dauer:** 2-3h  
+**Dateien:** `app/components/layout/Header.tsx`, `app/components/layout/MobileNav.tsx`
 
 **Aufgabe:**
 Erstelle einen professionellen, responsive Header mit Navigation.
 
 **Prompt für Claude Code:**
-
 ```
 Erstelle einen professionellen Header-Component für TailorMarket.
 
@@ -65,22 +55,19 @@ Datei: app/components/layout/Header.tsx
 ```
 
 **Test Checklist:**
-
-- [x] Header ist sichtbar auf allen Seiten
-- [x] Links funktionieren
-- [x] Mobile-Menü öffnet/schließt sich
-- [x] Sticky behavior beim Scrollen
+- [ ] Header ist sichtbar auf allen Seiten
+- [ ] Links funktionieren
+- [ ] Mobile-Menü öffnet/schließt sich
+- [ ] Sticky behavior beim Scrollen
 
 ---
 
 ### ✅ 1.2 Footer Component
-
-**Status:** [x] Fertig
-**Dauer:** 1-2h
+**Status:** [ ] Todo  
+**Dauer:** 1-2h  
 **Dateien:** `app/components/layout/Footer.tsx`
 
 **Prompt:**
-
 ```
 Erstelle einen Footer-Component für TailorMarket.
 
@@ -109,20 +96,17 @@ Datei: app/components/layout/Footer.tsx
 ```
 
 **Test:**
-
-- [x] Footer am Ende jeder Seite
-- [x] Responsive Layout
+- [ ] Footer am Ende jeder Seite
+- [ ] Responsive Layout
 
 ---
 
 ### ✅ 1.3 Root Layout Integration
-
-**Status:** [x] Fertig
-**Dauer:** 1h
-**Dateien:** `app/layout.tsx` (angepasst)
+**Status:** [ ] Todo  
+**Dauer:** 1h  
+**Dateien:** `app/layout.tsx` (anpassen)
 
 **Prompt:**
-
 ```
 Integriere Header und Footer in das Root Layout.
 
@@ -139,20 +123,17 @@ Datei: app/layout.tsx (editieren)
 ```
 
 **Test:**
-
-- [x] Header oben, Footer unten auf jeder Seite
-- [x] Content hat min. Höhe eines Viewports
+- [ ] Header oben, Footer unten auf jeder Seite
+- [ ] Content hat min. Höhe eines Viewports
 
 ---
 
 ### ✅ 1.4 Homepage - Hero Section
-
-**Status:** [x] Fertig
-**Dauer:** 2-3h
-**Dateien:** `app/(marketplace)/page.tsx`, `app/(marketplace)/layout.tsx`
+**Status:** [ ] Todo  
+**Dauer:** 2-3h  
+**Dateien:** `app/(marketplace)/page.tsx` (ersetzen)
 
 **Prompt:**
-
 ```
 Erstelle die Hero Section für die TailorMarket Homepage.
 
@@ -173,20 +154,17 @@ Datei: app/(marketplace)/page.tsx
 ```
 
 **Test:**
-
-- [x] Hero Section sichtbar
-- [x] CTA Button funktioniert
+- [ ] Hero Section sichtbar
+- [ ] CTA Button funktioniert
 
 ---
 
 ### ✅ 1.5 Homepage - "Wie es funktioniert"
-
-**Status:** [x] Fertig
-**Dauer:** 2h
-**Dateien:** `app/(marketplace)/page.tsx` (erweitert)
+**Status:** [ ] Todo  
+**Dauer:** 2h  
+**Dateien:** `app/(marketplace)/page.tsx` (erweitern)
 
 **Prompt:**
-
 ```
 Erstelle "Wie es funktioniert" Section unterhalb der Hero.
 
@@ -209,20 +187,17 @@ Datei: app/(marketplace)/page.tsx (unter Hero)
 ```
 
 **Test:**
-
-- [x] 3 Cards sichtbar
-- [x] Responsive
+- [ ] 3 Cards sichtbar
+- [ ] Responsive
 
 ---
 
 ### ✅ 1.6 Placeholder Seiten
-
-**Status:** [x] Fertig
-**Dauer:** 1h
-**Dateien:** 6 Seiten + 1 Layout erstellt
+**Status:** [ ] Todo  
+**Dauer:** 1h  
+**Dateien:** Mehrere (siehe Prompt)
 
 **Prompt:**
-
 ```
 Erstelle Placeholder-Seiten für alle Hauptrouten.
 
@@ -238,32 +213,26 @@ Style: Container py-20, zentriert, max-w-4xl
 ```
 
 **Test:**
-
-- [x] Alle Links funktionieren ohne 404
+- [ ] Alle Links funktionieren ohne 404
 
 ---
 
-### ✅ MEILENSTEIN 1 ERREICHT ✨
-
+### ✅ MEILENSTEIN 1 ERREICHT
 - [x] Layout & Navigation komplett
 - [x] Keine 404 Errors
 - [x] Responsive Design
-- [x] Homepage mit Hero + "Wie es funktioniert"
-- [x] Alle Placeholder Seiten erstellt
-- **✅ → Weiter zu Phase 2: Authentication**
+- **→ Weiter zu Phase 2: Authentication**
 
 ---
 
 ## PHASE 2: AUTHENTICATION (Woche 2-3)
 
 ### ✅ 2.1 Auth Hook + Types
-
-**Status:** [x] Fertig
-**Dauer:** 1h
+**Status:** [ ] Todo  
+**Dauer:** 1h  
 **Dateien:** `app/types/auth.ts`, `app/hooks/useAuth.ts`
 
 **Prompt:**
-
 ```
 Erstelle TypeScript Types und einen Custom Hook für Authentication.
 
@@ -281,20 +250,17 @@ Beide Dateien erstellen.
 ```
 
 **Test:**
-
-- [x] Dateien ohne TS Errors
-- [x] Import funktioniert
+- [ ] Dateien ohne TS Errors
+- [ ] Import funktioniert
 
 ---
 
 ### ✅ 2.2 Login API Route
-
 **Status:** [ ] Todo  
 **Dauer:** 2h  
 **Dateien:** `app/api/auth/login/route.ts`, `app/lib/validations.ts`
 
 **Prompt:**
-
 ```
 Erstelle Login API Route mit Validierung.
 
@@ -314,20 +280,17 @@ Beide Dateien.
 ```
 
 **Test:**
-
 - [ ] POST mit korrekten Daten → 200
 - [ ] POST mit falschen Daten → 401
 
 ---
 
 ### ✅ 2.3 Register API Route
-
 **Status:** [ ] Todo  
 **Dauer:** 2h  
 **Dateien:** `app/api/auth/register/route.ts`
 
 **Prompt:**
-
 ```
 Erstelle Register API Route.
 
@@ -348,19 +311,16 @@ Datei: app/api/auth/register/route.ts
 ```
 
 **Test:**
-
 - [ ] POST → 201, Email-Verifizierung
 
 ---
 
 ### ✅ 2.4 Logout API Route
-
 **Status:** [ ] Todo  
 **Dauer:** 30min  
 **Dateien:** `app/api/auth/logout/route.ts`
 
 **Prompt:**
-
 ```
 Erstelle Logout API Route.
 
@@ -374,13 +334,11 @@ Datei: app/api/auth/logout/route.ts
 ---
 
 ### ✅ 2.5 Login Form
-
 **Status:** [ ] Todo  
 **Dauer:** 3h  
 **Dateien:** `app/components/forms/LoginForm.tsx`, `app/(auth)/login/page.tsx`
 
 **Prompt:**
-
 ```
 Erstelle Login-Formular mit shadcn/ui.
 
@@ -400,7 +358,6 @@ Beide Dateien.
 ```
 
 **Test:**
-
 - [ ] Form wird angezeigt
 - [ ] Validierung
 - [ ] Login funktioniert
@@ -408,13 +365,11 @@ Beide Dateien.
 ---
 
 ### ✅ 2.6 Register Form
-
 **Status:** [ ] Todo  
 **Dauer:** 3h  
 **Dateien:** `app/components/forms/RegisterForm.tsx`, `app/(auth)/register/page.tsx`
 
 **Prompt:**
-
 ```
 Erstelle Registrierungs-Formular.
 
@@ -431,20 +386,17 @@ Beide Dateien.
 ```
 
 **Test:**
-
 - [ ] Validierung funktioniert
 - [ ] Registrierung erfolgreich
 
 ---
 
 ### ✅ 2.7 Header Update (Auth State)
-
 **Status:** [ ] Todo  
 **Dauer:** 1h  
 **Dateien:** `app/components/layout/Header.tsx` (anpassen)
 
 **Prompt:**
-
 ```
 Update Header für Auth State.
 
@@ -460,7 +412,6 @@ Datei: app/components/layout/Header.tsx (editieren)
 ```
 
 **Test:**
-
 - [ ] Nicht eingeloggt: Buttons
 - [ ] Eingeloggt: Dropdown
 - [ ] Logout funktioniert
@@ -468,7 +419,6 @@ Datei: app/components/layout/Header.tsx (editieren)
 ---
 
 ### ✅ MEILENSTEIN 2 ERREICHT
-
 - [x] User Registration
 - [x] User Login/Logout
 - [x] Header zeigt Auth State
@@ -479,13 +429,11 @@ Datei: app/components/layout/Header.tsx (editieren)
 ## PHASE 3: MARKETPLACE - VIEW (Woche 3-5)
 
 ### ✅ 3.1 Tailor Types & Dummy Data
-
 **Status:** [ ] Todo  
 **Dauer:** 1h  
 **Dateien:** `app/types/tailor.ts`, `app/lib/dummyData.ts`
 
 **Prompt:**
-
 ```
 Erstelle Tailor Types und Dummy Data.
 
@@ -503,13 +451,11 @@ Beide Dateien.
 ---
 
 ### ✅ 3.2 TailorCard Component
-
 **Status:** [ ] Todo  
 **Dauer:** 2h  
 **Dateien:** `app/components/marketplace/TailorCard.tsx`
 
 **Prompt:**
-
 ```
 Erstelle TailorCard Component.
 
@@ -534,13 +480,11 @@ Datei: app/components/marketplace/TailorCard.tsx
 ---
 
 ### ✅ 3.3 TailorGrid Component
-
 **Status:** [ ] Todo  
 **Dauer:** 1h  
 **Dateien:** `app/components/marketplace/TailorGrid.tsx`
 
 **Prompt:**
-
 ```
 Erstelle TailorGrid Component.
 
@@ -556,13 +500,11 @@ Datei: app/components/marketplace/TailorGrid.tsx
 ---
 
 ### ✅ 3.4 Tailors Page (Frontend Only)
-
 **Status:** [ ] Todo  
 **Dauer:** 2h  
 **Dateien:** `app/(marketplace)/tailors/page.tsx`
 
 **Prompt:**
-
 ```
 Erstelle Schneider-Übersicht mit Dummy Data.
 
@@ -580,13 +522,11 @@ Datei: app/(marketplace)/tailors/page.tsx
 ---
 
 ### ✅ 3.5 Tailors API Route
-
 **Status:** [ ] Todo  
 **Dauer:** 2h  
 **Dateien:** `app/api/tailors/route.ts`
 
 **Prompt:**
-
 ```
 Erstelle Tailors API Route.
 
@@ -604,13 +544,11 @@ Datei: app/api/tailors/route.ts
 ---
 
 ### ✅ 3.6 Tailors Page (API Integration)
-
 **Status:** [ ] Todo  
 **Dauer:** 2h  
 **Dateien:** `app/(marketplace)/tailors/page.tsx` (ersetzen), `app/hooks/useTailors.ts`
 
 **Prompt:**
-
 ```
 API Integration für Tailors Page.
 
@@ -631,13 +569,11 @@ Beide Dateien.
 ---
 
 ### ✅ 3.7 Tailor Profile Page
-
 **Status:** [ ] Todo  
 **Dauer:** 3h  
 **Dateien:** `app/(marketplace)/tailors/[id]/page.tsx`, `app/api/tailors/[id]/route.ts`
 
 **Prompt:**
-
 ```
 Erstelle Tailor-Profil Seite.
 
@@ -658,13 +594,11 @@ Beide Dateien.
 ---
 
 ### ✅ 3.8 Product Types & Dummy Data
-
 **Status:** [ ] Todo  
 **Dauer:** 1h  
 **Dateien:** `app/types/product.ts`, `app/lib/dummyData.ts` (erweitern)
 
 **Prompt:**
-
 ```
 Erstelle Product Types und Dummy Data.
 
@@ -681,13 +615,11 @@ Beide Dateien.
 ---
 
 ### ✅ 3.9 ProductCard Component
-
 **Status:** [ ] Todo  
 **Dauer:** 2h  
 **Dateien:** `app/components/marketplace/ProductCard.tsx`
 
 **Prompt:**
-
 ```
 Erstelle ProductCard Component.
 
@@ -711,13 +643,11 @@ Datei: app/components/marketplace/ProductCard.tsx
 ---
 
 ### ✅ 3.10 Products Page
-
 **Status:** [ ] Todo  
 **Dauer:** 4h  
 **Dateien:** `app/(marketplace)/products/page.tsx`, `app/api/products/route.ts`, `app/hooks/useProducts.ts`, `app/components/marketplace/ProductGrid.tsx`
 
 **Prompt:**
-
 ```
 Erstelle Produkt-Übersicht komplett.
 
@@ -746,13 +676,11 @@ Alle Dateien.
 ---
 
 ### ✅ 3.11 Product Detail Page
-
 **Status:** [ ] Todo  
 **Dauer:** 4h  
 **Dateien:** `app/(marketplace)/products/[id]/page.tsx`, `app/api/products/[id]/route.ts`
 
 **Prompt:**
-
 ```
 Erstelle Product Detail Page.
 
@@ -773,13 +701,11 @@ Beide Dateien.
 ---
 
 ### ✅ 3.12 Homepage Update (Dynamic)
-
 **Status:** [ ] Todo  
 **Dauer:** 2h  
 **Dateien:** `app/(marketplace)/page.tsx` (erweitern)
 
 **Prompt:**
-
 ```
 Update Homepage mit echten Daten.
 
@@ -795,7 +721,6 @@ Datei: app/(marketplace)/page.tsx
 ---
 
 ### ✅ MEILENSTEIN 3 ERREICHT
-
 - [x] Schneider durchsuchen
 - [x] Produkte durchsuchen
 - [x] Detail-Seiten
@@ -807,12 +732,10 @@ Datei: app/(marketplace)/page.tsx
 ## PHASE 4: MEASUREMENT TOOL (Woche 5-6)
 
 ### ✅ 4.1-4.6 Measurement System
-
 **Status:** [ ] Todo  
-**Dauer:** 12h gesamt
+**Dauer:** 12h gesamt  
 
 **Schritte:**
-
 1. Measurement Types erstellen
 2. Guide Component
 3. Input Component (Multi-step)
@@ -825,7 +748,6 @@ Datei: app/(marketplace)/page.tsx
 ---
 
 ### ✅ MEILENSTEIN 4 ERREICHT
-
 - [x] Measurement Tool funktioniert
 - [x] Maße können gespeichert werden
 - **→ Weiter zu Phase 5: Checkout**
@@ -835,12 +757,10 @@ Datei: app/(marketplace)/page.tsx
 ## PHASE 5: CHECKOUT & ORDERS (Woche 6-8)
 
 ### ✅ 5.1-5.12 Complete Checkout Flow
-
 **Status:** [ ] Todo  
-**Dauer:** 30h gesamt
+**Dauer:** 30h gesamt  
 
 **Hauptschritte:**
-
 1. Checkout Multi-Step Form (5 Schritte)
 2. Stripe Integration
 3. Payment Webhooks
@@ -854,7 +774,6 @@ Datei: app/(marketplace)/page.tsx
 ---
 
 ### ✅ MEILENSTEIN 5 ERREICHT
-
 - [x] Complete Checkout
 - [x] Stripe Payment
 - [x] Order System
@@ -866,12 +785,10 @@ Datei: app/(marketplace)/page.tsx
 ## PHASE 6: TAILOR FEATURES (Woche 8-9)
 
 ### ✅ 6.1-6.6 Product Management
-
 **Status:** [ ] Todo  
-**Dauer:** 15h gesamt
+**Dauer:** 15h gesamt  
 
 **Schritte:**
-
 1. Tailor Profile Completion
 2. Products API (CRUD)
 3. Image Upload
@@ -882,7 +799,6 @@ Datei: app/(marketplace)/page.tsx
 ---
 
 ### ✅ MEILENSTEIN 6 ERREICHT
-
 - [x] Schneider können Produkte erstellen
 - [x] Produkt Management
 - [x] Image Upload
@@ -893,12 +809,10 @@ Datei: app/(marketplace)/page.tsx
 ## PHASE 7: REVIEWS & POLISH (Woche 9-10)
 
 ### ✅ 7.1-7.12 Final Features
-
 **Status:** [ ] Todo  
-**Dauer:** 25h gesamt
+**Dauer:** 25h gesamt  
 
 **Hauptfeatures:**
-
 1. Review System
 2. Search & Filter (Advanced)
 3. Content Pages
@@ -911,7 +825,6 @@ Datei: app/(marketplace)/page.tsx
 ---
 
 ### ✅ MEILENSTEIN 7 ERREICHT
-
 - [x] MVP Feature-Complete
 - [x] Polish komplett
 - **→ Weiter zu Phase 8: Testing & Deployment**
@@ -921,12 +834,10 @@ Datei: app/(marketplace)/page.tsx
 ## PHASE 8: TESTING & DEPLOYMENT (Woche 10-12)
 
 ### ✅ 8.1-8.11 Launch Preparation
-
 **Status:** [ ] Todo  
-**Dauer:** 35h gesamt
+**Dauer:** 35h gesamt  
 
 **Schritte:**
-
 1. E2E Tests (Playwright)
 2. Manual Testing
 3. Performance Optimization
@@ -942,7 +853,6 @@ Datei: app/(marketplace)/page.tsx
 ---
 
 ### ✅ MEILENSTEIN 8 ERREICHT
-
 - [x] **MVP DEPLOYED & LIVE! 🎉**
 - **→ Post-MVP Features & Iteration**
 
@@ -951,8 +861,7 @@ Datei: app/(marketplace)/page.tsx
 ## 📊 FORTSCHRITT TRACKING
 
 **Phasen Übersicht:**
-
-- [x] Phase 1: Foundation (6/6 Steps) ✅
+- [ ] Phase 1: Foundation (0/6 Steps)
 - [ ] Phase 2: Authentication (0/7 Steps)
 - [ ] Phase 3: Marketplace View (0/12 Steps)
 - [ ] Phase 4: Measurement Tool (0/6 Steps)
@@ -961,14 +870,13 @@ Datei: app/(marketplace)/page.tsx
 - [ ] Phase 7: Reviews & Polish (0/12 Steps)
 - [ ] Phase 8: Testing & Deployment (0/11 Steps)
 
-**Gesamtfortschritt:** 6/72 Steps (8%)
+**Gesamtfortschritt:** 0/72 Steps (0%)
 
 ---
 
 ## 💡 TIPPS FÜR CLAUDE CODE
 
 **Bei jedem neuen Feature:**
-
 1. Referenziere diese ROADMAP.md
 2. Frage: "Wo sind wir in der Roadmap?"
 3. Befolge den nächsten Schritt
@@ -976,7 +884,6 @@ Datei: app/(marketplace)/page.tsx
 5. Commit nach jedem Feature
 
 **Beispiel-Prompt:**
-
 ```
 Wir arbeiten an TailorMarket. Referenziere ROADMAP.md.
 Wir sind bei Phase 1, Schritt 1.1 - Header Component.
