@@ -66,24 +66,26 @@ export default function TailorsPage() {
 
       {/* Error State */}
       {error && !loading && (
-        <div className="p-6 bg-red-50 border border-red-200 rounded-lg text-center">
+        <div className="p-6 bg-red-50 border border-red-200 rounded-lg text-center max-w-md mx-auto mb-8">
           <p className="text-red-600 font-medium">{error}</p>
           <p className="text-sm text-red-500 mt-2">
-            Bitte versuche es später erneut.
+            Zeige Beispieldaten zur Demonstration
           </p>
         </div>
       )}
 
-      {/* Empty State */}
-      {!loading && !error && displayTailors.length === 0 && (
-        <div className="text-center py-20">
-          <p className="text-slate-600 text-lg">Keine Schneider gefunden.</p>
-        </div>
+      {/* Tailor Grid */}
+      {!loading && displayTailors.length > 0 && (
+        <TailorGrid tailors={displayTailors} />
       )}
 
-      {/* Tailor Grid */}
-      {!loading && !error && displayTailors.length > 0 && (
-        <TailorGrid tailors={displayTailors} />
+      {/* Empty State */}
+      {!loading && displayTailors.length === 0 && (
+        <div className="text-center py-20">
+          <p className="text-slate-600 text-lg">
+            Keine Schneider gefunden. Bitte versuche es später erneut.
+          </p>
+        </div>
       )}
     </div>
   );

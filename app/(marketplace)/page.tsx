@@ -2,8 +2,20 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Search, Ruler, ShoppingBag } from "lucide-react";
+import TailorGrid from "@/app/components/marketplace/TailorGrid";
+import ProductGrid from "@/app/components/marketplace/ProductGrid";
+import { dummyTailors, dummyProducts } from "@/app/lib/dummyData";
 
-export default function HomePage() {
+export default async function HomePage() {
+  // TODO: Replace with API calls when database is ready
+  // For now, use dummy data sorted appropriately
+  const topTailors = [...dummyTailors]
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 6);
+
+  const featuredProducts = [...dummyProducts]
+    .filter((p) => p.featured)
+    .slice(0, 6);
   return (
     <div className="container mx-auto px-4">
       {/* Hero Section */}
@@ -77,6 +89,46 @@ export default function HomePage() {
               </CardContent>
             </Card>
           </div>
+        </div>
+      </section>
+
+      {/* Top Schneider Section */}
+      <section className="py-16 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+                Top Schneider
+              </h2>
+              <p className="text-slate-600">
+                Entdecke unsere am besten bewerteten Schneider
+              </p>
+            </div>
+            <Button variant="outline" asChild>
+              <Link href="/tailors">Alle anzeigen</Link>
+            </Button>
+          </div>
+          <TailorGrid tailors={topTailors} />
+        </div>
+      </section>
+
+      {/* Beliebte Produkte Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+                Beliebte Produkte
+              </h2>
+              <p className="text-slate-600">
+                Unsere meistgefragten maßgeschneiderten Stücke
+              </p>
+            </div>
+            <Button variant="outline" asChild>
+              <Link href="/products">Alle anzeigen</Link>
+            </Button>
+          </div>
+          <ProductGrid products={featuredProducts} />
         </div>
       </section>
     </div>
