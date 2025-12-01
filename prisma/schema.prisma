@@ -128,11 +128,43 @@ model ProductImage {
 
 model Order {
   id                  String               @id @default(cuid())
-  createdAt           DateTime             @default(now())
   userId              String
+
+  // Order Status
+  status              String               @default("pending") // "pending" | "paid" | "processing" | "shipped" | "completed" | "cancelled"
+
+  // Payment Info
+  stripeSessionId     String?              @unique // Stripe Checkout Session ID
+  stripePaymentIntent String?              @unique // Stripe Payment Intent ID
+  totalAmount         Float                // Gesamtbetrag in EUR
+  platformFee         Float                // Platform-Gebühr (10%)
+  tailorAmount        Float                // Betrag für Schneider (90%)
+  currency            String               @default("eur")
+
+  // Shipping Info
+  shippingAddress     Json?                // {name, street, city, zip, country}
+  shippingMethod      String?              // "standard" | "express"
+  trackingNumber      String?
+
+  // Measurements
+  measurementSessionId String?
+  measurements        Json?                // Kopie der Measurements zum Zeitpunkt der Bestellung
+
+  // Timestamps
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  paidAt              DateTime?
+  shippedAt           DateTime?
+  completedAt         DateTime?
+
+  // Relations
   user                User                 @relation(fields: [userId], references: [id])
   items               OrderItem[]
   measurementSessions MeasurementSession[]
+
+  @@index([userId])
+  @@index([status])
+  @@index([stripeSessionId])
 }
 
 //
@@ -142,12 +174,26 @@ model Order {
 //
 
 model OrderItem {
-  id        String  @id @default(cuid())
-  orderId   String
-  productId String
-  quantity  Int     @default(1)
-  unitPrice Float // Preis pro Stück zum Zeitpunkt der Bestellung
+  id          String  @id @default(cuid())
+  orderId     String
+  productId   String
+  tailorId    String  // Denormalisiert für einfacheres Querying
+
+  // Product Details (snapshot at order time)
+  productTitle       String
+  productDescription String?
+  quantity           Int     @default(1)
+  unitPrice          Float   // Preis pro Stück zum Zeitpunkt der Bestellung
+  subtotal           Float   // quantity * unitPrice
+
+  // Customization
+  customNotes        String? // Spezielle Wünsche vom Kunden
+  fabricChoice       String? // Gewählter Stoff
 
   order   Order   @relation(fields: [orderId], references: [id])
   product Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+  @@index([tailorId])
 }

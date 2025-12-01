@@ -210,9 +210,11 @@ export default function ProductDetailPage() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
-            <Button size="lg" className="flex-1">
-              Jetzt bestellen
-            </Button>
+            <Link href={`/products/${id}/checkout`} className="flex-1">
+              <Button size="lg" className="w-full">
+                Jetzt bestellen
+              </Button>
+            </Link>
             <Button size="lg" variant="outline" className="flex-1">
               Schneider kontaktieren
             </Button>
