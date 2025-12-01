@@ -48,7 +48,20 @@
 - [x] Phase 4.5 - Frontend Components (QR Modal, Button)
 - [x] Phase 4.6 - Mobile Pages (Mock & Manual)
 - [x] **PHASE 4 ABGESCHLOSSEN! ✅**
-- [ ] **→ NÄCHSTER SCHRITT: Phase 5 - Checkout & Orders**
+- [x] Phase 5.1 - Prisma Schema erweitern (Order Model)
+- [x] Phase 5.2 - Stripe SDKs installieren
+- [x] Phase 5.3 - Order Types & Validations
+- [x] Phase 5.4 - Stripe Helper Functions
+- [x] Phase 5.5 - Checkout API Routes
+- [x] Phase 5.6 - Stripe Webhook Handler
+- [x] Phase 5.7 - Order API Routes (CRUD)
+- [x] Phase 5.8 - Checkout Page/Form
+- [x] Phase 5.9 - Order Success Page
+- [x] Phase 5.10 - Customer Dashboard
+- [x] Phase 5.11 - Tailor Dashboard
+- [x] Phase 5.12 - Integration Complete
+- [x] **PHASE 5 ABGESCHLOSSEN! ✅**
+- [ ] **→ NÄCHSTER SCHRITT: Phase 6 - Tailor Features**
 
 ---
 
@@ -996,29 +1009,46 @@ app/lib/measurement/
 
 ### ✅ 5.1-5.12 Complete Checkout Flow
 
-**Status:** [ ] Todo  
+**Status:** [x] Abgeschlossen ✅
 **Dauer:** 30h gesamt
 
-**Hauptschritte:**
+**Implementierte Features:**
 
-1. Checkout Multi-Step Form (5 Schritte)
-2. Stripe Integration
-3. Payment Webhooks
-4. Order API Routes
-5. Customer Dashboard
-6. Tailor Dashboard
-7. Order Management
+1. ✅ Database Schema (Order, OrderItem models)
+2. ✅ Stripe Integration (SDK, Checkout Sessions)
+3. ✅ Payment Webhooks (checkout.session.completed, payment_intent.succeeded/failed)
+4. ✅ Order API Routes (GET, PATCH für Status Updates)
+5. ✅ Checkout Page mit Form (Shipping Address, Method, Custom Notes)
+6. ✅ Order Success Page mit Confirmation
+7. ✅ Customer Dashboard (Orders Liste & Detail)
+8. ✅ Tailor Dashboard (Orders Management & Status Updates)
+9. ✅ Platform Commission (10% Fee Calculation)
+10. ✅ Order Snapshots (Product Details at time of purchase)
+11. ✅ Measurement Integration (Links to MeasurementSession)
+12. ✅ Complete End-to-End Flow
 
-**Detaillierte Prompts siehe IMPLEMENTIERUNGSPLAN**
+**Dokumentation:**
+- Siehe `docs/PHASE_5_IMPLEMENTATION.md` für Details
+- Siehe `docs/PHASE_5_QUICKSTART.md` für Testing Guide
+
+**Environment Variables:**
+```bash
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+PLATFORM_COMMISSION_PERCENTAGE=10
+```
 
 ---
 
-### ✅ MEILENSTEIN 5 ERREICHT
+### ✅ MEILENSTEIN 5 ERREICHT! 🎉
 
-- [x] Complete Checkout
-- [x] Stripe Payment
-- [x] Order System
-- [x] Dashboards
+- [x] Complete Checkout Flow
+- [x] Stripe Payment Integration
+- [x] Order Management System
+- [x] Customer & Tailor Dashboards
+- [x] Webhook Handler for Order Creation
+- [x] Platform Fee Calculation
 - **→ Weiter zu Phase 6: Tailor Features**
 
 ---
@@ -1116,12 +1146,12 @@ app/lib/measurement/
 - [x] Phase 2: Authentication (7/7 Steps) ✅
 - [x] Phase 3: Marketplace View (12/12 Steps) ✅
 - [x] Phase 4: Measurement Provider Architecture (7/7 Steps) ✅
-- [ ] Phase 5: Checkout & Orders (0/12 Steps)
+- [x] Phase 5: Checkout & Orders (12/12 Steps) ✅
 - [ ] Phase 6: Tailor Features (0/6 Steps)
 - [ ] Phase 7: Reviews & Polish (0/12 Steps)
 - [ ] Phase 8: Testing & Deployment (0/11 Steps)
 
-**Gesamtfortschritt:** 32/79 Steps (40.5%)
+**Gesamtfortschritt:** 44/79 Steps (55.7%)
 
 ---
 
@@ -1147,19 +1177,31 @@ Erstelle den Header wie in der Roadmap beschrieben.
 
 ## 🎯 NÄCHSTER SCHRITT
 
-**→ Phase 5: Checkout & Orders**
+**→ Phase 6: Tailor Features**
 
-Beginne mit Phase 5.1: Checkout Multi-Step Form
+Beginne mit Phase 6.1: Tailor Profile Completion & Product Management
 
-**Quick Start Test für Phase 4:**
+**Quick Start Test für Phase 5:**
 ```bash
+# Terminal 1: Dev Server
 npm run dev
-# Öffne: http://localhost:3000/test-measurement
-# Teste MockProvider Flow komplett
+
+# Terminal 2: Stripe Webhooks
+stripe listen --forward-to localhost:3000/api/webhooks/stripe
+
+# Test Checkout Flow:
+# 1. Öffne: http://localhost:3000/products
+# 2. Klicke auf Produkt → "Jetzt bestellen"
+# 3. Fülle Checkout aus, zahle mit: 4242 4242 4242 4242
+# 4. Siehe Success Page & Dashboard
 ```
+
+**Dokumentation:**
+- `docs/PHASE_5_IMPLEMENTATION.md` - Vollständige Feature-Dokumentation
+- `docs/PHASE_5_QUICKSTART.md` - Testing Guide
 
 ---
 
-**Version:** 1.1
+**Version:** 1.2
 **Letztes Update:** 2025-12-01
-**Status:** Phase 4 Complete - Ready for Phase 5
+**Status:** Phase 5 Complete - Ready for Phase 6
