@@ -64,6 +64,7 @@ model User {
   orders              Order[]
   tailor              Tailor?
   measurementSessions MeasurementSession[]
+  reviews             Review[]
 }
 
 //
@@ -109,6 +110,7 @@ model Tailor {
 
   user     User      @relation(fields: [user_id], references: [id])
   products Product[]
+  reviews  Review[]
 }
 
 //
@@ -129,6 +131,7 @@ model Product {
   tailor     Tailor         @relation(fields: [tailorId], references: [id])
   orderItems OrderItem[]
   images     ProductImage[]
+  reviews    Review[]
 }
 
 //
@@ -222,4 +225,36 @@ model OrderItem {
   @@index([orderId])
   @@index([productId])
   @@index([tailorId])
+}
+
+//
+// ───────────────────────────────────────────
+//  REVIEW (Bewertungen für Produkte)
+// ───────────────────────────────────────────
+//
+
+model Review {
+  id      String @id @default(cuid())
+  rating  Int    // 1-5 stars
+  comment String?
+
+  // Relations
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  tailorId String
+  tailor   Tailor @relation(fields: [tailorId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([productId, userId]) // One review per user per product
+  @@index([productId])
+  @@index([tailorId])
+  @@index([userId])
+  @@index([rating])
 }

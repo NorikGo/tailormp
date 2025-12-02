@@ -84,6 +84,16 @@ export const productSchema = z.object({
 
 export const updateProductSchema = productSchema.partial();
 
+// ───────────────────────────────────────────
+// REVIEW SCHEMAS (Phase 7.1)
+// ───────────────────────────────────────────
+
+export const reviewSchema = z.object({
+  rating: z.number().int().min(1, 'Rating muss mindestens 1 sein').max(5, 'Rating darf maximal 5 sein'),
+  comment: z.string().min(10, 'Kommentar muss mindestens 10 Zeichen lang sein').max(1000, 'Kommentar darf maximal 1000 Zeichen lang sein').optional(),
+  productId: z.string().cuid('Ungültige Produkt-ID'),
+});
+
 // Type exports
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
@@ -94,3 +104,4 @@ export type UpdateOrderStatusInput = z.infer<typeof updateOrderStatusSchema>;
 export type TailorProfileInput = z.infer<typeof tailorProfileSchema>;
 export type ProductInput = z.infer<typeof productSchema>;
 export type UpdateProductInput = z.infer<typeof updateProductSchema>;
+export type ReviewInput = z.infer<typeof reviewSchema>;

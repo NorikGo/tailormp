@@ -6,6 +6,7 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
 
     // Extract query parameters
+    const search = searchParams.get("search");
     const category = searchParams.get("category");
     const minPrice = searchParams.get("minPrice");
     const maxPrice = searchParams.get("maxPrice");
@@ -14,9 +15,17 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "24");
 
     // Build where clause
-    const where: any = { isActive: true };
+    const where: any = {};
 
-    if (category) {
+    // Search in title and description
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    if (category && category !== "all") {
       where.category = category;
     }
 
@@ -37,6 +46,10 @@ export async function GET(request: NextRequest) {
         break;
       case "newest":
         orderBy = { createdAt: "desc" };
+        break;
+      case "rating":
+        // Sort by tailor rating
+        orderBy = { tailor: { rating: "desc" } };
         break;
       default:
         orderBy = { createdAt: "desc" };
@@ -60,6 +73,15 @@ export async function GET(request: NextRequest) {
               country: true,
               rating: true,
               isVerified: true,
+            },
+          },
+          images: {
+            orderBy: { position: "asc" },
+            take: 1,
+          },
+          _count: {
+            select: {
+              reviews: true,
             },
           },
         },

@@ -4,6 +4,7 @@ import { Loader2 } from "lucide-react";
 import ProductGrid from "@/app/components/marketplace/ProductGrid";
 import { useProducts } from "@/app/hooks/useProducts";
 import { dummyProducts } from "@/app/lib/dummyData";
+import { ProductFilters } from "@/components/marketplace/ProductFilters";
 
 export default function ProductsPage() {
   const { products, loading, error, pagination } = useProducts();
@@ -24,19 +25,22 @@ export default function ProductsPage() {
         </p>
       </div>
 
+      {/* Filters Section */}
+      <div className="mb-8">
+        <ProductFilters />
+      </div>
+
       {/* Stats Section */}
-      <div className="mb-8 flex items-center justify-between">
+      <div className="mb-6">
         <div className="text-sm text-slate-600">
           {pagination ? (
             <span>
-              {pagination.total} Produkte gefunden
+              {pagination.total} Produkt{pagination.total !== 1 ? "e" : ""} gefunden
             </span>
           ) : (
-            <span>{displayProducts.length} Produkte gefunden</span>
+            <span>{displayProducts.length} Produkt{displayProducts.length !== 1 ? "e" : ""} gefunden</span>
           )}
         </div>
-        {/* TODO: Filter & Sort will be added later */}
-        <div className="text-sm text-slate-500">Filter & Sortierung kommt bald...</div>
       </div>
 
       {/* Loading State */}
