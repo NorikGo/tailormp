@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Edit, Trash2, Eye, Loader2, Package } from "lucide-react";
+import { Plus, Edit, Trash2, Eye, Loader2, Package, BarChart3, ShoppingBag } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -108,12 +108,26 @@ export default function ProductManagementPage() {
             Verwalte deine Produkte und Portfolio
           </p>
         </div>
-        <Link href="/tailor/products/new">
-          <Button size="lg">
-            <Plus className="w-4 h-4 mr-2" />
-            Neues Produkt
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link href="/tailor/analytics">
+            <Button variant="outline">
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Analytics
+            </Button>
+          </Link>
+          <Link href="/tailor/orders">
+            <Button variant="outline">
+              <ShoppingBag className="w-4 h-4 mr-2" />
+              Bestellungen
+            </Button>
+          </Link>
+          <Link href="/tailor/products/new">
+            <Button size="lg">
+              <Plus className="w-4 h-4 mr-2" />
+              Neues Produkt
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Error Message */}

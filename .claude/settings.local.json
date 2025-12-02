@@ -3,7 +3,9 @@
     "allow": [
       "Bash(npx tsc --noEmit)",
       "Bash(npx prisma:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(head:*)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []

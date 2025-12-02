@@ -1,11 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Search, SlidersHorizontal, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -13,159 +12,218 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Search, SlidersHorizontal, X } from "lucide-react";
+
+const CATEGORIES = [
+  { value: "all", label: "Alle Kategorien" },
+  { value: "suits", label: "Anzüge" },
+  { value: "shirts", label: "Hemden" },
+  { value: "pants", label: "Hosen" },
+  { value: "dresses", label: "Kleider" },
+  { value: "jackets", label: "Jacken" },
+  { value: "coats", label: "Mäntel" },
+];
+
+const SORT_OPTIONS = [
+  { value: "createdAt_desc", label: "Neueste zuerst" },
+  { value: "price_asc", label: "Preis: Niedrig → Hoch" },
+  { value: "price_desc", label: "Preis: Hoch → Niedrig" },
+  { value: "title_asc", label: "Name: A → Z" },
+];
 
 export function ProductFilters() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [search, setSearch] = useState(searchParams.get("search") || "");
+  const [showFilters, setShowFilters] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
   const [category, setCategory] = useState(searchParams.get("category") || "all");
   const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
   const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
-  const [sort, setSort] = useState(searchParams.get("sort") || "newest");
-  const [showFilters, setShowFilters] = useState(false);
+  const [sortBy, setSortBy] = useState(searchParams.get("sort") || "createdAt_desc");
 
-  useEffect(() => {
-    // Update URL with current filters
+  const applyFilters = () => {
     const params = new URLSearchParams();
 
-    if (search) params.set("search", search);
+    if (searchQuery.trim()) params.set("search", searchQuery.trim());
     if (category && category !== "all") params.set("category", category);
     if (minPrice) params.set("minPrice", minPrice);
     if (maxPrice) params.set("maxPrice", maxPrice);
-    if (sort && sort !== "newest") params.set("sort", sort);
+    if (sortBy) params.set("sort", sortBy);
 
-    const queryString = params.toString();
-    router.push(`/products${queryString ? `?${queryString}` : ""}`, {
-      scroll: false,
-    });
-  }, [search, category, minPrice, maxPrice, sort]);
+    router.push(`/products?${params.toString()}`);
+  };
 
-  const handleReset = () => {
-    setSearch("");
+  const clearFilters = () => {
+    setSearchQuery("");
     setCategory("all");
     setMinPrice("");
     setMaxPrice("");
-    setSort("newest");
+    setSortBy("createdAt_desc");
     router.push("/products");
   };
 
   const hasActiveFilters =
-    search || category !== "all" || minPrice || maxPrice || sort !== "newest";
+    searchQuery.trim() !== "" ||
+    (category && category !== "all") ||
+    minPrice !== "" ||
+    maxPrice !== "" ||
+    sortBy !== "createdAt_desc";
 
   return (
     <div className="space-y-4">
-      {/* Search Bar */}
-      <div className="flex gap-2">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+      {/* Search Bar & Sort */}
+      <div className="flex flex-col md:flex-row gap-3">
+        {/* Search Input */}
+        <div className="flex-1 relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
           <Input
-            type="search"
+            type="text"
             placeholder="Produkte durchsuchen..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && applyFilters()}
             className="pl-10"
           />
         </div>
 
+        {/* Sort Dropdown */}
+        <Select value={sortBy} onValueChange={(value) => {
+          setSortBy(value);
+          const params = new URLSearchParams(searchParams.toString());
+          params.set("sort", value);
+          router.push(`/products?${params.toString()}`);
+        }}>
+          <SelectTrigger className="w-full md:w-[220px]">
+            <SelectValue placeholder="Sortieren nach" />
+          </SelectTrigger>
+          <SelectContent>
+            {SORT_OPTIONS.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        {/* Toggle Filters Button */}
         <Button
           variant="outline"
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center gap-2"
+          className="md:w-auto"
         >
-          <SlidersHorizontal className="w-4 h-4" />
-          Filter
-          {hasActiveFilters && (
-            <span className="ml-1 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-              •
-            </span>
-          )}
+          <SlidersHorizontal className="h-4 w-4 mr-2" />
+          Filter {hasActiveFilters && `(${
+            [searchQuery.trim(), category !== "all", minPrice, maxPrice].filter(Boolean).length
+          })`}
         </Button>
       </div>
 
-      {/* Sort */}
-      <div className="flex items-center gap-2">
-        <Label htmlFor="sort" className="text-sm text-slate-600 whitespace-nowrap">
-          Sortieren:
-        </Label>
-        <Select value={sort} onValueChange={setSort}>
-          <SelectTrigger id="sort" className="w-[200px]">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="newest">Neueste zuerst</SelectItem>
-            <SelectItem value="price-asc">Preis: Niedrig → Hoch</SelectItem>
-            <SelectItem value="price-desc">Preis: Hoch → Niedrig</SelectItem>
-            <SelectItem value="rating">Beste Bewertung</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-
-      {/* Advanced Filters */}
+      {/* Advanced Filters Panel */}
       {showFilters && (
         <Card>
-          <CardContent className="pt-6">
-            <div className="space-y-4">
-              {/* Category */}
+          <CardContent className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Category Filter */}
               <div>
-                <Label htmlFor="category">Kategorie</Label>
+                <Label htmlFor="category" className="mb-2 block">
+                  Kategorie
+                </Label>
                 <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger id="category" className="mt-1">
-                    <SelectValue />
+                  <SelectTrigger id="category">
+                    <SelectValue placeholder="Kategorie wählen" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Alle Kategorien</SelectItem>
-                    <SelectItem value="Anzüge">Anzüge</SelectItem>
-                    <SelectItem value="Hemden">Hemden</SelectItem>
-                    <SelectItem value="Hosen">Hosen</SelectItem>
-                    <SelectItem value="Kleider">Kleider</SelectItem>
-                    <SelectItem value="Jacken">Jacken</SelectItem>
-                    <SelectItem value="Accessoires">Accessoires</SelectItem>
+                    {CATEGORIES.map((cat) => (
+                      <SelectItem key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* Price Range */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="minPrice">Min. Preis (€)</Label>
-                  <Input
-                    id="minPrice"
-                    type="number"
-                    placeholder="0"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
-                    className="mt-1"
-                    min="0"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="maxPrice">Max. Preis (€)</Label>
-                  <Input
-                    id="maxPrice"
-                    type="number"
-                    placeholder="10000"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
-                    className="mt-1"
-                    min="0"
-                  />
-                </div>
+              {/* Min Price Filter */}
+              <div>
+                <Label htmlFor="minPrice" className="mb-2 block">
+                  Min. Preis (€)
+                </Label>
+                <Input
+                  id="minPrice"
+                  type="number"
+                  min="0"
+                  step="10"
+                  placeholder="z.B. 50"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
+                />
               </div>
 
-              {/* Reset Button */}
+              {/* Max Price Filter */}
+              <div>
+                <Label htmlFor="maxPrice" className="mb-2 block">
+                  Max. Preis (€)
+                </Label>
+                <Input
+                  id="maxPrice"
+                  type="number"
+                  min="0"
+                  step="10"
+                  placeholder="z.B. 500"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3 mt-6">
+              <Button onClick={applyFilters} className="flex-1">
+                Filter anwenden
+              </Button>
               {hasActiveFilters && (
                 <Button
                   variant="outline"
-                  onClick={handleReset}
-                  className="w-full"
+                  onClick={clearFilters}
+                  className="flex-shrink-0"
                 >
-                  <X className="w-4 h-4 mr-2" />
-                  Filter zurücksetzen
+                  <X className="h-4 w-4 mr-2" />
+                  Zurücksetzen
                 </Button>
               )}
             </div>
+
+            {/* Active Filters Display */}
+            {hasActiveFilters && (
+              <div className="mt-4 pt-4 border-t">
+                <p className="text-sm font-medium text-slate-700 mb-2">
+                  Aktive Filter:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {searchQuery.trim() && (
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">
+                      Suche: "{searchQuery}"
+                    </span>
+                  )}
+                  {category && category !== "all" && (
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">
+                      {CATEGORIES.find((c) => c.value === category)?.label}
+                    </span>
+                  )}
+                  {minPrice && (
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">
+                      Ab {minPrice}€
+                    </span>
+                  )}
+                  {maxPrice && (
+                    <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm rounded-full">
+                      Bis {maxPrice}€
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}

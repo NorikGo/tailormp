@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/app/lib/supabase/server';
 import prisma from '@/app/lib/prisma';
 
 /**
@@ -10,21 +11,32 @@ import prisma from '@/app/lib/prisma';
  */
 export async function GET(req: NextRequest) {
   try {
-    // TODO: Auth Integration - Extract from session
-    const userId = req.headers.get('x-user-id');
-    const userRole = req.headers.get('x-user-role'); // 'customer' | 'tailor'
+    // Auth check with Supabase
+    const supabase = await createClient();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
-    if (!userId) {
+    if (authError || !user) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       );
     }
 
+    const userId = user.id;
+
     const searchParams = req.nextUrl.searchParams;
     const status = searchParams.get('status'); // Filter by status
 
-    if (userRole === 'tailor') {
+    // Check if user is a tailor
+    const tailorProfile = await prisma.user.findUnique({
+      where: { id: userId },
+      include: { tailorProfile: true },
+    });
+
+    if (tailorProfile?.tailorProfile) {
       // Tailors sehen Bestellungen für ihre Produkte
       const orders = await prisma.order.findMany({
         where: {

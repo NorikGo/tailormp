@@ -1,15 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2, Send } from "lucide-react";
+import { useAuth } from "@/app/hooks/useAuth";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { StarRating } from "./StarRating";
-import { reviewSchema, type ReviewInput } from "@/app/lib/validations";
+import { Star } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface ReviewFormProps {
   productId: string;
@@ -17,77 +15,97 @@ interface ReviewFormProps {
 }
 
 export function ReviewForm({ productId, onSuccess }: ReviewFormProps) {
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
+  const { user } = useAuth();
+  const router = useRouter();
+  const { toast } = useToast();
+
   const [rating, setRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [comment, setComment] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<Omit<ReviewInput, "rating">>({
-    resolver: zodResolver(reviewSchema.omit({ rating: true })),
-  });
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-  const onSubmit = async (data: Omit<ReviewInput, "rating">) => {
-    if (rating === 0) {
-      setError("Bitte wähle eine Bewertung");
+    if (!user) {
+      toast({
+        title: "Anmeldung erforderlich",
+        description: "Bitte melden Sie sich an, um eine Bewertung abzugeben.",
+        variant: "destructive",
+      });
+      router.push("/login");
       return;
     }
 
-    try {
-      setSubmitting(true);
-      setError(null);
+    if (rating === 0) {
+      toast({
+        title: "Bewertung erforderlich",
+        description: "Bitte wählen Sie eine Bewertung aus.",
+        variant: "destructive",
+      });
+      return;
+    }
 
+    setIsSubmitting(true);
+
+    try {
       const response = await fetch("/api/reviews", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-user-id": "dummy-customer-id", // TODO: Replace with real auth
         },
         body: JSON.stringify({
-          ...data,
-          rating,
           productId,
+          rating,
+          comment: comment.trim() || undefined,
         }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Fehler beim Erstellen der Bewertung");
+        throw new Error(data.error || "Fehler beim Speichern der Bewertung");
       }
 
-      setSuccess(true);
-      reset();
+      toast({
+        title: "Bewertung gespeichert",
+        description: "Vielen Dank für Ihre Bewertung!",
+      });
+
+      // Reset form
       setRating(0);
+      setComment("");
 
+      // Call success callback
       if (onSuccess) {
-        setTimeout(() => {
-          onSuccess();
-        }, 1500);
+        onSuccess();
       }
-    } catch (err: any) {
-      console.error("Error submitting review:", err);
-      setError(err.message || "Ein Fehler ist aufgetreten");
+    } catch (error) {
+      console.error("Review submission error:", error);
+      toast({
+        title: "Fehler",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Fehler beim Speichern der Bewertung",
+        variant: "destructive",
+      });
     } finally {
-      setSubmitting(false);
+      setIsSubmitting(false);
     }
   };
 
-  if (success) {
+  if (!user) {
     return (
       <Card>
-        <CardContent className="py-8">
-          <div className="text-center">
-            <div className="text-green-600 text-lg font-semibold mb-2">
-              ✓ Bewertung erfolgreich erstellt!
-            </div>
-            <p className="text-slate-600 text-sm">
-              Vielen Dank für dein Feedback
-            </p>
-          </div>
+        <CardHeader>
+          <CardTitle>Bewertung abgeben</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-slate-600 mb-4">
+            Melden Sie sich an, um eine Bewertung abzugeben.
+          </p>
+          <Button onClick={() => router.push("/login")}>Anmelden</Button>
         </CardContent>
       </Card>
     );
@@ -99,64 +117,62 @@ export function ReviewForm({ productId, onSuccess }: ReviewFormProps) {
         <CardTitle>Bewertung abgeben</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Rating */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Star Rating */}
           <div>
-            <Label className="mb-2 block">Deine Bewertung *</Label>
-            <StarRating
-              rating={rating}
-              onRatingChange={setRating}
-              size="lg"
-            />
-            {rating === 0 && error && (
-              <p className="text-sm text-red-600 mt-1">{error}</p>
+            <label className="block text-sm font-medium text-slate-700 mb-2">
+              Bewertung *
+            </label>
+            <div className="flex gap-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setRating(star)}
+                  onMouseEnter={() => setHoverRating(star)}
+                  onMouseLeave={() => setHoverRating(0)}
+                  className="transition-transform hover:scale-110"
+                >
+                  <Star
+                    className={`w-8 h-8 ${
+                      star <= (hoverRating || rating)
+                        ? "fill-yellow-400 text-yellow-400"
+                        : "text-slate-300"
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+            {rating > 0 && (
+              <p className="text-sm text-slate-600 mt-1">{rating} von 5 Sternen</p>
             )}
           </div>
 
           {/* Comment */}
           <div>
-            <Label htmlFor="comment">Dein Kommentar (optional)</Label>
+            <label
+              htmlFor="comment"
+              className="block text-sm font-medium text-slate-700 mb-2"
+            >
+              Kommentar (optional)
+            </label>
             <Textarea
               id="comment"
-              {...register("comment")}
-              placeholder="Teile deine Erfahrungen mit diesem Produkt..."
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Teilen Sie Ihre Erfahrungen mit diesem Produkt..."
+              maxLength={1000}
               rows={4}
-              className="mt-1"
+              disabled={isSubmitting}
             />
-            {errors.comment && (
-              <p className="text-sm text-red-600 mt-1">
-                {errors.comment.message}
-              </p>
-            )}
             <p className="text-xs text-slate-500 mt-1">
-              Mindestens 10 Zeichen, falls du einen Kommentar hinterlassen möchtest
+              {comment.length}/1000 Zeichen
             </p>
           </div>
 
-          {/* Error Message */}
-          {error && error !== "Bitte wähle eine Bewertung" && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded text-red-600 text-sm">
-              {error}
-            </div>
-          )}
-
-          {/* Submit */}
-          <Button
-            type="submit"
-            disabled={submitting}
-            className="w-full"
-          >
-            {submitting ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Wird gesendet...
-              </>
-            ) : (
-              <>
-                <Send className="w-4 h-4 mr-2" />
-                Bewertung absenden
-              </>
-            )}
+          {/* Submit Button */}
+          <Button type="submit" disabled={isSubmitting || rating === 0}>
+            {isSubmitting ? "Wird gespeichert..." : "Bewertung abgeben"}
           </Button>
         </form>
       </CardContent>

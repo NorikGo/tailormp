@@ -1,5 +1,16 @@
 import { Heart, Globe, Award, Users } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Über uns",
+  description: "Wir verbinden talentierte Schneider aus aller Welt mit Kunden, die Wert auf Qualität und individuelle Maßanfertigung legen.",
+  openGraph: {
+    title: "Über TailorMarket",
+    description: "Unsere Mission ist es, traditionelles Schneiderhandwerk in die digitale Welt zu bringen.",
+    url: "/about",
+  },
+};
 
 export default function AboutPage() {
   return (

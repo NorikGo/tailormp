@@ -41,7 +41,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/imprint" className="text-slate-600 hover:text-slate-900 text-sm transition-colors">
+                <Link href="/impressum" className="text-slate-600 hover:text-slate-900 text-sm transition-colors">
                   Impressum
                 </Link>
               </li>

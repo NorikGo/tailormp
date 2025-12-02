@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 
+// Enable caching for 60 seconds (revalidate every minute)
+export const revalidate = 60;
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
@@ -38,13 +41,16 @@ export async function GET(request: NextRequest) {
     // Build orderBy clause
     let orderBy: any = {};
     switch (sort) {
-      case "price-asc":
+      case "price_asc":
         orderBy = { price: "asc" };
         break;
-      case "price-desc":
+      case "price_desc":
         orderBy = { price: "desc" };
         break;
-      case "newest":
+      case "title_asc":
+        orderBy = { title: "asc" };
+        break;
+      case "createdAt_desc":
         orderBy = { createdAt: "desc" };
         break;
       case "rating":

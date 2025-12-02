@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Loader2, Package, ChevronRight, ShoppingBag, User } from "lucide-react";
+import { Loader2, Package, ChevronRight, ShoppingBag, User, BarChart3 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -99,6 +99,12 @@ export default function TailorOrdersPage() {
             </p>
           </div>
           <div className="flex gap-2">
+            <Link href="/tailor/analytics">
+              <Button variant="outline">
+                <BarChart3 className="w-4 h-4 mr-2" />
+                Analytics
+              </Button>
+            </Link>
             <Link href="/tailor/products">
               <Button variant="outline">
                 <Package className="w-4 h-4 mr-2" />

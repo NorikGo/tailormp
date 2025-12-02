@@ -18,6 +18,7 @@ import { Product } from "@/app/types/product";
 import { dummyProducts, dummyTailors } from "@/app/lib/dummyData";
 import { ReviewForm } from "@/components/reviews/ReviewForm";
 import { ReviewList } from "@/components/reviews/ReviewList";
+import { CartButton } from "@/app/components/cart/CartButton";
 
 interface ProductData {
   product: Product & {
@@ -212,14 +213,17 @@ export default function ProductDetailPage() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-3">
+            <CartButton
+              productId={id}
+              productTitle={product.name}
+              size="lg"
+              className="flex-1"
+            />
             <Link href={`/products/${id}/checkout`} className="flex-1">
-              <Button size="lg" className="w-full">
-                Jetzt bestellen
+              <Button size="lg" variant="outline" className="w-full">
+                Direkt kaufen
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="flex-1">
-              Schneider kontaktieren
-            </Button>
           </div>
 
           {/* Info Note */}

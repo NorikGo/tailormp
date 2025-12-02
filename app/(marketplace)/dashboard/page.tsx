@@ -2,10 +2,21 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Loader2, Package, ChevronRight, ShoppingBag } from "lucide-react";
+import {
+  Loader2,
+  Package,
+  ChevronRight,
+  ShoppingBag,
+  TrendingUp,
+  Clock,
+  CheckCircle,
+  Euro
+} from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/app/hooks/useAuth";
+import { useRouter } from "next/navigation";
 import type { Order } from "@/app/types/order";
 
 const statusColors = {
@@ -26,21 +37,38 @@ const statusLabels = {
   cancelled: "Storniert",
 };
 
+interface OrderStats {
+  totalOrders: number;
+  totalSpent: number;
+  pendingOrders: number;
+  completedOrders: number;
+}
+
 export default function CustomerDashboard() {
+  const { user } = useAuth();
+  const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
+  const [stats, setStats] = useState<OrderStats>({
+    totalOrders: 0,
+    totalSpent: 0,
+    pendingOrders: 0,
+    completedOrders: 0,
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchOrders = async () => {
+      if (!user) {
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
-        const response = await fetch("/api/orders", {
-          headers: {
-            "x-user-id": "dummy-user-id", // TODO: Replace with real auth
-            "x-user-role": "customer",
-          },
-        });
+        setError(null);
+
+        const response = await fetch("/api/orders");
 
         if (!response.ok) {
           throw new Error("Fehler beim Laden der Bestellungen");
@@ -48,6 +76,29 @@ export default function CustomerDashboard() {
 
         const data = await response.json();
         setOrders(data.orders);
+
+        // Calculate statistics
+        const totalOrders = data.orders.length;
+        const totalSpent = data.orders.reduce(
+          (sum: number, order: Order) => sum + order.totalAmount,
+          0
+        );
+        const pendingOrders = data.orders.filter(
+          (order: Order) =>
+            order.status === "pending" ||
+            order.status === "paid" ||
+            order.status === "processing"
+        ).length;
+        const completedOrders = data.orders.filter(
+          (order: Order) => order.status === "completed" || order.status === "delivered"
+        ).length;
+
+        setStats({
+          totalOrders,
+          totalSpent,
+          pendingOrders,
+          completedOrders,
+        });
       } catch (err: any) {
         console.error("Error fetching orders:", err);
         setError(err.message || "Ein Fehler ist aufgetreten");
@@ -57,13 +108,30 @@ export default function CustomerDashboard() {
     };
 
     fetchOrders();
-  }, []);
+  }, [user]);
 
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-20">
         <div className="flex justify-center items-center">
           <Loader2 className="w-8 h-8 animate-spin text-slate-400" />
+        </div>
+      </div>
+    );
+  }
+
+  // Not Authenticated
+  if (!user) {
+    return (
+      <div className="container mx-auto px-4 py-20">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-slate-900 mb-4">
+            Anmeldung erforderlich
+          </h1>
+          <p className="text-slate-600 mb-8">
+            Bitte melden Sie sich an, um Ihr Dashboard zu sehen.
+          </p>
+          <Button onClick={() => router.push("/login")}>Anmelden</Button>
         </div>
       </div>
     );
@@ -80,6 +148,73 @@ export default function CustomerDashboard() {
           <p className="text-slate-600">
             Verwalte und verfolge deine Bestellungen
           </p>
+        </div>
+
+        {/* Statistics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {/* Total Orders */}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-slate-600">
+                Bestellungen
+              </CardTitle>
+              <Package className="h-4 w-4 text-slate-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-slate-900">
+                {stats.totalOrders}
+              </div>
+              <p className="text-xs text-slate-500 mt-1">Gesamt</p>
+            </CardContent>
+          </Card>
+
+          {/* Total Spent */}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-slate-600">
+                Ausgegeben
+              </CardTitle>
+              <Euro className="h-4 w-4 text-slate-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-slate-900">
+                {stats.totalSpent.toFixed(2)} €
+              </div>
+              <p className="text-xs text-slate-500 mt-1">Gesamt</p>
+            </CardContent>
+          </Card>
+
+          {/* Pending Orders */}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-slate-600">
+                In Bearbeitung
+              </CardTitle>
+              <Clock className="h-4 w-4 text-slate-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-slate-900">
+                {stats.pendingOrders}
+              </div>
+              <p className="text-xs text-slate-500 mt-1">Aktive Bestellungen</p>
+            </CardContent>
+          </Card>
+
+          {/* Completed Orders */}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-slate-600">
+                Abgeschlossen
+              </CardTitle>
+              <CheckCircle className="h-4 w-4 text-slate-400" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-slate-900">
+                {stats.completedOrders}
+              </div>
+              <p className="text-xs text-slate-500 mt-1">Zugestellt</p>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Error State */}
@@ -161,7 +296,7 @@ export default function CustomerDashboard() {
                     </div>
 
                     {/* Right: Action Button */}
-                    <Link href={`/dashboard/orders/${order.id}`}>
+                    <Link href={`/orders/${order.id}`}>
                       <Button variant="outline" size="sm">
                         Details
                         <ChevronRight className="w-4 h-4 ml-1" />

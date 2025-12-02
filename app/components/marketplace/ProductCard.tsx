@@ -67,7 +67,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </CardContent>
 
       <CardFooter className="p-4 pt-0 mt-auto">
-        <Button asChild className="w-full">
+        <Button asChild className="w-full h-11 touch-manipulation">
           <Link href={`/products/${product.id}`}>Details ansehen</Link>
         </Button>
       </CardFooter>

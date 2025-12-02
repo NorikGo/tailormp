@@ -1,6 +1,7 @@
 "use client";
 
 import TailorGrid from "@/app/components/marketplace/TailorGrid";
+import { TailorFilters } from "@/components/marketplace/TailorFilters";
 import { useTailors } from "@/app/hooks/useTailors";
 import { dummyTailors } from "@/app/lib/dummyData";
 import { Loader2 } from "lucide-react";
@@ -23,6 +24,11 @@ export default function TailorsPage() {
           Entdecke talentierte Schneider aus der ganzen Welt. Jeder Schneider
           bringt einzigartige Fähigkeiten und jahrelange Erfahrung mit.
         </p>
+      </div>
+
+      {/* Filters Section */}
+      <div className="mb-8">
+        <TailorFilters />
       </div>
 
       {/* Stats */}

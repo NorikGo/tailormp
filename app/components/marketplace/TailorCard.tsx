@@ -73,7 +73,7 @@ export default function TailorCard({ tailor }: TailorCardProps) {
       </CardContent>
 
       <CardFooter className="p-6 pt-0">
-        <Button asChild className="w-full">
+        <Button asChild className="w-full h-11 touch-manipulation">
           <Link href={`/tailors/${tailor.id}`}>Profil ansehen</Link>
         </Button>
       </CardFooter>

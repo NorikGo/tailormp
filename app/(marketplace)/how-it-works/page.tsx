@@ -2,6 +2,17 @@ import { Search, Ruler, ShoppingBag, CheckCircle, MessageSquare, Package } from 
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Wie es funktioniert",
+  description: "Von der Suche bis zur perfekt sitzenden Kleidung – in wenigen einfachen Schritten zu deiner Maßanfertigung.",
+  openGraph: {
+    title: "Wie TailorMarket funktioniert",
+    description: "Erfahre, wie du in 5 einfachen Schritten zu deiner maßgeschneiderten Kleidung kommst.",
+    url: "/how-it-works",
+  },
+};
 
 export default function HowItWorksPage() {
   return (
