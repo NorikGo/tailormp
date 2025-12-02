@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Loader2, Package, ChevronRight, ShoppingBag } from "lucide-react";
+import { Loader2, Package, ChevronRight, ShoppingBag, User } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -89,13 +89,29 @@ export default function TailorOrdersPage() {
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
-            Meine Aufträge
-          </h1>
-          <p className="text-slate-600">
-            Verwalte deine Kundenbestellungen
-          </p>
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-slate-900 mb-2">
+              Meine Aufträge
+            </h1>
+            <p className="text-slate-600">
+              Verwalte deine Kundenbestellungen
+            </p>
+          </div>
+          <div className="flex gap-2">
+            <Link href="/tailor/products">
+              <Button variant="outline">
+                <Package className="w-4 h-4 mr-2" />
+                Meine Produkte
+              </Button>
+            </Link>
+            <Link href="/tailor/profile/edit">
+              <Button variant="outline">
+                <User className="w-4 h-4 mr-2" />
+                Profil bearbeiten
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Stats Cards */}

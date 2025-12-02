@@ -53,6 +53,37 @@ export const updateOrderStatusSchema = z.object({
   trackingNumber: z.string().optional(),
 });
 
+// ───────────────────────────────────────────
+// TAILOR PROFILE SCHEMAS (Phase 6.1)
+// ───────────────────────────────────────────
+
+export const tailorProfileSchema = z.object({
+  name: z.string().min(2, 'Name erforderlich').max(100),
+  businessName: z.string().max(100).optional(),
+  bio: z.string().max(1000).optional(),
+  country: z.string().max(100).optional(),
+  city: z.string().max(100).optional(),
+  location: z.string().max(200).optional(),
+  specialties: z.array(z.string()).max(10).optional(),
+  languages: z.array(z.string()).max(10).optional(),
+  yearsExperience: z.number().int().min(0).max(70).optional(),
+  phone: z.string().max(50).optional(),
+  website: z.string().url('Ungültige URL').optional().or(z.literal('')),
+});
+
+// ───────────────────────────────────────────
+// PRODUCT SCHEMAS (Phase 6.2)
+// ───────────────────────────────────────────
+
+export const productSchema = z.object({
+  title: z.string().min(3, 'Titel muss mindestens 3 Zeichen lang sein').max(200),
+  description: z.string().max(2000).optional(),
+  price: z.number().positive('Preis muss positiv sein').min(1).max(100000),
+  category: z.string().max(100).optional(),
+});
+
+export const updateProductSchema = productSchema.partial();
+
 // Type exports
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
@@ -60,3 +91,6 @@ export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;
 export type CheckoutInput = z.infer<typeof checkoutSchema>;
 export type ShippingAddress = z.infer<typeof shippingAddressSchema>;
 export type UpdateOrderStatusInput = z.infer<typeof updateOrderStatusSchema>;
+export type TailorProfileInput = z.infer<typeof tailorProfileSchema>;
+export type ProductInput = z.infer<typeof productSchema>;
+export type UpdateProductInput = z.infer<typeof updateProductSchema>;

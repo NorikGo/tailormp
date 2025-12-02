@@ -1,262 +1,233 @@
-# 🎯 Next Steps - Phase 6 Vorbereitung
+# 🎯 Next Steps - Phase 7 Vorbereitung
 
-**Stand:** Phase 5 vollständig abgeschlossen (55.7% Gesamtfortschritt)
-**Datum:** 2025-12-01
-
----
-
-## ✅ Was ist fertig (Phase 5)
-
-### Checkout & Payment Integration - KOMPLETT
-- ✅ Stripe Payment Flow (Checkout Sessions, Webhooks)
-- ✅ Order Management System (Database, API Routes)
-- ✅ Customer Dashboard (Orders anzeigen, tracken)
-- ✅ Tailor Dashboard (Orders verwalten, Status updates)
-- ✅ Platform Commission (10% automatisch berechnet)
-- ✅ Vollständige Dokumentation (3 Guide-Dateien)
-
-**Dokumentation:**
-- `docs/PHASE_5_IMPLEMENTATION.md` - Vollständige Feature-Dokumentation
-- `docs/PHASE_5_QUICKSTART.md` - Testing Guide
-- `docs/PHASE_5_URLS.md` - URL & Endpoint Reference
+**Stand:** Phase 6 vollständig abgeschlossen (63.3% Gesamtfortschritt)
+**Datum:** 2025-12-02
 
 ---
 
-## 🚀 Phase 6: Tailor Features - TODO
+## ✅ Was ist fertig (Phase 6)
 
-**Ziel:** Schneider können ihre Produkte selbst verwalten
+### Product Management - KOMPLETT ✨
+- ✅ Tailor Profile Completion (Edit Page, API)
+- ✅ Product CRUD API Routes (POST, PATCH, DELETE)
+- ✅ Image Upload (Supabase Storage, Drag & Drop)
+- ✅ Product Create Form (React Hook Form + Zod)
+- ✅ Product Management Page (Grid View)
+- ✅ Product Edit Page (Pre-fill, Image Management)
+- ✅ Navigation & Authorization komplett
 
-### 6.1 Tailor Profile Completion (2-3h)
-**Was:** Schneider können ihr Profil vervollständigen
+**Neue Features:**
+- Schneider können ihr Profil vervollständigen
+- Vollständiges Product Management Dashboard
+- Multi-Image Upload (bis zu 5 Bilder pro Produkt)
+- Volle CRUD-Funktionalität mit Ownership-Checks
+
+---
+
+## 🚀 Phase 7: Reviews & Polish - TODO
+
+**Ziel:** MVP Feature-Complete machen mit Reviews, Search und Polish
+
+### 7.1 Review System (4-5h)
+**Was:** Kunden können Bewertungen für Produkte & Schneider abgeben
 
 **Tasks:**
-- [ ] TailorProfile Model erweitern (falls nötig)
-- [ ] API Route: `PATCH /api/tailor/profile`
-- [ ] Profile Edit Page: `/tailor/profile/edit`
-- [ ] Form: businessName, bio, specialties, location, languages
-- [ ] Avatar Upload (Supabase Storage)
+- [ ] Review Model in Prisma (rating, comment, productId, tailorId, userId)
+- [ ] API Routes: POST /api/reviews, GET /api/products/[id]/reviews
+- [ ] Review Form Component (Rating Stars, Text)
+- [ ] Review List Component (Display auf Product Detail)
+- [ ] Average Rating Calculation & Display
+- [ ] Review Permissions (nur nach Kauf)
 
 **Prompt für Claude:**
 ```
-Wir arbeiten an TailorMarket, Phase 6.1 - Tailor Profile Completion.
+Wir arbeiten an TailorMarket, Phase 7.1 - Review System.
 Referenziere ROADMAP.md, CLAUDE.md.
 
 Erstelle:
-1. API Route: PATCH /api/tailor/profile (Update Tailor Profile)
-2. Profile Edit Page mit React Hook Form + Zod
-3. Felder: businessName, bio, specialties[], location, languages[]
-4. Avatar Upload später (erstmal Placeholder)
+1. Prisma Schema: Review model (rating 1-5, comment, productId, tailorId, userId)
+2. API Routes: POST /api/reviews, GET /api/products/[id]/reviews
+3. ReviewForm Component mit Star Rating
+4. ReviewList Component für Product Detail Page
+5. Zeige Average Rating auf ProductCard
 ```
 
 ---
 
-### 6.2 Product CRUD API Routes (3h)
-**Was:** Backend API für Product Management
+### 7.2 Search & Filter Enhancement (3h)
+**Was:** Erweiterte Such- und Filterfunktionen
 
 **Tasks:**
-- [ ] `POST /api/tailor/products` - Produkt erstellen
-- [ ] `PATCH /api/tailor/products/[id]` - Produkt editieren
-- [ ] `DELETE /api/tailor/products/[id]` - Produkt löschen
-- [ ] Validation: productSchema (Zod)
-- [ ] Authorization: Nur eigene Produkte editierbar
+- [ ] Search API: Full-text search in product titles/descriptions
+- [ ] Filter UI: Price Range Slider, Category Dropdown
+- [ ] Sort Options: Price (asc/desc), Rating, Newest
+- [ ] Filter State Management (URL params)
+- [ ] Filter Persistence across navigation
 
 ---
 
-### 6.3 Image Upload (2h)
-**Was:** Produktbilder hochladen
+### 7.3 Content Pages (2h)
+**Was:** About, How it Works, FAQ Pages
 
 **Tasks:**
-- [ ] Supabase Storage Bucket: `product-images`
-- [ ] API Route: `POST /api/upload/product-image`
-- [ ] Image Upload Component mit Drag & Drop
-- [ ] Image Resize (Client-Side) auf max 1200px
-- [ ] Multiple Images Support (max 5)
+- [ ] About Page: Team, Mission, Story
+- [ ] How it Works: Detailed Step-by-Step
+- [ ] FAQ Page: Accordion mit häufigen Fragen
+- [ ] Contact Page: Form oder E-Mail
 
 ---
 
-### 6.4 Product Create Form (3h)
-**Was:** Schneider können neue Produkte anlegen
+### 7.4 Loading States & Skeletons (2h)
+**Was:** Bessere UX mit Loading States
 
 **Tasks:**
-- [ ] Page: `/tailor/products/new`
-- [ ] Multi-Step Form:
-  - Step 1: Basics (title, description, category)
-  - Step 2: Pricing (price, productionTime)
-  - Step 3: Images Upload
-- [ ] Preview vor Submit
-- [ ] Success → Redirect zu `/tailor/products`
+- [ ] Skeleton Components (ProductCard, TailorCard, OrderCard)
+- [ ] Loading Spinner standardisieren
+- [ ] Error Boundaries implementieren
+- [ ] Empty States verbessern
 
 ---
 
-### 6.5 Product Management Page (3h)
-**Was:** Übersicht aller Produkte des Schneiders
+### 7.5 Responsive Polish (3h)
+**Was:** Mobile Experience optimieren
 
 **Tasks:**
-- [ ] Page: `/tailor/products`
-- [ ] ProductTable mit Actions (Edit, Delete, Toggle Active)
-- [ ] Filter: Active/Inactive
-- [ ] Button: "Neues Produkt"
-- [ ] Empty State wenn keine Produkte
+- [ ] Mobile Navigation (Hamburger Menu)
+- [ ] Touch-friendly Buttons & Forms
+- [ ] Responsive Tables → Mobile Cards
+- [ ] Image Optimization (next/image)
+- [ ] Tablet Breakpoints prüfen
 
 ---
 
-### 6.6 Product Edit Page (2h)
-**Was:** Bestehende Produkte bearbeiten
+### 7.6 SEO Basics (2h)
+**Was:** Grundlegendes SEO
 
 **Tasks:**
-- [ ] Page: `/tailor/products/[id]/edit`
-- [ ] Pre-fill Form mit bestehenden Daten
-- [ ] Image Management (Upload neue, Delete alte)
-- [ ] Update API Call
-- [ ] Success → Redirect zurück
+- [ ] Metadata für alle Seiten (title, description)
+- [ ] Open Graph Tags
+- [ ] Sitemap.xml generieren
+- [ ] robots.txt
+- [ ] Alt-Tags für alle Bilder
 
 ---
 
-## 📋 Detaillierter Plan für Phase 6.1 (Start)
+### 7.7 Legal Pages (2h)
+**Was:** Rechtlich notwendige Seiten
 
-### Schritt-für-Schritt Anleitung
+**Tasks:**
+- [ ] Privacy Policy Page
+- [ ] Terms of Service Page
+- [ ] Impressum Page
+- [ ] Footer Links aktualisieren
 
-**1. Prisma Schema prüfen**
-```bash
-# Check: Gibt es schon ein TailorProfile model?
-# Falls ja: Welche Felder fehlen?
-npx prisma studio
-```
+---
 
-**2. API Route erstellen**
-```typescript
-// app/api/tailor/profile/route.ts
-export async function PATCH(req: NextRequest) {
-  // Get tailorId from auth
-  // Validate with tailorProfileSchema
-  // Update prisma.tailorProfile
-  // Return updated profile
+## 📋 Priorität für Phase 7
+
+**High Priority (Must-Have für MVP):**
+1. Review System (7.1) - Core Feature
+2. Search & Filter (7.2) - UX Critical
+3. Loading States (7.4) - Polish
+4. Legal Pages (7.7) - Rechtlich erforderlich
+
+**Medium Priority (Nice-to-Have):**
+5. Content Pages (7.3) - Marketing
+6. Responsive Polish (7.5) - UX
+7. SEO Basics (7.6) - Langfristig wichtig
+
+**Total:** ~18-20h für Phase 7
+
+---
+
+## 🔧 Phase 7.1 - Review System (Start)
+
+### Schritt-für-Schritt Plan
+
+**1. Prisma Schema erweitern**
+```prisma
+model Review {
+  id        String   @id @default(cuid())
+  rating    Int      // 1-5 stars
+  comment   String?
+
+  // Relations
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+
+  tailorId  String
+  tailor    Tailor   @relation(fields: [tailorId], references: [id])
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  // Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([productId, userId]) // One review per user per product
+  @@index([productId])
+  @@index([tailorId])
+  @@index([userId])
 }
 ```
 
-**3. Validation Schema**
+**2. Validation Schema**
 ```typescript
 // app/lib/validations.ts
-export const tailorProfileSchema = z.object({
-  businessName: z.string().min(2).max(100),
-  bio: z.string().max(500),
-  location: z.string(),
-  specialties: z.array(z.string()),
-  languages: z.array(z.string()),
-  yearsExperience: z.number().min(0).max(50),
+export const reviewSchema = z.object({
+  rating: z.number().int().min(1).max(5),
+  comment: z.string().min(10).max(1000).optional(),
+  productId: z.string().cuid(),
 });
 ```
 
-**4. Profile Edit Page**
-```tsx
-// app/(marketplace)/tailor/profile/edit/page.tsx
-// React Hook Form + Zod
-// Pre-fill mit bestehenden Daten
-// Multi-Select für specialties, languages
-```
+**3. API Routes**
+- POST /api/reviews - Create review
+- GET /api/products/[id]/reviews - Get reviews for product
+- GET /api/tailors/[id]/reviews - Get reviews for tailor
 
-**5. Navigation Update**
-```tsx
-// Tailor Dashboard: Link zu Profile Edit
-```
+**4. Components**
+- StarRating Component (interactive)
+- ReviewForm Component
+- ReviewCard Component
+- ReviewList Component
 
----
-
-## 🧪 Testing Checklist (Phase 5)
-
-Vor Start von Phase 6, verify dass alles funktioniert:
-
-### Quick Test
-```bash
-# Terminal 1
-npm run dev
-
-# Terminal 2
-stripe listen --forward-to localhost:3000/api/webhooks/stripe
-
-# Browser Test:
-# 1. http://localhost:3000/products
-# 2. Produkt wählen → "Jetzt bestellen"
-# 3. Checkout ausfüllen
-# 4. Zahlen: 4242 4242 4242 4242
-# 5. Success Page → Dashboard
-# 6. Order Detail öffnen
-# 7. Tailor Dashboard: http://localhost:3000/tailor/orders
-# 8. Order öffnen, Status zu "processing" ändern
-```
-
-### Expected Results
-- ✅ Order wird erstellt (status: paid)
-- ✅ Customer sieht Order in Dashboard
-- ✅ Tailor sieht Order in "Neu" Tab
-- ✅ Status Update funktioniert
-- ✅ Customer sieht Update im Dashboard
+**5. Integration**
+- Product Detail Page: Reviews anzeigen
+- After Order Completion: Review-Aufforderung
+- Tailor Profile: Average Rating anzeigen
 
 ---
 
-## 📂 Project Structure (Current)
+## 📊 Progress Tracking
 
-```
-my-marketplace/
-├── app/
-│   ├── (marketplace)/
-│   │   ├── products/[id]/checkout/     ✅ Phase 5
-│   │   ├── order/success/              ✅ Phase 5
-│   │   ├── dashboard/                  ✅ Phase 5
-│   │   └── tailor/orders/              ✅ Phase 5
-│   ├── api/
-│   │   ├── checkout/                   ✅ Phase 5
-│   │   ├── webhooks/stripe/            ✅ Phase 5
-│   │   └── orders/                     ✅ Phase 5
-│   ├── lib/
-│   │   └── stripe/                     ✅ Phase 5
-│   └── types/
-│       └── order.ts                    ✅ Phase 5
-├── docs/
-│   ├── PHASE_5_IMPLEMENTATION.md       ✅ New
-│   ├── PHASE_5_QUICKSTART.md           ✅ New
-│   └── PHASE_5_URLS.md                 ✅ New
-└── ROADMAP.md                          ✅ Updated
-```
+**Completed:**
+- Phase 1: Foundation ✅ (6/6)
+- Phase 2: Authentication ✅ (7/7)
+- Phase 3: Marketplace View ✅ (12/12)
+- Phase 4: Measurement Provider ✅ (7/7)
+- Phase 5: Checkout & Orders ✅ (12/12)
+- Phase 6: Tailor Features ✅ (6/6)
 
-**Next (Phase 6):**
-```
-app/
-├── (marketplace)/tailor/
-│   ├── profile/edit/page.tsx          🔜 6.1
-│   └── products/
-│       ├── page.tsx                   🔜 6.5
-│       ├── new/page.tsx               🔜 6.4
-│       └── [id]/edit/page.tsx         🔜 6.6
-└── api/tailor/
-    ├── profile/route.ts               🔜 6.1
-    └── products/
-        ├── route.ts                   🔜 6.2
-        └── [id]/route.ts              🔜 6.2
-```
+**Current:** 50/79 Steps (63.3%)
+
+**Next:** Phase 7 - Reviews & Polish (0/7 Steps)
+
+**ETA bis MVP:** ~2-3 Wochen
 
 ---
 
-## 🔧 Environment Check
+## 🎯 Success Criteria für Phase 7
 
-Vor Start Phase 6:
-
-```bash
-# 1. Dependencies aktuell?
-npm outdated
-
-# 2. Prisma Schema synced?
-npx prisma db push
-
-# 3. Types generiert?
-npx prisma generate
-
-# 4. Build funktioniert?
-npm run build
-
-# 5. Keine TypeScript Errors?
-npx tsc --noEmit
-```
+Phase 7 ist komplett wenn:
+- [ ] Review System funktioniert (Create, Display, Average)
+- [ ] Search & Filter erweitert
+- [ ] Loading States & Skeletons implementiert
+- [ ] Legal Pages erstellt
+- [ ] Mobile Experience poliert
+- [ ] SEO Basics implementiert
+- [ ] E2E Test: Review erstellen → auf Product Detail sichtbar
 
 ---
 
@@ -271,47 +242,14 @@ Referenziere:
 - NEXT_STEPS.md (diese Datei)
 - CLAUDE.md (Code-Richtlinien)
 
-Wir sind bei Phase 6.1 - Tailor Profile Completion.
-Status: Phase 5 vollständig abgeschlossen (55.7%).
+Wir sind bei Phase 7.1 - Review System.
+Status: Phase 6 vollständig abgeschlossen (63.3%).
 
-Lass uns mit Phase 6.1 starten: Tailor Profile Edit Page.
+Lass uns mit Phase 7.1 starten: Review System implementieren.
 ```
-
-**Was Claude tun wird:**
-1. ROADMAP.md lesen → Versteht aktuellen Stand
-2. NEXT_STEPS.md lesen → Weiß was zu tun ist
-3. Phase 6.1 implementieren
-
----
-
-## 📊 Progress Tracking
-
-**Completed:**
-- Phase 1: Foundation ✅ (6/6)
-- Phase 2: Authentication ✅ (7/7)
-- Phase 3: Marketplace View ✅ (12/12)
-- Phase 4: Measurement Provider ✅ (7/7)
-- Phase 5: Checkout & Orders ✅ (12/12)
-
-**Current:** 44/79 Steps (55.7%)
-
-**Next:** Phase 6 - Tailor Features (0/6 Steps)
-
-**ETA bis MVP:** ~3-4 Wochen bei aktuellem Tempo
-
----
-
-## 🎯 Success Criteria für Phase 6
-
-Phase 6 ist komplett wenn:
-- [ ] Schneider können ihr Profil vervollständigen
-- [ ] Schneider können Produkte erstellen/editieren/löschen
-- [ ] Produktbilder können hochgeladen werden
-- [ ] Product Management Page funktioniert
-- [ ] E2E Test: Neues Produkt erstellen → auf Marketplace sichtbar
 
 ---
 
 **Let's go! 🚀**
 
-Nächster Schritt: Phase 6.1 - Tailor Profile Completion
+Nächster Schritt: Phase 7.1 - Review System
