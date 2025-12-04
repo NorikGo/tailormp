@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/select";
 import { checkoutSchema, type CheckoutInput } from "@/app/lib/validations";
 import { Product } from "@/app/types/product";
+import { useAuth } from "@/app/hooks/useAuth";
+import { dummyProducts } from "@/app/lib/dummyData";
 
 export default function CheckoutPage() {
   const params = useParams();
@@ -26,6 +28,7 @@ export default function CheckoutPage() {
   const searchParams = useSearchParams();
   const productId = params.id as string;
   const measurementSessionId = searchParams.get("measurementSessionId");
+  const { user } = useAuth();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -58,6 +61,13 @@ export default function CheckoutPage() {
         setLoading(true);
         const response = await fetch(`/api/products/${productId}`);
         if (!response.ok) {
+          // Fallback to dummy data
+          const dummyProduct = dummyProducts.find((p) => p.id === productId);
+          if (dummyProduct) {
+            setProduct(dummyProduct);
+            setLoading(false);
+            return;
+          }
           throw new Error("Produkt nicht gefunden");
         }
         const data = await response.json();
@@ -78,12 +88,17 @@ export default function CheckoutPage() {
       setError(null);
 
       // Create Checkout Session
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+
+      if (user) {
+        headers["x-user-id"] = user.id;
+      }
+
       const response = await fetch("/api/checkout", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "x-user-id": "dummy-user-id", // TODO: Replace with real auth
-        },
+        headers,
         body: JSON.stringify(data),
       });
 

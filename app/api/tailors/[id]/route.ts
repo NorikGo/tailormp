@@ -3,21 +3,20 @@ import { prisma } from "@/app/lib/prisma";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params;
+    const { id } = await params;
 
-    const tailor = await prisma.tailorProfile.findUnique({
+    const tailor = await prisma.tailor.findUnique({
       where: { id },
       include: {
         products: {
           select: {
             id: true,
-            name: true,
+            title: true,
             description: true,
             price: true,
-            imageUrl: true,
             category: true,
             createdAt: true,
           },

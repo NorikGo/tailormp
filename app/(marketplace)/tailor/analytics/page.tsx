@@ -16,6 +16,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from "@/app/lib/constants/orderStatus";
 
 interface AnalyticsData {
   period: {
@@ -47,23 +48,9 @@ interface AnalyticsData {
   }>;
 }
 
-const statusLabels: Record<string, string> = {
-  pending: "Ausstehend",
-  paid: "Bezahlt",
-  processing: "In Bearbeitung",
-  shipped: "Versendet",
-  completed: "Abgeschlossen",
-  cancelled: "Storniert",
-};
-
-const statusColors: Record<string, string> = {
-  pending: "bg-yellow-100 text-yellow-800",
-  paid: "bg-green-100 text-green-800",
-  processing: "bg-blue-100 text-blue-800",
-  shipped: "bg-purple-100 text-purple-800",
-  completed: "bg-slate-100 text-slate-800",
-  cancelled: "bg-red-100 text-red-800",
-};
+// Verwendung der zentralen Status-Konstanten
+const statusLabels: Record<string, string> = ORDER_STATUS_LABELS;
+const statusColors: Record<string, string> = ORDER_STATUS_COLORS;
 
 export default function TailorAnalyticsPage() {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
@@ -110,7 +97,7 @@ export default function TailorAnalyticsPage() {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="p-6 bg-red-50 border border-red-200 rounded-lg">
-          <p className="text-red-600">{error || "Keine Daten verfügbar"}</p>
+          <p className="text-red-600">{error || "Keine Daten verfÃ¼gbar"}</p>
         </div>
       </div>
     );
@@ -126,7 +113,7 @@ export default function TailorAnalyticsPage() {
               Analytics & Reporting
             </h1>
             <p className="text-slate-600">
-              Übersicht über deine Verkäufe und Performance
+              Ãœbersicht Ã¼ber deine VerkÃ¤ufe und Performance
             </p>
           </div>
           <div className="flex gap-2">
@@ -172,11 +159,11 @@ export default function TailorAnalyticsPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-900">
-                ¬{analytics.overview.totalRevenue.toFixed(2)}
+                â‚¬{analytics.overview.totalRevenue.toFixed(2)}
               </div>
               <p className="text-xs text-slate-600 mt-1">
-                Netto: ¬{analytics.overview.netRevenue.toFixed(2)} (nach 10%
-                Gebühr)
+                Netto: â‚¬{analytics.overview.netRevenue.toFixed(2)} (nach 10%
+                GebÃ¼hr)
               </p>
             </CardContent>
           </Card>
@@ -203,13 +190,13 @@ export default function TailorAnalyticsPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-slate-600">
-                Ø Bestellwert
+                âŒ€ Bestellwert
               </CardTitle>
               <TrendingUp className="w-4 h-4 text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-900">
-                ¬{analytics.overview.avgOrderValue.toFixed(2)}
+                â‚¬{analytics.overview.avgOrderValue.toFixed(2)}
               </div>
               <p className="text-xs text-slate-600 mt-1">
                 Pro Bestellung
@@ -221,13 +208,13 @@ export default function TailorAnalyticsPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-slate-600">
-                Plattform-Gebühr
+                Plattform-GebÃ¼hr
               </CardTitle>
               <Calendar className="w-4 h-4 text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-orange-600">
-                ¬{analytics.overview.platformFeeTotal.toFixed(2)}
+                â‚¬{analytics.overview.platformFeeTotal.toFixed(2)}
               </div>
               <p className="text-xs text-slate-600 mt-1">
                 10% vom Gesamtumsatz
@@ -262,7 +249,7 @@ export default function TailorAnalyticsPage() {
                             })}
                           </span>
                           <span className="font-medium text-slate-900">
-                            ¬{item.revenue.toFixed(2)}
+                            â‚¬{item.revenue.toFixed(2)}
                           </span>
                         </div>
                         <div className="w-full bg-slate-100 rounded-full h-2">
@@ -277,7 +264,7 @@ export default function TailorAnalyticsPage() {
                 </div>
               ) : (
                 <p className="text-slate-600 text-sm text-center py-8">
-                  Keine Umsatzdaten verfügbar
+                  Keine Umsatzdaten verfÃ¼gbar
                 </p>
               )}
             </CardContent>
@@ -342,7 +329,7 @@ export default function TailorAnalyticsPage() {
                     </div>
                     <div className="text-right">
                       <p className="text-lg font-bold text-green-600">
-                        ¬{product.revenue.toFixed(2)}
+                        â‚¬{product.revenue.toFixed(2)}
                       </p>
                     </div>
                   </div>
@@ -350,7 +337,7 @@ export default function TailorAnalyticsPage() {
               </div>
             ) : (
               <p className="text-slate-600 text-sm text-center py-8">
-                Keine Produktdaten verfügbar
+                Keine Produktdaten verfÃ¼gbar
               </p>
             )}
           </CardContent>
@@ -396,7 +383,7 @@ export default function TailorAnalyticsPage() {
                         {statusLabels[order.status] || order.status}
                       </Badge>
                       <span className="font-semibold text-slate-900">
-                        ¬{order.totalAmount.toFixed(2)}
+                        â‚¬{order.totalAmount.toFixed(2)}
                       </span>
                       <ArrowUpRight className="w-4 h-4 text-slate-400" />
                     </div>
@@ -405,7 +392,7 @@ export default function TailorAnalyticsPage() {
               </div>
             ) : (
               <p className="text-slate-600 text-sm text-center py-8">
-                Keine Bestellungen verfügbar
+                Keine Bestellungen verfÃ¼gbar
               </p>
             )}
           </CardContent>

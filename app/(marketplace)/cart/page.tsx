@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { useCart } from "@/app/hooks/useCart";
 import { CartItem } from "@/app/components/cart/CartItem";
 import { CartSummary } from "@/app/components/cart/CartSummary";

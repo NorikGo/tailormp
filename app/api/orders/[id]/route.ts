@@ -63,11 +63,11 @@ export async function GET(
     // Check if user is a tailor who owns products in this order
     const tailorProfile = await prisma.user.findUnique({
       where: { id: userId },
-      include: { tailorProfile: true },
+      include: { tailor: true },
     });
 
-    const isTailor = !!tailorProfile?.tailorProfile;
-    const tailorId = tailorProfile?.tailorProfile?.id;
+    const isTailor = !!tailorProfile?.tailor;
+    const tailorId = tailorProfile?.tailor?.id;
 
     // Check if tailor owns any items in this order
     const hasTailorAccess = isTailor
@@ -118,17 +118,17 @@ export async function PATCH(
     // Verify user is a tailor
     const tailorProfile = await prisma.user.findUnique({
       where: { id: userId },
-      include: { tailorProfile: true },
+      include: { tailor: true },
     });
 
-    if (!tailorProfile?.tailorProfile) {
+    if (!tailorProfile?.tailor) {
       return NextResponse.json(
         { error: "Only tailors can update order status" },
         { status: 403 }
       );
     }
 
-    const tailorId = tailorProfile.tailorProfile.id;
+    const tailorId = tailorProfile.tailor.id;
 
     // Fetch order
     const order = await prisma.order.findUnique({

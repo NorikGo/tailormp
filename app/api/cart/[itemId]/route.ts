@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/app/lib/supabase/server";
-import { prisma } from "@/app/lib/prisma";
+import { getAuthenticatedUser } from "@/app/lib/auth-helpers";
+import prisma from "@/app/lib/prisma";
 import { z } from "zod";
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -15,13 +15,9 @@ export async function DELETE(
     const { itemId } = await params;
 
     // Auth check
-    const supabase = await createClient();
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
+    const user = await getAuthenticatedUser();
 
-    if (authError || !user) {
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -71,7 +67,7 @@ export async function DELETE(
 const updateCartItemSchema = z.object({
   quantity: z.number().int().min(1).max(10).optional(),
   notes: z.string().max(500).optional(),
-  measurementSessionId: z.string().cuid().nullable().optional(),
+  measurementSessionId: z.string().min(1).nullable().optional(),
 });
 
 export async function PATCH(
@@ -82,13 +78,9 @@ export async function PATCH(
     const { itemId } = await params;
 
     // Auth check
-    const supabase = await createClient();
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
+    const user = await getAuthenticatedUser();
 
-    if (authError || !user) {
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Star, Loader2, Trash2, Edit } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
 interface Review {

@@ -6,6 +6,7 @@ import { Plus, Edit, Trash2, Eye, Loader2, Package, BarChart3, ShoppingBag } fro
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { getSimpleAuthHeaders } from "@/app/lib/auth/client-helpers";
 
 interface Product {
   id: string;
@@ -35,9 +36,10 @@ export default function ProductManagementPage() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
+      const authHeaders = await getSimpleAuthHeaders();
       const response = await fetch("/api/tailor/products", {
         headers: {
-          "x-user-id": "dummy-tailor-id", // TODO: Replace with real auth
+          ...authHeaders,
           "x-user-role": "tailor",
         },
       });
@@ -63,10 +65,11 @@ export default function ProductManagementPage() {
 
     try {
       setDeletingId(productId);
+      const authHeaders = await getSimpleAuthHeaders();
       const response = await fetch(`/api/tailor/products/${productId}`, {
         method: "DELETE",
         headers: {
-          "x-user-id": "dummy-tailor-id", // TODO: Replace with real auth
+          ...authHeaders,
           "x-user-role": "tailor",
         },
       });

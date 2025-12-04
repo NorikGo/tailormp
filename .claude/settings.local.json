@@ -5,7 +5,17 @@
       "Bash(npx prisma:*)",
       "Bash(wc:*)",
       "Bash(head:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(npx shadcn:*)",
+      "Bash(while read f)",
+      "Bash(do wc -l $f)",
+      "Bash(done)",
+      "Bash(cat:*)",
+      "Bash(npx tsx:*)",
+      "Bash(npm run db:seed:*)",
+      "Bash(curl -I http://localhost:3000)",
+      "Bash(echo:*)",
+      "Bash(curl:*)"
     ],
     "deny": [],
     "ask": []

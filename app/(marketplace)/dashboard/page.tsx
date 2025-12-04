@@ -15,27 +15,14 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import type { Order } from "@/app/types/order";
+import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from "@/app/lib/constants/orderStatus";
 
-const statusColors = {
-  pending: "bg-yellow-100 text-yellow-800",
-  paid: "bg-green-100 text-green-800",
-  processing: "bg-blue-100 text-blue-800",
-  shipped: "bg-purple-100 text-purple-800",
-  completed: "bg-slate-100 text-slate-800",
-  cancelled: "bg-red-100 text-red-800",
-};
-
-const statusLabels = {
-  pending: "Ausstehend",
-  paid: "Bezahlt",
-  processing: "In Bearbeitung",
-  shipped: "Versendet",
-  completed: "Abgeschlossen",
-  cancelled: "Storniert",
-};
+// Verwendung der zentralen Status-Konstanten
+const statusColors = ORDER_STATUS_COLORS;
+const statusLabels = ORDER_STATUS_LABELS;
 
 interface OrderStats {
   totalOrders: number;

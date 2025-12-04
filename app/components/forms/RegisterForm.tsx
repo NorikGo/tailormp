@@ -53,11 +53,6 @@ export default function RegisterForm() {
       }
 
       setSuccess(true);
-
-      // Redirect to login after 2 seconds
-      setTimeout(() => {
-        router.push("/login");
-      }, 2000);
     } catch (err: any) {
       console.error("Register error:", err);
       setError(err.message || "Registrierung fehlgeschlagen. Bitte versuche es erneut.");
@@ -74,8 +69,16 @@ export default function RegisterForm() {
             Registrierung erfolgreich!
           </h2>
           <p className="text-green-700 mb-4">
-            Bitte bestätige deine E-Mail-Adresse. Du wirst in Kürze zur Login-Seite weitergeleitet.
+            Bitte bestätige deine E-Mail-Adresse über den Link, den wir dir gesendet haben.
           </p>
+          <p className="text-green-700 mb-4">
+            Nach der Bestätigung kannst du dich anmelden.
+          </p>
+          <Link href="/login">
+            <Button className="w-full">
+              Zur Anmeldung
+            </Button>
+          </Link>
         </div>
       </div>
     );

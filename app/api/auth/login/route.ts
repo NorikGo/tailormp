@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/app/lib/supabaseClient";
+import { createClient } from "@/utils/supabase/server";
 import { loginSchema } from "@/app/lib/validations";
 import { ZodError } from "zod";
+import { prisma } from "@/app/lib/prisma";
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,6 +11,9 @@ export async function POST(request: NextRequest) {
 
     // Validate input
     const validatedData = loginSchema.parse(body);
+
+    // Create server-side Supabase client (handles cookies)
+    const supabase = await createClient();
 
     // Sign in with Supabase
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -25,21 +29,48 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!data.user) {
+    if (!data.user || !data.session) {
       return NextResponse.json(
         { error: "Anmeldung fehlgeschlagen" },
         { status: 401 }
       );
     }
 
-    // Return user data
+    // Load user role from database
+    const dbUser = await prisma.user.findUnique({
+      where: { id: data.user.id },
+      select: { role: true, tailor: true },
+    });
+
+    // If user is a tailor but doesn't have a tailor profile, create one
+    if (dbUser?.role === "tailor" && !dbUser.tailor) {
+      await prisma.tailor.create({
+        data: {
+          user_id: data.user.id,
+          name: data.user.email?.split("@")[0] || "Schneider",
+          bio: "",
+          country: "",
+          languages: [],
+          rating: 0,
+          totalOrders: 0,
+          yearsExperience: 0,
+          specialties: [],
+          isVerified: false,
+        },
+      });
+    }
+
+    // Return user and session data (browser client needs access token)
     return NextResponse.json(
       {
         user: {
           id: data.user.id,
           email: data.user.email,
-          // Role will be loaded from database later
-          role: "customer",
+          role: dbUser?.role || "customer",
+        },
+        session: {
+          access_token: data.session.access_token,
+          refresh_token: data.session.refresh_token,
         },
       },
       { status: 200 }

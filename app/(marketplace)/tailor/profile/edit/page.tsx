@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { tailorProfileSchema, type TailorProfileInput } from "@/app/lib/validations";
+import { getSimpleAuthHeaders } from "@/app/lib/auth/client-helpers";
 
 export default function TailorProfileEditPage() {
   const router = useRouter();
@@ -38,9 +39,10 @@ export default function TailorProfileEditPage() {
     const fetchProfile = async () => {
       try {
         setLoading(true);
+        const authHeaders = await getSimpleAuthHeaders();
         const response = await fetch("/api/tailor/profile", {
           headers: {
-            "x-user-id": "dummy-tailor-id", // TODO: Replace with real auth
+            ...authHeaders,
             "x-user-role": "tailor",
           },
         });
@@ -78,11 +80,12 @@ export default function TailorProfileEditPage() {
       setError(null);
       setSuccessMessage(null);
 
+      const authHeaders = await getSimpleAuthHeaders();
       const response = await fetch("/api/tailor/profile", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "x-user-id": "dummy-tailor-id", // TODO: Replace with real auth
+          ...authHeaders,
           "x-user-role": "tailor",
         },
         body: JSON.stringify(data),

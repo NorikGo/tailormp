@@ -64,6 +64,11 @@ model User {
   role                String // "tailor" | "customer" | "admin"
   firstName           String?
   lastName            String?
+  fullName            String? // Für Anzeige
+
+  // Customer-spezifisch
+  shippingAddress     Json? // {street, city, postal_code, country}
+
   createdAt           DateTime             @default(now())
   updatedAt           DateTime             @default(now()) @updatedAt
   orders              Order[]
@@ -105,6 +110,10 @@ model Tailor {
   phone           String?
   website         String?
 
+  // Stripe Integration (für Zahlungen)
+  stripeAccountId         String?  // Stripe Connect Account ID
+  stripeOnboardingComplete Boolean @default(false)
+
   // Stats
   rating          Float?   // Durchschnittsbewertung
   totalOrders     Int      @default(0)
@@ -127,6 +136,7 @@ model Tailor {
   @@index([isActive])
   @@index([totalOrders])
   @@index([yearsExperience])
+  @@index([stripeAccountId])
 }
 
 //
@@ -138,12 +148,31 @@ model Tailor {
 model Product {
   id          String         @id @default(cuid())
   tailorId    String
+
+  // Product Info
   title       String
-  price       Float
   description String?
-  category    String?
-  isActive    Boolean        @default(true) // Für Cart-Validierung
+  category    String? // "shirt" | "pants" | "dress" | "suit" | "jacket" | "custom"
+
+  // Pricing
+  price       Float          @default(0)
+  currency    String         @default("EUR")
+
+  // Availability
+  isActive         Boolean @default(true)
+  stockType        String  @default("unlimited") // "unlimited" | "limited"
+  stockQuantity    Int?    // Nur bei stockType="limited"
+
+  // Delivery
+  estimatedDeliveryDays Int @default(21) // Standard: 3 Wochen
+
+  // Customization
+  customizationOptions Json? // { fabrics: [...], colors: [...], buttons: [...], etc. }
+  requiresMeasurements Boolean @default(true)
+
+  // Timestamps
   createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @default(now()) @updatedAt
 
   tailor     Tailor         @relation(fields: [tailorId], references: [id])
   orderItems OrderItem[]
@@ -263,7 +292,15 @@ model OrderItem {
 model Review {
   id      String @id @default(cuid())
   rating  Int    // 1-5 stars
+  title   String @default("") // Review-Titel
   comment String?
+
+  // Images
+  images  String[] @default([]) // URLs zu hochgeladenen Bildern
+
+  // Tailor Response
+  tailorResponse     String?
+  tailorResponseDate DateTime?
 
   // Relations
   productId String

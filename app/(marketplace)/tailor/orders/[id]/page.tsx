@@ -24,24 +24,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Order } from "@/app/types/order";
+import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from "@/app/lib/constants/orderStatus";
+import { getSimpleAuthHeaders } from "@/app/lib/auth/client-helpers";
 
-const statusColors = {
-  pending: "bg-yellow-100 text-yellow-800",
-  paid: "bg-green-100 text-green-800",
-  processing: "bg-blue-100 text-blue-800",
-  shipped: "bg-purple-100 text-purple-800",
-  completed: "bg-slate-100 text-slate-800",
-  cancelled: "bg-red-100 text-red-800",
-};
-
-const statusLabels = {
-  pending: "Ausstehend",
-  paid: "Bezahlt",
-  processing: "In Bearbeitung",
-  shipped: "Versendet",
-  completed: "Abgeschlossen",
-  cancelled: "Storniert",
-};
+// Verwendung der zentralen Status-Konstanten
+const statusColors = ORDER_STATUS_COLORS;
+const statusLabels = ORDER_STATUS_LABELS;
 
 export default function TailorOrderDetailPage() {
   const params = useParams();
@@ -61,9 +49,10 @@ export default function TailorOrderDetailPage() {
     const fetchOrder = async () => {
       try {
         setLoading(true);
+        const authHeaders = await getSimpleAuthHeaders();
         const response = await fetch(`/api/orders/${orderId}`, {
           headers: {
-            "x-user-id": "dummy-tailor-id", // TODO: Replace with real auth
+            ...authHeaders,
             "x-user-role": "tailor",
           },
         });
@@ -95,11 +84,12 @@ export default function TailorOrderDetailPage() {
       setError(null);
       setSuccessMessage(null);
 
+      const authHeaders = await getSimpleAuthHeaders();
       const response = await fetch(`/api/orders/${orderId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          "x-user-id": "dummy-tailor-id", // TODO: Replace with real auth
+          ...authHeaders,
           "x-user-role": "tailor",
         },
         body: JSON.stringify({

@@ -7,9 +7,9 @@ import { dummyTailors } from "@/app/lib/dummyData";
 import { Loader2 } from "lucide-react";
 
 export default function TailorsPage() {
-  const { tailors, loading, error, pagination } = useTailors();
+  const { tailors, loading, pagination } = useTailors();
 
-  // Fallback to dummy data if API returns empty (no data in DB yet)
+  // Fallback to dummy data if API fails or returns empty
   const displayTailors = tailors.length > 0 ? tailors : dummyTailors;
   const totalTailors = pagination?.total || displayTailors.length;
 
@@ -67,16 +67,6 @@ export default function TailorsPage() {
       {loading && (
         <div className="flex justify-center items-center py-20">
           <Loader2 className="w-8 h-8 animate-spin text-slate-400" />
-        </div>
-      )}
-
-      {/* Error State */}
-      {error && !loading && (
-        <div className="p-6 bg-red-50 border border-red-200 rounded-lg text-center max-w-md mx-auto mb-8">
-          <p className="text-red-600 font-medium">{error}</p>
-          <p className="text-sm text-red-500 mt-2">
-            Zeige Beispieldaten zur Demonstration
-          </p>
         </div>
       )}
 

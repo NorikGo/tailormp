@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { ImageUpload } from "@/components/tailor/ImageUpload";
 import { productSchema, type ProductInput } from "@/app/lib/validations";
+import { getSimpleAuthHeaders } from "@/app/lib/auth/client-helpers";
 
 export default function ProductCreatePage() {
   const router = useRouter();
@@ -38,11 +39,12 @@ export default function ProductCreatePage() {
       setError(null);
       setSuccessMessage(null);
 
+      const authHeaders = await getSimpleAuthHeaders();
       const response = await fetch("/api/tailor/products", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-user-id": "dummy-tailor-id", // TODO: Replace with real auth
+          ...authHeaders,
           "x-user-role": "tailor",
         },
         body: JSON.stringify(data),
@@ -66,10 +68,11 @@ export default function ProductCreatePage() {
           formData.append("productId", productId);
           formData.append("position", image.position.toString());
 
+          const authHeaders = await getSimpleAuthHeaders();
           await fetch("/api/upload/product-image", {
             method: "POST",
             headers: {
-              "x-user-id": "dummy-tailor-id",
+              ...authHeaders,
               "x-user-role": "tailor",
             },
             body: formData,

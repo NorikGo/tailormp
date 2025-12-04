@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Menu, X, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { CartIcon } from "@/app/components/cart/CartIcon";
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -97,7 +97,10 @@ export function MobileNav({ isAuthenticated }: MobileNavProps) {
                   className="justify-start gap-2"
                   asChild
                 >
-                  <Link href="/profile" onClick={() => setOpen(false)}>
+                  <Link
+                    href={user?.role === "tailor" ? "/tailor/profile/edit" : "/profile"}
+                    onClick={() => setOpen(false)}
+                  >
                     <User size={18} />
                     Profil
                   </Link>

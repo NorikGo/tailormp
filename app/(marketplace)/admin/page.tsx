@@ -104,23 +104,11 @@ interface UsersPagination {
   totalPages: number;
 }
 
-const statusLabels: Record<string, string> = {
-  pending: "Ausstehend",
-  paid: "Bezahlt",
-  processing: "In Bearbeitung",
-  shipped: "Versendet",
-  completed: "Abgeschlossen",
-  cancelled: "Storniert",
-};
+import { ORDER_STATUS_LABELS, ORDER_STATUS_COLORS } from "@/app/lib/constants/orderStatus";
 
-const statusColors: Record<string, string> = {
-  pending: "bg-yellow-100 text-yellow-800",
-  paid: "bg-green-100 text-green-800",
-  processing: "bg-blue-100 text-blue-800",
-  shipped: "bg-purple-100 text-purple-800",
-  completed: "bg-slate-100 text-slate-800",
-  cancelled: "bg-red-100 text-red-800",
-};
+// Verwendung der zentralen Status-Konstanten
+const statusLabels: Record<string, string> = ORDER_STATUS_LABELS;
+const statusColors: Record<string, string> = ORDER_STATUS_COLORS;
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState<AdminStats | null>(null);
@@ -224,7 +212,7 @@ export default function AdminDashboardPage() {
               </h1>
             </div>
             <p className="text-slate-600">
-              Plattform-Übersicht und Verwaltung
+              Plattform-ï¿½bersicht und Verwaltung
             </p>
           </div>
         </div>
@@ -300,7 +288,7 @@ export default function AdminDashboardPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-slate-900">
-                ¬{stats.revenue.total.toFixed(2)}
+                ï¿½{stats.revenue.total.toFixed(2)}
               </div>
               <p className="text-xs text-slate-600 mt-1">
                 Letzte {stats.period.days} Tage
@@ -312,13 +300,13 @@ export default function AdminDashboardPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-slate-600">
-                Plattform-Gebühren
+                Plattform-Gebï¿½hren
               </CardTitle>
               <TrendingUp className="w-4 h-4 text-slate-400" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-green-600">
-                ¬{stats.revenue.platformFees.toFixed(2)}
+                ï¿½{stats.revenue.platformFees.toFixed(2)}
               </div>
               <p className="text-xs text-slate-600 mt-1">
                 10% vom Umsatz
@@ -357,7 +345,7 @@ export default function AdminDashboardPage() {
                               {item.orders} Orders
                             </span>
                             <span className="font-medium text-slate-900">
-                              ¬{item.revenue.toFixed(2)}
+                              ï¿½{item.revenue.toFixed(2)}
                             </span>
                           </div>
                         </div>
@@ -373,7 +361,7 @@ export default function AdminDashboardPage() {
                 </div>
               ) : (
                 <p className="text-slate-600 text-sm text-center py-8">
-                  Keine Daten verfügbar
+                  Keine Daten verfï¿½gbar
                 </p>
               )}
             </CardContent>
@@ -451,7 +439,7 @@ export default function AdminDashboardPage() {
               </div>
             ) : (
               <p className="text-slate-600 text-sm text-center py-8">
-                Keine Daten verfügbar
+                Keine Daten verfï¿½gbar
               </p>
             )}
           </CardContent>

@@ -3,11 +3,13 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Minus, Plus, Trash2, BadgeCheck } from "lucide-react";
+import { Minus, Plus, Trash2, BadgeCheck, Ruler } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCart } from "@/app/hooks/useCart";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/app/contexts/AuthContext";
+import MeasurementButton from "@/app/components/measurement/MeasurementButton";
 import type { CartItem as CartItemType } from "@/app/hooks/useCart";
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -23,6 +25,7 @@ interface CartItemProps {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export function CartItem({ item }: CartItemProps) {
+  const { user } = useAuth();
   const { updateCartItem, removeFromCart } = useCart();
   const { toast } = useToast();
   const [isUpdating, setIsUpdating] = useState(false);
@@ -133,8 +136,9 @@ export function CartItem({ item }: CartItemProps) {
         {item.measurementSession ? (
           <div className="text-sm">
             {item.measurementSession.status === "completed" ? (
-              <span className="text-green-600 font-medium">
-                ✓ Maße vorhanden
+              <span className="text-green-600 font-medium flex items-center gap-1">
+                <Ruler className="h-3.5 w-3.5" />
+                Maße vorhanden
               </span>
             ) : (
               <span className="text-orange-600 font-medium">
@@ -142,16 +146,34 @@ export function CartItem({ item }: CartItemProps) {
               </span>
             )}
           </div>
-        ) : (
+        ) : user ? (
           <div className="text-sm">
-            <Link
-              href={`/measurements/new?productId=${item.productId}`}
-              className="text-blue-600 hover:text-blue-700 font-medium underline"
-            >
-              Maße hinzufügen
-            </Link>
+            <MeasurementButton
+              userId={user.id}
+              onComplete={async (sessionId) => {
+                // Update cart item with measurement session
+                try {
+                  await updateCartItem(item.id, {
+                    measurementSessionId: sessionId,
+                  });
+                  toast({
+                    title: "Maße hinzugefügt",
+                    description: "Die Maße wurden erfolgreich zum Artikel hinzugefügt.",
+                  });
+                } catch (error) {
+                  console.error("Failed to update cart item with measurements:", error);
+                  toast({
+                    title: "Fehler",
+                    description: "Maße konnten nicht hinzugefügt werden.",
+                    variant: "destructive",
+                  });
+                }
+              }}
+              variant="secondary"
+              className="!px-3 !py-1.5 !text-sm !font-medium"
+            />
           </div>
-        )}
+        ) : null}
 
         {/* Notes */}
         {item.notes && (

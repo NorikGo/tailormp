@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { checkoutSchema } from '@/app/lib/validations';
 import { createCheckoutSession } from '@/app/lib/stripe/checkout';
 import prisma from '@/app/lib/prisma';
+import { getAuthenticatedUser } from '@/app/lib/auth-helpers';
 
 /**
  * POST /api/checkout
@@ -30,10 +31,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // TODO: Get userId from session/auth
-    // Für jetzt verwenden wir einen Dummy-User
-    // In Phase 2 haben wir Auth implementiert, hier müssen wir die Session auslesen
-    const userId = req.headers.get('x-user-id') || 'dummy-user-id';
+    // Get authenticated user
+    const user = await getAuthenticatedUser();
+    if (!user) {
+      return NextResponse.json(
+        { error: 'Unauthorized - Bitte einloggen' },
+        { status: 401 }
+      );
+    }
+    const userId = user.id;
 
     // Falls MeasurementSession angegeben, prüfe ob sie existiert
     if (validatedData.measurementSessionId) {

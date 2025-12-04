@@ -51,7 +51,7 @@ export function TailorFilters() {
   const [showFilters, setShowFilters] = useState(false);
   const [searchQuery, setSearchQuery] = useState(searchParams.get("search") || "");
   const [country, setCountry] = useState(searchParams.get("country") || "all");
-  const [minRating, setMinRating] = useState(searchParams.get("minRating") || "");
+  const [minRating, setMinRating] = useState(searchParams.get("minRating") || "all");
   const [verifiedOnly, setVerifiedOnly] = useState(searchParams.get("verified") === "true");
   const [selectedSpecialties, setSelectedSpecialties] = useState<string[]>(
     searchParams.get("specialties")?.split(",").filter(Boolean) || []
@@ -63,7 +63,7 @@ export function TailorFilters() {
 
     if (searchQuery.trim()) params.set("search", searchQuery.trim());
     if (country && country !== "all") params.set("country", country);
-    if (minRating) params.set("minRating", minRating);
+    if (minRating && minRating !== "all") params.set("minRating", minRating);
     if (verifiedOnly) params.set("verified", "true");
     if (selectedSpecialties.length > 0) params.set("specialties", selectedSpecialties.join(","));
     if (sortBy) params.set("sort", sortBy);
@@ -74,7 +74,7 @@ export function TailorFilters() {
   const clearFilters = () => {
     setSearchQuery("");
     setCountry("all");
-    setMinRating("");
+    setMinRating("all");
     setVerifiedOnly(false);
     setSelectedSpecialties([]);
     setSortBy("rating_desc");
@@ -84,7 +84,7 @@ export function TailorFilters() {
   const hasActiveFilters =
     searchQuery.trim() !== "" ||
     (country && country !== "all") ||
-    minRating !== "" ||
+    (minRating && minRating !== "all") ||
     verifiedOnly ||
     selectedSpecialties.length > 0 ||
     sortBy !== "rating_desc";
@@ -193,7 +193,7 @@ export function TailorFilters() {
                       <SelectValue placeholder="Bewertung wählen" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">Alle</SelectItem>
+                      <SelectItem value="all">Alle</SelectItem>
                       <SelectItem value="4.5">4.5+ Sterne</SelectItem>
                       <SelectItem value="4.0">4.0+ Sterne</SelectItem>
                       <SelectItem value="3.5">3.5+ Sterne</SelectItem>

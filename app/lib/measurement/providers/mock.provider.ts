@@ -32,9 +32,15 @@ export class MockProvider implements MeasurementProvider {
     // Externe Mock Session ID (simuliert 3DLOOK Session ID)
     const externalId = `mock_${Date.now()}_${Math.random()
       .toString(36)
-      .substr(2, 9)}`;
+      .substring(2, 11)}`;
 
-    // Erstelle Session in DB
+    // Generiere temporary ID für Mobile URL
+    const tempId = `temp_${Date.now()}`;
+    const baseUrl =
+      process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
+    const mobileUrl = `${baseUrl}/measurement/mock/${tempId}`;
+
+    // Erstelle Session in DB mit mobileUrl
     const session = await prisma.measurementSession.create({
       data: {
         userId,
@@ -43,6 +49,7 @@ export class MockProvider implements MeasurementProvider {
         externalId,
         status: 'pending',
         expiresAt,
+        mobileUrl,
         metadata: {
           createdBy: 'MockProvider',
           version: '1.0',
@@ -50,13 +57,11 @@ export class MockProvider implements MeasurementProvider {
       },
     });
 
-    // Generiere Mobile URL
-    const mobileUrl = await this.getMobileUrl(session.id);
-
-    // Update mit Mobile URL
+    // Update mit korrekter Mobile URL (jetzt haben wir die echte ID)
+    const correctMobileUrl = `${baseUrl}/measurement/mock/${session.id}`;
     const updatedSession = await prisma.measurementSession.update({
       where: { id: session.id },
-      data: { mobileUrl },
+      data: { mobileUrl: correctMobileUrl },
     });
 
     return this.mapToSession(updatedSession);

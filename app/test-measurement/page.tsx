@@ -1,6 +1,7 @@
 'use client';
 
 import { MeasurementButton } from '@/app/components/measurement';
+import { useAuth } from '@/app/hooks/useAuth';
 
 /**
  * Demo Test Page für Measurement Provider
@@ -13,8 +14,31 @@ import { MeasurementButton } from '@/app/components/measurement';
  * 5. Teste den kompletten Flow
  */
 export default function TestMeasurementPage() {
-  // Dummy User ID für Testing
-  const testUserId = 'test-user-123';
+  const { user } = useAuth();
+
+  // Falls nicht eingeloggt, zeige Login-Hinweis
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-12 px-4 flex items-center justify-center">
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">
+            Login erforderlich
+          </h2>
+          <p className="text-gray-600 mb-6">
+            Du musst eingeloggt sein, um den Measurement-Provider zu testen.
+          </p>
+          <a
+            href="/auth/login"
+            className="block w-full bg-blue-600 text-white text-center py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+          >
+            Zum Login
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  const testUserId = user.id;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-12 px-4">

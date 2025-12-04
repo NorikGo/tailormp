@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,21 +12,45 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { CartIcon } from "@/app/components/cart/CartIcon";
 
 export default function Header() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading, isCustomer, isTailor } = useAuth();
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
 
-  const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/tailors", label: "Schneider" },
-    { href: "/products", label: "Produkte" },
-    { href: "/about", label: "Über uns" },
-  ];
+  // Prevent hydration mismatch by only rendering auth UI after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Debug: Log user state changes
+  useEffect(() => {
+    console.log("Header: user state changed:", { user: user?.email, loading, role: user?.role });
+  }, [user, loading]);
+
+  // Navigation links based on user role
+  const getNavLinks = () => {
+    if (isTailor) {
+      return [
+        { href: "/tailor/dashboard", label: "Dashboard" },
+        { href: "/tailor/products", label: "Produkte" },
+        { href: "/tailor/orders", label: "Bestellungen" },
+        { href: "/tailor/analytics", label: "Analytics" },
+      ];
+    }
+    return [
+      { href: "/", label: "Home" },
+      { href: "/tailors", label: "Schneider" },
+      { href: "/products", label: "Produkte" },
+      { href: "/about", label: "Über uns" },
+    ];
+  };
+
+  const navLinks = getNavLinks();
 
   const handleLogout = async () => {
     try {
@@ -41,7 +66,7 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Mobile Menu */}
-          <MobileNav isAuthenticated={!!user} />
+          {mounted && <MobileNav isAuthenticated={!!user} />}
 
           {/* Logo */}
           <Link href="/" className="text-2xl font-bold text-slate-900 hover:text-slate-700 transition-colors">
@@ -63,8 +88,8 @@ export default function Header() {
 
           {/* Desktop Auth Section */}
           <div className="hidden md:flex items-center gap-3">
-            {user && <CartIcon />}
-            {user ? (
+            {mounted && !loading && isCustomer && <CartIcon />}
+            {mounted && !loading && (user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="gap-2">
@@ -73,18 +98,52 @@ export default function Header() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuLabel>Mein Konto</DropdownMenuLabel>
+                  <DropdownMenuLabel>
+                    {isTailor ? "Schneider-Konto" : "Mein Konto"}
+                  </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link href="/dashboard" className="cursor-pointer">
-                      Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem asChild>
-                    <Link href="/profile" className="cursor-pointer">
+                    <Link
+                      href={isTailor ? "/tailor/profile/edit" : "/profile"}
+                      className="cursor-pointer"
+                    >
                       Profil
                     </Link>
                   </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link
+                      href={isTailor ? "/tailor/dashboard" : "/dashboard"}
+                      className="cursor-pointer"
+                    >
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  {isCustomer && (
+                    <DropdownMenuItem asChild>
+                      <Link href="/orders" className="cursor-pointer">
+                        Meine Bestellungen
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  {isTailor && (
+                    <>
+                      <DropdownMenuItem asChild>
+                        <Link href="/tailor/products" className="cursor-pointer">
+                          Meine Produkte
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/tailor/orders" className="cursor-pointer">
+                          Bestellungen
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
+                        <Link href="/tailor/analytics" className="cursor-pointer">
+                          Analytics
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
                     <LogOut size={16} className="mr-2" />
@@ -101,7 +160,7 @@ export default function Header() {
                   <Link href="/register">Registrieren</Link>
                 </Button>
               </>
-            )}
+            ))}
           </div>
         </div>
       </div>

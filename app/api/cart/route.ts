@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/app/lib/supabase/server";
-import { prisma } from "@/app/lib/prisma";
+import { getAuthenticatedUser } from "@/app/lib/auth-helpers";
+import prisma from "@/app/lib/prisma";
 import { z } from "zod";
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -9,14 +9,10 @@ import { z } from "zod";
 
 export async function GET(request: NextRequest) {
   try {
-    // Auth check
-    const supabase = await createClient();
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
+    // Auth check and ensure user exists in Prisma
+    const user = await getAuthenticatedUser();
 
-    if (authError || !user) {
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -115,8 +111,15 @@ export async function GET(request: NextRequest) {
     );
   } catch (error) {
     console.error("GET /api/cart error:", error);
+    console.error("Error details:", error instanceof Error ? error.message : String(error));
+    if (error instanceof Error && error.stack) {
+      console.error("Stack trace:", error.stack);
+    }
     return NextResponse.json(
-      { error: "Failed to fetch cart" },
+      {
+        error: "Failed to fetch cart",
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }
@@ -127,22 +130,18 @@ export async function GET(request: NextRequest) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 const addToCartSchema = z.object({
-  productId: z.string().cuid(),
-  measurementSessionId: z.string().cuid().optional(),
+  productId: z.string().min(1, "Product ID is required"),
+  measurementSessionId: z.string().min(1).optional(),
   quantity: z.number().int().min(1).max(10).default(1),
   notes: z.string().max(500).optional(),
 });
 
 export async function POST(request: NextRequest) {
   try {
-    // Auth check
-    const supabase = await createClient();
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
+    // Auth check and ensure user exists in Prisma
+    const user = await getAuthenticatedUser();
 
-    if (authError || !user) {
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -255,7 +254,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Invalid request data", details: error.errors },
+        { error: "Invalid request data", details: error.issues },
         { status: 400 }
       );
     }

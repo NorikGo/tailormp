@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/app/lib/supabase/server';
+import { createClient } from '@/utils/supabase/server';
 import prisma from '@/app/lib/prisma';
 
 /**
@@ -33,10 +33,10 @@ export async function GET(req: NextRequest) {
     // Check if user is a tailor
     const tailorProfile = await prisma.user.findUnique({
       where: { id: userId },
-      include: { tailorProfile: true },
+      include: { tailor: true },
     });
 
-    if (tailorProfile?.tailorProfile) {
+    if (tailorProfile?.tailor) {
       // Tailors sehen Bestellungen für ihre Produkte
       const orders = await prisma.order.findMany({
         where: {
@@ -88,12 +88,8 @@ export async function GET(req: NextRequest) {
                   tailor: {
                     select: {
                       id: true,
-                      email: true,
-                      tailorProfile: {
-                        select: {
-                          businessName: true,
-                        },
-                      },
+                      name: true,
+                      businessName: true,
                     },
                   },
                 },

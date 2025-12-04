@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
 
     // Fetch tailors with filters
     const [tailors, total] = await Promise.all([
-      prisma.tailorProfile.findMany({
+      prisma.tailor.findMany({
         where,
         orderBy: {
           rating: "desc",
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
         take: limit,
         select: {
           id: true,
-          userId: true,
+          user_id: true,
           name: true,
           bio: true,
           country: true,
@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
           isVerified: true,
         },
       }),
-      prisma.tailorProfile.count({ where }),
+      prisma.tailor.count({ where }),
     ]);
 
     return NextResponse.json(

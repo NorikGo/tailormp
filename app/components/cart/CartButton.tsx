@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/app/hooks/useCart";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/app/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 
 // ═══════════════════════════════════════════════════════════════════════════
