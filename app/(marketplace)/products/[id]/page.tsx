@@ -145,7 +145,7 @@ export default function ProductDetailPage() {
 
           {/* Product Title */}
           <h1 className="text-4xl font-bold text-slate-900 mb-4">
-            {product.name}
+            {(product as any).title || product.name}
           </h1>
 
           {/* Tailor Info */}
@@ -215,7 +215,7 @@ export default function ProductDetailPage() {
           <div className="flex flex-col sm:flex-row gap-3">
             <CartButton
               productId={id}
-              productTitle={product.name}
+              productTitle={(product as any).title || product.name}
               size="lg"
               className="flex-1"
             />

@@ -16,7 +16,7 @@ export default function TailorCard({ tailor }: TailorCardProps) {
   };
 
   return (
-    <Card className="h-full flex flex-col hover:shadow-lg transition-shadow">
+    <Card data-testid="tailor-card" className="h-full flex flex-col hover:shadow-lg transition-shadow">
       <CardContent className="p-6 flex-1">
         <div className="flex items-start gap-4 mb-4">
           {/* Avatar */}
@@ -45,7 +45,7 @@ export default function TailorCard({ tailor }: TailorCardProps) {
 
         {/* Rating and Orders */}
         <div className="flex items-center gap-4 mb-3 text-sm">
-          <div className="flex items-center gap-1">
+          <div data-testid="rating" className="flex items-center gap-1">
             <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
             <span className="font-medium">{tailor.rating.toFixed(1)}</span>
           </div>

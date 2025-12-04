@@ -3,8 +3,17 @@ import { createClient } from "@/utils/supabase/server";
 import { prisma } from "@/app/lib/prisma";
 import { registerSchema } from "@/app/lib/validations";
 import { ZodError } from "zod";
+import { sendWelcomeEmail } from "@/app/lib/email";
+import { checkRateLimitForRequest } from "@/app/lib/middleware/rateLimitMiddleware";
+import { RATE_LIMITS } from "@/app/lib/rateLimit";
 
 export async function POST(request: NextRequest) {
+  // Check rate limit (3 requests per hour)
+  const rateLimitResponse = checkRateLimitForRequest(request, RATE_LIMITS.REGISTER);
+  if (rateLimitResponse) {
+    return rateLimitResponse;
+  }
+
   try {
     // Parse request body
     const body = await request.json();
@@ -80,6 +89,15 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    // Send welcome email (don't await - fire and forget)
+    sendWelcomeEmail({
+      userEmail: validatedData.email,
+      userName: validatedData.email.split("@")[0],
+    }).catch((error) => {
+      console.error("Failed to send welcome email:", error);
+      // Don't fail registration if email fails
+    });
 
     return NextResponse.json(
       {

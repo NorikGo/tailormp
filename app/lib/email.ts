@@ -36,7 +36,7 @@ export async function sendOrderConfirmation(data: OrderConfirmationData) {
     await resend.emails.send({
       from: "TailorMarket <noreply@tailormarket.com>",
       to: customerEmail,
-      subject: `Bestellbestätigung - Bestellung #${orderId.slice(0, 8)}`,
+      subject: `Bestellbestï¿½tigung - Bestellung #${orderId.slice(0, 8)}`,
       html: `
         <!DOCTYPE html>
         <html>
@@ -54,7 +54,7 @@ export async function sendOrderConfirmation(data: OrderConfirmationData) {
         <body>
           <div class="container">
             <div class="header">
-              <h1>Vielen Dank für Ihre Bestellung!</h1>
+              <h1>Vielen Dank fï¿½r Ihre Bestellung!</h1>
             </div>
             <div class="content">
               <p>Hallo ${customerName},</p>
@@ -66,12 +66,12 @@ export async function sendOrderConfirmation(data: OrderConfirmationData) {
               ${items.map(item => `
                 <div class="order-item">
                   <strong>${item.title}</strong><br>
-                  Menge: ${item.quantity} × ¬${item.price.toFixed(2)} = ¬${(item.quantity * item.price).toFixed(2)}
+                  Menge: ${item.quantity} ï¿½ ï¿½${item.price.toFixed(2)} = ï¿½${(item.quantity * item.price).toFixed(2)}
                 </div>
               `).join('')}
 
               <div class="total">
-                Gesamtbetrag: ¬${totalAmount.toFixed(2)}
+                Gesamtbetrag: ï¿½${totalAmount.toFixed(2)}
               </div>
 
               <h3>Lieferadresse:</h3>
@@ -85,7 +85,7 @@ export async function sendOrderConfirmation(data: OrderConfirmationData) {
               <p>Sie erhalten eine weitere E-Mail, sobald Ihre Bestellung versendet wurde.</p>
             </div>
             <div class="footer">
-              <p>© ${new Date().getFullYear()} TailorMarket. Alle Rechte vorbehalten.</p>
+              <p>ï¿½ ${new Date().getFullYear()} TailorMarket. Alle Rechte vorbehalten.</p>
             </div>
           </div>
         </body>
@@ -100,13 +100,91 @@ export async function sendOrderConfirmation(data: OrderConfirmationData) {
   }
 }
 
+interface WelcomeEmailData {
+  userEmail: string;
+  userName: string;
+}
+
+export async function sendWelcomeEmail(data: WelcomeEmailData) {
+  try {
+    const { userEmail, userName } = data;
+
+    await resend.emails.send({
+      from: "TailorMarket <noreply@tailormarket.com>",
+      to: userEmail,
+      subject: "Willkommen bei TailorMarket!",
+      html: `
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <style>
+            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+            .header { background: #1e293b; color: white; padding: 30px 20px; text-align: center; }
+            .content { padding: 30px 20px; background: #f8fafc; }
+            .cta-button { display: inline-block; padding: 12px 30px; background: #1e293b; color: white; text-decoration: none; border-radius: 5px; margin: 20px 0; }
+            .features { margin: 20px 0; }
+            .feature-item { padding: 15px; margin: 10px 0; background: white; border-left: 4px solid #1e293b; }
+            .footer { text-align: center; padding: 20px; font-size: 12px; color: #64748b; }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>ğŸ‰ Willkommen bei TailorMarket!</h1>
+            </div>
+            <div class="content">
+              <p>Hallo ${userName},</p>
+              <p>Vielen Dank fÃ¼r Ihre Registrierung bei TailorMarket - Ihrem Marktplatz fÃ¼r maÃŸgeschneiderte Mode!</p>
+
+              <div class="features">
+                <div class="feature-item">
+                  <strong>ğŸ‘” MaÃŸgeschneiderte AnzÃ¼ge</strong><br>
+                  Entdecken Sie hunderte von Schneidern und finden Sie den perfekten Anzug fÃ¼r jeden Anlass.
+                </div>
+                <div class="feature-item">
+                  <strong>ğŸ“ PrÃ¤zise MaÃŸanfertigung</strong><br>
+                  Geben Sie Ihre MaÃŸe ein oder nutzen Sie unseren digitalen Messassistenten.
+                </div>
+                <div class="feature-item">
+                  <strong>â­ Verifizierte Schneider</strong><br>
+                  Alle unsere Schneider sind geprÃ¼ft und haben Erfahrung in der MaÃŸanfertigung.
+                </div>
+              </div>
+
+              <p style="text-align: center;">
+                <a href="http://localhost:3000/products" class="cta-button">Jetzt Produkte entdecken</a>
+              </p>
+
+              <p>Bei Fragen stehen wir Ihnen jederzeit zur VerfÃ¼gung!</p>
+
+              <p>Viel Erfolg bei Ihrer Suche nach dem perfekten Anzug!</p>
+              <p>Ihr TailorMarket Team</p>
+            </div>
+            <div class="footer">
+              <p>Â© ${new Date().getFullYear()} TailorMarket. Alle Rechte vorbehalten.</p>
+              <p>Diese E-Mail wurde an ${userEmail} gesendet.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    });
+
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to send welcome email:", error);
+    return { success: false, error };
+  }
+}
+
 export async function sendOrderStatusUpdate(data: OrderStatusUpdateData) {
   try {
     const { orderId, customerEmail, customerName, status, trackingNumber } = data;
 
     const statusMessages: Record<string, { title: string; message: string }> = {
       paid: {
-        title: "Zahlung bestätigt",
+        title: "Zahlung bestï¿½tigt",
         message: "Ihre Zahlung wurde erfolgreich verarbeitet.",
       },
       processing: {
@@ -125,7 +203,7 @@ export async function sendOrderStatusUpdate(data: OrderStatusUpdateData) {
 
     const statusInfo = statusMessages[status] || {
       title: "Status-Update",
-      message: "Der Status Ihrer Bestellung hat sich geändert.",
+      message: "Der Status Ihrer Bestellung hat sich geï¿½ndert.",
     };
 
     await resend.emails.send({
@@ -161,10 +239,10 @@ export async function sendOrderStatusUpdate(data: OrderStatusUpdateData) {
                 <p><strong>Tracking-Nummer:</strong> ${trackingNumber}</p>
               ` : ''}
 
-              <p>Sie können den Status Ihrer Bestellung jederzeit in Ihrem Dashboard überprüfen.</p>
+              <p>Sie kï¿½nnen den Status Ihrer Bestellung jederzeit in Ihrem Dashboard ï¿½berprï¿½fen.</p>
             </div>
             <div class="footer">
-              <p>© ${new Date().getFullYear()} TailorMarket. Alle Rechte vorbehalten.</p>
+              <p>ï¿½ ${new Date().getFullYear()} TailorMarket. Alle Rechte vorbehalten.</p>
             </div>
           </div>
         </body>

@@ -3,8 +3,16 @@ import { createClient } from "@/utils/supabase/server";
 import { loginSchema } from "@/app/lib/validations";
 import { ZodError } from "zod";
 import { prisma } from "@/app/lib/prisma";
+import { checkRateLimitForRequest } from "@/app/lib/middleware/rateLimitMiddleware";
+import { RATE_LIMITS } from "@/app/lib/rateLimit";
 
 export async function POST(request: NextRequest) {
+  // Check rate limit (5 requests per 15 minutes)
+  const rateLimitResponse = checkRateLimitForRequest(request, RATE_LIMITS.LOGIN);
+  if (rateLimitResponse) {
+    return rateLimitResponse;
+  }
+
   try {
     // Parse request body
     const body = await request.json();

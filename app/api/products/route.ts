@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
+import { checkRateLimitForRequest } from "@/app/lib/middleware/rateLimitMiddleware";
+import { RATE_LIMITS } from "@/app/lib/rateLimit";
 
 // Enable caching for 60 seconds (revalidate every minute)
 export const revalidate = 60;
 
 export async function GET(request: NextRequest) {
+  // Check rate limit for anonymous users (10 requests per minute)
+  const rateLimitResponse = checkRateLimitForRequest(request, RATE_LIMITS.API_ANONYMOUS);
+  if (rateLimitResponse) {
+    return rateLimitResponse;
+  }
+
   try {
     const searchParams = request.nextUrl.searchParams;
 

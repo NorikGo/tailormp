@@ -15,7 +15,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const tailor = dummyTailors.find((t) => t.id === product.tailorId);
 
   return (
-    <Card className="h-full flex flex-col hover:shadow-lg transition-shadow">
+    <Card data-testid="product-card" className="h-full flex flex-col hover:shadow-lg transition-shadow">
       <CardContent className="p-0">
         {/* Image Placeholder */}
         <div className="relative w-full aspect-[4/3] bg-slate-100 flex items-center justify-center overflow-hidden">
@@ -60,7 +60,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
 
           {/* Price */}
-          <div className="text-2xl font-bold text-slate-900">
+          <div data-testid="product-price" className="text-2xl font-bold text-slate-900">
             €{product.price}
           </div>
         </div>
