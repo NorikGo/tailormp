@@ -28,7 +28,7 @@ export class ManualProvider implements MeasurementProvider {
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + 7);
 
-    // Erstelle Session in DB
+    // Erstelle Session in DB mit temporärer URL
     const session = await prisma.measurementSession.create({
       data: {
         userId,
@@ -36,6 +36,7 @@ export class ManualProvider implements MeasurementProvider {
         provider: this.name,
         status: 'pending',
         expiresAt,
+        mobileUrl: 'temp', // Temporarily set
         metadata: {
           createdBy: 'ManualProvider',
           version: '1.0',
@@ -43,10 +44,10 @@ export class ManualProvider implements MeasurementProvider {
       },
     });
 
-    // Generiere Mobile URL (auch wenn nicht für QR-Code genutzt)
+    // Generiere Mobile URL mit richtiger Session ID
     const mobileUrl = await this.getMobileUrl(session.id);
 
-    // Update mit Mobile URL
+    // Update mit richtiger Mobile URL
     const updatedSession = await prisma.measurementSession.update({
       where: { id: session.id },
       data: { mobileUrl },

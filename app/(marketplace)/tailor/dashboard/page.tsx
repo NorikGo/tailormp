@@ -85,7 +85,7 @@ export default function TailorDashboard() {
               order.status === "processing"
           ).length || 0;
           const completedOrders = ordersData.orders?.filter(
-            (order: Order) => order.status === "completed" || order.status === "delivered"
+            (order: Order) => order.status === "completed" || order.status === "shipped"
           ).length || 0;
 
           setStats({

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/app/lib/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import prisma from "@/app/lib/prisma";
 import { z } from "zod";
 
@@ -90,7 +90,7 @@ export async function PATCH(
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Validation failed", details: error.errors },
+        { error: "Validation failed", details: error.issues },
         { status: 422 }
       );
     }

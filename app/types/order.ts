@@ -65,6 +65,9 @@ export interface Order {
 
   // Relations
   items: OrderItem[];
+  user?: {
+    email: string;
+  };
 }
 
 /**

@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/app/lib/supabase/server";
+import { createClient } from "@/utils/supabase/server";
 import { prisma } from "@/app/lib/prisma";
 import { z } from "zod";
 import Stripe from "stripe";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-11-20.acacia",
+  apiVersion: "2025-11-17.clover",
 });
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -188,7 +188,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Invalid shipping address", details: error.errors },
+        { error: "Invalid shipping address", details: error.issues },
         { status: 400 }
       );
     }

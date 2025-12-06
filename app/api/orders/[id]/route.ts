@@ -37,7 +37,6 @@ export async function GET(
                 tailor: true,
                 images: {
                   take: 1,
-                  orderBy: { displayOrder: "asc" },
                 },
               },
             },
@@ -51,7 +50,7 @@ export async function GET(
             lastName: true,
           },
         },
-        measurementSession: true,
+        measurementSessions: true,
       },
     });
 

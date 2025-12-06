@@ -30,7 +30,6 @@ export async function GET(req: NextRequest) {
         measurementSessions: {
           select: {
             id: true,
-            name: true,
           },
         },
       },

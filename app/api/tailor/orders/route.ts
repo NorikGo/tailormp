@@ -53,7 +53,6 @@ export async function GET(request: Request) {
             product: {
               select: {
                 title: true,
-                basePrice: true,
                 price: true,
               },
             },

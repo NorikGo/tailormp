@@ -18,7 +18,6 @@ async function main() {
       id: true,
       title: true,
       price: true,
-      basePrice: true,
     },
   });
 

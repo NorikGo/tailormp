@@ -10,7 +10,7 @@ export const registerSchema = z.object({
   email: z.string().email("Ungültige E-Mail-Adresse"),
   password: z.string().min(8, "Passwort muss mindestens 8 Zeichen lang sein"),
   role: z.enum(["customer", "tailor"], {
-    required_error: "Bitte wähle eine Rolle",
+    message: "Bitte wähle eine gültige Rolle (customer oder tailor)",
   }),
 });
 
@@ -33,10 +33,10 @@ export const shippingAddressSchema = z.object({
 
 export const checkoutSchema = z.object({
   productId: z.string().cuid('Ungültige Produkt-ID'),
-  quantity: z.number().int().min(1).max(10).default(1),
-  measurementSessionId: z.string().cuid().optional(),
   shippingAddress: shippingAddressSchema,
-  shippingMethod: z.enum(['standard', 'express']).default('standard'),
+  quantity: z.number().int().min(1).max(10),
+  shippingMethod: z.enum(['standard', 'express']),
+  measurementSessionId: z.string().cuid().optional(),
   customNotes: z.string().max(500).optional(),
   fabricChoice: z.string().max(200).optional(),
 });

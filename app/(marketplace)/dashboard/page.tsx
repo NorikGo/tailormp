@@ -77,7 +77,7 @@ export default function CustomerDashboard() {
             order.status === "processing"
         ).length;
         const completedOrders = data.orders.filter(
-          (order: Order) => order.status === "completed" || order.status === "delivered"
+          (order: Order) => order.status === "completed" || order.status === "shipped"
         ).length;
 
         setStats({

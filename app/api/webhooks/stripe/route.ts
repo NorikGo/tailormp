@@ -132,7 +132,7 @@ async function handleCartCheckout(session: Stripe.Checkout.Session) {
       const measurementSession = await prisma.measurementSession.findUnique({
         where: { id: item.measurementSessionId },
       });
-      measurements = measurementSession?.measurements;
+      measurements = measurementSession?.measurements ?? null;
     }
 
     // Calculate individual item platform fee
@@ -153,7 +153,7 @@ async function handleCartCheckout(session: Stripe.Checkout.Session) {
         shippingAddress,
         shippingMethod: 'standard',
         measurementSessionId: item.measurementSessionId,
-        measurements,
+        measurements: measurements as any,
         paidAt: new Date(),
         items: {
           create: [
@@ -264,7 +264,7 @@ async function handleSingleProductCheckout(session: Stripe.Checkout.Session) {
     const measurementSession = await prisma.measurementSession.findUnique({
       where: { id: measurementSessionId },
     });
-    measurements = measurementSession?.measurements;
+    measurements = measurementSession?.measurements ?? null;
   }
 
   const qty = parseInt(quantity);
@@ -285,7 +285,7 @@ async function handleSingleProductCheckout(session: Stripe.Checkout.Session) {
       shippingAddress,
       shippingMethod,
       measurementSessionId: measurementSessionId || null,
-      measurements,
+      measurements: measurements as any,
       paidAt: new Date(),
       items: {
         create: [

@@ -323,7 +323,7 @@ export default function CheckoutPage() {
                 <CardContent className="space-y-4">
                   {/* Product Info */}
                   <div className="pb-4 border-b border-slate-200">
-                    <p className="font-medium text-slate-900">{product.title}</p>
+                    <p className="font-medium text-slate-900">{product.name}</p>
                     <p className="text-sm text-slate-600 mt-1">
                       Menge: {quantity}
                     </p>
