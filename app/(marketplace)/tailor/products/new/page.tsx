@@ -4,14 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowLeft, Loader2, Save, Image as ImageIcon } from "lucide-react";
+import { ArrowLeft, Loader2, Save } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { ImageUpload } from "@/components/tailor/ImageUpload";
+import ImageUpload from "@/components/shared/ImageUpload";
 import { productSchema, type ProductInput } from "@/app/lib/validations";
 import { getSimpleAuthHeaders } from "@/app/lib/auth/client-helpers";
 
@@ -20,9 +20,7 @@ export default function ProductCreatePage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [uploadedImages, setUploadedImages] = useState<
-    { url: string; fileName: string; position: number }[]
-  >([]);
+  const [productImages, setProductImages] = useState<string[]>([]);
 
   const {
     register,
@@ -47,7 +45,10 @@ export default function ProductCreatePage() {
           ...authHeaders,
           "x-user-role": "tailor",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          imageUrls: productImages,
+        }),
       });
 
       if (!response.ok) {
@@ -56,30 +57,6 @@ export default function ProductCreatePage() {
       }
 
       const result = await response.json();
-      const productId = result.product.id;
-
-      // Upload images to the created product
-      if (uploadedImages.length > 0) {
-        for (const image of uploadedImages) {
-          const formData = new FormData();
-          const imageResponse = await fetch(image.url);
-          const blob = await imageResponse.blob();
-          formData.append("file", blob);
-          formData.append("productId", productId);
-          formData.append("position", image.position.toString());
-
-          const authHeaders = await getSimpleAuthHeaders();
-          await fetch("/api/upload/product-image", {
-            method: "POST",
-            headers: {
-              ...authHeaders,
-              "x-user-role": "tailor",
-            },
-            body: formData,
-          });
-        }
-      }
-
       setSuccessMessage(result.message || "Produkt erfolgreich erstellt!");
 
       // Redirect to product management page
@@ -94,20 +71,6 @@ export default function ProductCreatePage() {
     }
   };
 
-  const handleImageUpload = (url: string, fileName: string) => {
-    setUploadedImages((prev) => [
-      ...prev,
-      { url, fileName, position: prev.length },
-    ]);
-  };
-
-  const handleImageError = (error: string) => {
-    setError(error);
-  };
-
-  const removeImage = (index: number) => {
-    setUploadedImages((prev) => prev.filter((_, i) => i !== index));
-  };
 
   return (
     <div className="container mx-auto px-4 py-12">
@@ -213,45 +176,13 @@ export default function ProductCreatePage() {
               <CardHeader>
                 <CardTitle>Produktbilder</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {uploadedImages.length < 5 && (
-                  <ImageUpload
-                    onUploadSuccess={handleImageUpload}
-                    onUploadError={handleImageError}
-                    position={uploadedImages.length}
-                    maxSize={5}
-                  />
-                )}
-
-                {uploadedImages.length > 0 && (
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                    {uploadedImages.map((image, index) => (
-                      <div key={index} className="relative group">
-                        <img
-                          src={image.url}
-                          alt={`Bild ${index + 1}`}
-                          className="w-full h-32 object-cover rounded-lg border"
-                        />
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="icon"
-                          className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity"
-                          onClick={() => removeImage(index)}
-                        >
-                          <ImageIcon className="w-4 h-4" />
-                        </Button>
-                        <div className="absolute bottom-2 left-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                          {index === 0 ? "Hauptbild" : `Bild ${index + 1}`}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                <p className="text-xs text-slate-500">
-                  {uploadedImages.length}/5 Bilder hochgeladen
-                </p>
+              <CardContent>
+                <ImageUpload
+                  bucket="products"
+                  currentImages={productImages}
+                  maxImages={5}
+                  onUploadComplete={setProductImages}
+                />
               </CardContent>
             </Card>
 

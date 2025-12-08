@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     // Validate input
     const validatedData = productSchema.parse(body);
 
-    // Create product
+    // Create product with images
     const product = await prisma.product.create({
       data: {
         tailorId: tailor.id,
@@ -46,6 +46,19 @@ export async function POST(req: NextRequest) {
         description: validatedData.description,
         price: validatedData.price,
         category: validatedData.category,
+        images: validatedData.imageUrls?.length
+          ? {
+              create: validatedData.imageUrls.map((url, index) => ({
+                url,
+                position: index,
+              })),
+            }
+          : undefined,
+      },
+      include: {
+        images: {
+          orderBy: { position: 'asc' },
+        },
       },
     });
 

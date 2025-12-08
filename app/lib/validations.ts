@@ -80,6 +80,7 @@ export const productSchema = z.object({
   description: z.string().max(2000).optional(),
   price: z.number().positive('Preis muss positiv sein').min(1).max(100000),
   category: z.string().max(100).optional(),
+  imageUrls: z.array(z.string().url()).max(5).optional(),
 });
 
 export const updateProductSchema = productSchema.partial();
