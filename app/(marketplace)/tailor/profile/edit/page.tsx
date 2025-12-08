@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { tailorProfileSchema, type TailorProfileInput } from "@/app/lib/validations";
 import { getSimpleAuthHeaders } from "@/app/lib/auth/client-helpers";
+import ImageUpload from "@/components/shared/ImageUpload";
 
 export default function TailorProfileEditPage() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function TailorProfileEditPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [portfolioImages, setPortfolioImages] = useState<string[]>([]);
 
   const {
     register,
@@ -63,6 +65,7 @@ export default function TailorProfileEditPage() {
           setValue("yearsExperience", tailor.yearsExperience || undefined);
           setValue("phone", tailor.phone || "");
           setValue("website", tailor.website || "");
+          setPortfolioImages(tailor.portfolioImages || []);
         }
       } catch (err: any) {
         // console.error("Error fetching profile:", err);
@@ -88,7 +91,10 @@ export default function TailorProfileEditPage() {
           ...authHeaders,
           "x-user-role": "tailor",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          portfolioImages,
+        }),
       });
 
       if (!response.ok) {
@@ -316,6 +322,24 @@ export default function TailorProfileEditPage() {
                     </p>
                   )}
                 </div>
+              </CardContent>
+            </Card>
+
+            {/* Portfolio */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Portfolio</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ImageUpload
+                  bucket="portfolios"
+                  currentImages={portfolioImages}
+                  maxImages={10}
+                  onUploadComplete={setPortfolioImages}
+                />
+                <p className="text-sm text-slate-500 mt-2">
+                  Zeige deine besten Arbeiten. Max. 10 Bilder.
+                </p>
               </CardContent>
             </Card>
 

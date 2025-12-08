@@ -69,6 +69,7 @@ export const tailorProfileSchema = z.object({
   yearsExperience: z.number().int().min(0).max(70).optional(),
   phone: z.string().max(50).optional(),
   website: z.string().url('Ungültige URL').optional().or(z.literal('')),
+  portfolioImages: z.array(z.string().url()).max(10).optional(),
 });
 
 // ───────────────────────────────────────────

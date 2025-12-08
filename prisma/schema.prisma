@@ -110,6 +110,9 @@ model Tailor {
   phone           String?
   website         String?
 
+  // Portfolio
+  portfolioImages String[] @default([]) // Supabase public URLs
+
   // Stripe Integration (für Zahlungen)
   stripeAccountId         String?  // Stripe Connect Account ID
   stripeOnboardingComplete Boolean @default(false)
