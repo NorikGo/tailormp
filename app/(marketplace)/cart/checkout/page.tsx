@@ -112,7 +112,7 @@ export default function CheckoutPage() {
         throw new Error("Keine Checkout-URL erhalten");
       }
     } catch (error) {
-      console.error("Checkout error:", error);
+      // console.error("Checkout error:", error);
 
       toast({
         title: "Checkout-Fehler",

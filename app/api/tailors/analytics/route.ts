@@ -181,7 +181,7 @@ export async function GET(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Analytics fetch error:", error);
+    // console.error("Analytics fetch error:", error);
     return NextResponse.json(
       { error: "Failed to fetch analytics" },
       { status: 500 }

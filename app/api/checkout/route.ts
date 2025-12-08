@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
       url: session.url,
     });
   } catch (error) {
-    console.error('Checkout error:', error);
+    // console.error('Checkout error:', error);
 
     if (error instanceof Error && error.name === 'ZodError') {
       return NextResponse.json(

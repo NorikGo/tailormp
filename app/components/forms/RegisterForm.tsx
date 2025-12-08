@@ -54,7 +54,7 @@ export default function RegisterForm() {
 
       setSuccess(true);
     } catch (err: any) {
-      console.error("Register error:", err);
+      // console.error("Register error:", err);
       setError(err.message || "Registrierung fehlgeschlagen. Bitte versuche es erneut.");
     } finally {
       setIsLoading(false);

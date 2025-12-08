@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
       });
 
     if (uploadError) {
-      console.error('Supabase upload error:', uploadError);
+      // console.error('Supabase upload error:', uploadError);
       return NextResponse.json(
         { error: 'Failed to upload image' },
         { status: 500 }
@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
       productImage,
     });
   } catch (error) {
-    console.error('Error uploading image:', error);
+    // console.error('Error uploading image:', error);
     return NextResponse.json(
       { error: 'Failed to upload image' },
       { status: 500 }
@@ -208,7 +208,7 @@ export async function DELETE(req: NextRequest) {
       .remove([fileName]);
 
     if (deleteError) {
-      console.error('Supabase delete error:', deleteError);
+      // console.error('Supabase delete error:', deleteError);
       return NextResponse.json(
         { error: 'Failed to delete image from storage' },
         { status: 500 }
@@ -220,7 +220,7 @@ export async function DELETE(req: NextRequest) {
       message: 'Image deleted successfully',
     });
   } catch (error) {
-    console.error('Error deleting image:', error);
+    // console.error('Error deleting image:', error);
     return NextResponse.json(
       { error: 'Failed to delete image' },
       { status: 500 }

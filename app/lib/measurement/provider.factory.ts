@@ -33,9 +33,7 @@ export function getMeasurementProvider(): MeasurementProvider {
     //   });
 
     default:
-      console.warn(
-        `Unknown measurement provider: ${providerName}, falling back to mock`
-      );
+      // console.warn(`Unknown measurement provider: ${providerName}, falling back to mock`);
       return new MockProvider();
   }
 }

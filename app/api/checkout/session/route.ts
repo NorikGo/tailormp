@@ -50,7 +50,7 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error retrieving checkout session:', error);
+    // console.error('Error retrieving checkout session:', error);
     return NextResponse.json(
       { error: 'Failed to retrieve session' },
       { status: 500 }

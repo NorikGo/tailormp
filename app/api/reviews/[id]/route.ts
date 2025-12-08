@@ -95,7 +95,7 @@ export async function PATCH(
       );
     }
 
-    console.error("Error updating review:", error);
+    // console.error("Error updating review:", error);
     return NextResponse.json(
       { error: "Failed to update review" },
       { status: 500 }
@@ -167,7 +167,7 @@ export async function DELETE(
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error deleting review:", error);
+    // console.error("Error deleting review:", error);
     return NextResponse.json(
       { error: "Failed to delete review" },
       { status: 500 }

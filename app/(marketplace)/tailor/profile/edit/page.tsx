@@ -65,7 +65,7 @@ export default function TailorProfileEditPage() {
           setValue("website", tailor.website || "");
         }
       } catch (err: any) {
-        console.error("Error fetching profile:", err);
+        // console.error("Error fetching profile:", err);
       } finally {
         setLoading(false);
       }
@@ -105,7 +105,7 @@ export default function TailorProfileEditPage() {
         router.push("/tailor/orders"); // Redirect to dashboard
       }, 2000);
     } catch (err: any) {
-      console.error("Error updating profile:", err);
+      // console.error("Error updating profile:", err);
       setError(err.message || "Ein Fehler ist aufgetreten");
     } finally {
       setSubmitting(false);

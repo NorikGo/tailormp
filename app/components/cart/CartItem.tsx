@@ -52,7 +52,7 @@ export function CartItem({ item }: CartItemProps) {
         description: `Menge wurde auf ${newQuantity} geändert.`,
       });
     } catch (error) {
-      console.error("Update quantity error:", error);
+      // console.error("Update quantity error:", error);
 
       toast({
         title: "Fehler",
@@ -78,7 +78,7 @@ export function CartItem({ item }: CartItemProps) {
         description: `${item.product.title} wurde aus dem Warenkorb entfernt.`,
       });
     } catch (error) {
-      console.error("Remove from cart error:", error);
+      // console.error("Remove from cart error:", error);
 
       toast({
         title: "Fehler",
@@ -161,7 +161,7 @@ export function CartItem({ item }: CartItemProps) {
                     description: "Die Maße wurden erfolgreich zum Artikel hinzugefügt.",
                   });
                 } catch (error) {
-                  console.error("Failed to update cart item with measurements:", error);
+                  // console.error("Failed to update cart item with measurements:", error);
                   toast({
                     title: "Fehler",
                     description: "Maße konnten nicht hinzugefügt werden.",

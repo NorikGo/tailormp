@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("Create tailor profile error:", error);
+    // console.error("Create tailor profile error:", error);
     return NextResponse.json(
       { error: "Failed to create tailor profile" },
       { status: 500 }

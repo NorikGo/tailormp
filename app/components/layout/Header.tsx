@@ -29,7 +29,7 @@ export default function Header() {
 
   // Debug: Log user state changes
   useEffect(() => {
-    console.log("Header: user state changed:", { user: user?.email, loading, role: user?.role });
+    // console.log("Header: user state changed:", { user: user?.email, loading, role: user?.role });
   }, [user, loading]);
 
   // Navigation links based on user role
@@ -57,7 +57,7 @@ export default function Header() {
       await logout();
       router.push("/");
     } catch (error) {
-      console.error("Logout error:", error);
+      // console.error("Logout error:", error);
     }
   };
 

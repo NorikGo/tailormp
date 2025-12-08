@@ -42,7 +42,7 @@ export async function GET(
       { status: 200 }
     );
   } catch (error) {
-    console.error("Tailor API error:", error);
+    // console.error("Tailor API error:", error);
     return NextResponse.json(
       { error: "Fehler beim Laden des Schneiders" },
       { status: 500 }

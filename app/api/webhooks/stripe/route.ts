@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
       process.env.STRIPE_WEBHOOK_SECRET!
     );
   } catch (err) {
-    console.error('Webhook signature verification failed:', err);
+    // console.error('Webhook signature verification failed:', err);
     return NextResponse.json(
       { error: 'Invalid signature' },
       { status: 400 }
@@ -60,12 +60,12 @@ export async function POST(req: NextRequest) {
         break;
 
       default:
-        console.log(`Unhandled event type: ${event.type}`);
+        // console.log(`Unhandled event type: ${event.type}`);
     }
 
     return NextResponse.json({ received: true });
   } catch (error) {
-    console.error('Webhook handler error:', error);
+    // console.error('Webhook handler error:', error);
     return NextResponse.json(
       { error: 'Webhook handler failed' },
       { status: 500 }
@@ -194,7 +194,7 @@ async function handleCartCheckout(session: Stripe.Checkout.Session) {
     });
   }
 
-  console.log(`Cart checkout completed: ${orders.length} orders created`);
+  // console.log(`Cart checkout completed: ${orders.length} orders created`);
 
   // Send Email Notifications
   // Fetch user data for email
@@ -316,7 +316,7 @@ async function handleSingleProductCheckout(session: Stripe.Checkout.Session) {
     });
   }
 
-  console.log('Order created:', order.id);
+  // console.log('Order created:', order.id);
 
   // TODO: Send Email Notifications
   // - Email an Kunden: Bestellbestätigung
@@ -353,7 +353,7 @@ async function handlePaymentIntentSucceeded(
 async function handlePaymentIntentFailed(
   paymentIntent: Stripe.PaymentIntent
 ) {
-  console.error('Payment failed:', paymentIntent.id);
+  // console.error('Payment failed:', paymentIntent.id);
 
   // Update Order status to cancelled
   const order = await prisma.order.findUnique({

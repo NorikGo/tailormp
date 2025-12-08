@@ -19,7 +19,7 @@ export default function AuthTestPage() {
       });
       if (error) throw error;
       setMessage("✅ Registrierung erfolgreich! Check deine E-Mails.");
-      console.log("SignUp:", data);
+      // console.log("SignUp:", data);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unbekannter Fehler";
@@ -37,7 +37,7 @@ export default function AuthTestPage() {
       if (error) throw error;
       setMessage("✅ Login erfolgreich!");
       setUser(data.user);
-      console.log("SignIn:", data);
+      // console.log("SignIn:", data);
     } catch (error) {
       const errorMessage =
         error instanceof Error ? error.message : "Unbekannter Fehler";
@@ -50,7 +50,7 @@ export default function AuthTestPage() {
     const { data } = await supabase.auth.getUser();
     setUser(data.user);
     setMessage(data.user ? "✅ User eingeloggt" : "❌ Kein User eingeloggt");
-    console.log("Current User:", data.user);
+    // console.log("Current User:", data.user);
   };
 
   // Logout

@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ tailor });
   } catch (error) {
-    console.error('Error fetching tailor profile:', error);
+    // console.error('Error fetching tailor profile:', error);
     return NextResponse.json(
       { error: 'Failed to fetch profile' },
       { status: 500 }
@@ -102,7 +102,7 @@ export async function PATCH(req: NextRequest) {
       );
     }
 
-    console.error('Error updating tailor profile:', error);
+    // console.error('Error updating tailor profile:', error);
     return NextResponse.json(
       { error: 'Failed to update profile' },
       { status: 500 }

@@ -24,7 +24,7 @@ export default function SystemCheckPage() {
       const data = await response.json();
       setResults(data);
     } catch (error) {
-      console.error("Error running system check:", error);
+      // console.error("Error running system check:", error);
     } finally {
       setLoading(false);
     }

@@ -21,7 +21,7 @@ export async function GET(
       session,
     });
   } catch (error) {
-    console.error('Error fetching measurement session:', error);
+    // console.error('Error fetching measurement session:', error);
     return NextResponse.json(
       {
         error: 'Fehler beim Laden der Session',
@@ -90,7 +90,7 @@ export async function PATCH(
       session,
     });
   } catch (error) {
-    console.error('Error updating measurement session:', error);
+    // console.error('Error updating measurement session:', error);
     return NextResponse.json(
       {
         error: 'Fehler beim Speichern der Measurements',

@@ -123,7 +123,7 @@ export async function GET(request: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error("Products API error:", error);
+    // console.error("Products API error:", error);
     return NextResponse.json(
       { error: "Fehler beim Laden der Produkte" },
       { status: 500 }

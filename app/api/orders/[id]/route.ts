@@ -81,7 +81,7 @@ export async function GET(
 
     return NextResponse.json({ order }, { status: 200 });
   } catch (error) {
-    console.error("Fetch order error:", error);
+    // console.error("Fetch order error:", error);
     return NextResponse.json(
       { error: "Failed to fetch order" },
       { status: 500 }
@@ -197,7 +197,7 @@ export async function PATCH(
 
     return NextResponse.json({ order: updatedOrder }, { status: 200 });
   } catch (error) {
-    console.error("Update order error:", error);
+    // console.error("Update order error:", error);
     return NextResponse.json(
       { error: "Failed to update order" },
       { status: 500 }

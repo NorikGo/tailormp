@@ -26,7 +26,7 @@ export async function DELETE(request: NextRequest) {
     const { error: deleteError } = await supabase.auth.admin.deleteUser(user.id);
 
     if (deleteError) {
-      console.error("Supabase auth deletion error:", deleteError);
+      // console.error("Supabase auth deletion error:", deleteError);
       // Continue anyway as DB user is already deleted
     }
 
@@ -37,7 +37,7 @@ export async function DELETE(request: NextRequest) {
       message: "Account erfolgreich gelöscht",
     });
   } catch (error) {
-    console.error("Account deletion error:", error);
+    // console.error("Account deletion error:", error);
     return NextResponse.json({ error: "Interner Serverfehler" }, { status: 500 });
   }
 }

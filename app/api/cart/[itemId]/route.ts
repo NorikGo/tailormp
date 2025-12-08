@@ -52,7 +52,7 @@ export async function DELETE(
       { status: 200 }
     );
   } catch (error) {
-    console.error("DELETE /api/cart/[itemId] error:", error);
+    // console.error("DELETE /api/cart/[itemId] error:", error);
     return NextResponse.json(
       { error: "Failed to remove item from cart" },
       { status: 500 }
@@ -160,7 +160,7 @@ export async function PATCH(
       );
     }
 
-    console.error("PATCH /api/cart/[itemId] error:", error);
+    // console.error("PATCH /api/cart/[itemId] error:", error);
     return NextResponse.json(
       { error: "Failed to update cart item" },
       { status: 500 }

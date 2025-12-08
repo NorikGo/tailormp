@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generic error
-    console.error("Login error:", error);
+    // console.error("Login error:", error);
     return NextResponse.json(
       { error: "Ein Fehler ist aufgetreten" },
       { status: 500 }

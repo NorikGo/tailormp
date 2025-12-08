@@ -90,7 +90,7 @@ export async function GET(request: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error("Tailors API error:", error);
+    // console.error("Tailors API error:", error);
     return NextResponse.json(
       { error: "Fehler beim Laden der Schneider" },
       { status: 500 }

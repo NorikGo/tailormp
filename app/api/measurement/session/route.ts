@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
       provider: provider.name,
     });
   } catch (error) {
-    console.error('Error creating measurement session:', error);
+    // console.error('Error creating measurement session:', error);
     return NextResponse.json(
       {
         error: 'Fehler beim Erstellen der Measurement Session',
@@ -72,7 +72,7 @@ export async function GET(req: NextRequest) {
       sessions,
     });
   } catch (error) {
-    console.error('Error fetching measurement sessions:', error);
+    // console.error('Error fetching measurement sessions:', error);
     return NextResponse.json(
       {
         error: 'Fehler beim Laden der Sessions',

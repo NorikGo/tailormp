@@ -98,7 +98,7 @@ export default function TailorDashboard() {
           });
         }
       } catch (err: any) {
-        console.error("Error fetching dashboard data:", err);
+        // console.error("Error fetching dashboard data:", err);
         setError(err.message || "Ein Fehler ist aufgetreten");
       } finally {
         setLoading(false);

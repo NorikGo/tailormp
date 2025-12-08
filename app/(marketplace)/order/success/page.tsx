@@ -39,7 +39,7 @@ export default function OrderSuccessPage() {
         const data = await response.json();
         setOrder(data.order);
       } catch (err: any) {
-        console.error("Error fetching order:", err);
+        // console.error("Error fetching order:", err);
         setError(err.message || "Ein Fehler ist aufgetreten");
       } finally {
         setLoading(false);

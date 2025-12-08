@@ -45,7 +45,7 @@ export async function getClientAuthHeaders(): Promise<Record<string, string>> {
       "x-user-role": data.role || "customer",
     };
   } catch (error) {
-    console.error("Failed to fetch user role:", error);
+    // console.error("Failed to fetch user role:", error);
     return {
       "x-user-id": user.id,
       "x-user-role": "customer", // Fallback

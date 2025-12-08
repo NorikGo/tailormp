@@ -85,7 +85,7 @@ export function CartButton({
         description: `${productTitle} wurde zu Ihrem Warenkorb hinzugefügt.`,
       });
     } catch (error) {
-      console.error("Add to cart error:", error);
+      // console.error("Add to cart error:", error);
 
       toast({
         title: "Fehler",

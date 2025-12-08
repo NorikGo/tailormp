@@ -63,7 +63,7 @@ export function useProducts(filters: ProductsFilters = {}) {
           error: null,
         });
       } catch (err: any) {
-        console.error("Fetch products error:", err);
+        // console.error("Fetch products error:", err);
         setState({
           products: [],
           pagination: null,

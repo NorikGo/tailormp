@@ -87,7 +87,7 @@ export default function ProductCreatePage() {
         router.push("/tailor/products");
       }, 1500);
     } catch (err: any) {
-      console.error("Error creating product:", err);
+      // console.error("Error creating product:", err);
       setError(err.message || "Ein Fehler ist aufgetreten");
     } finally {
       setSubmitting(false);

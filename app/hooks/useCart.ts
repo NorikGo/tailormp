@@ -91,7 +91,7 @@ export function useCart() {
       const data = await response.json();
       setCart(data.cart);
     } catch (err) {
-      console.error("Fetch cart error:", err);
+      // console.error("Fetch cart error:", err);
       setError(err instanceof Error ? err.message : "Failed to fetch cart");
     } finally {
       setIsLoading(false);
@@ -137,7 +137,7 @@ export function useCart() {
 
         return result.cartItem;
       } catch (err) {
-        console.error("Add to cart error:", err);
+        // console.error("Add to cart error:", err);
         throw err;
       }
     },
@@ -180,7 +180,7 @@ export function useCart() {
 
         return result.cartItem;
       } catch (err) {
-        console.error("Update cart item error:", err);
+        // console.error("Update cart item error:", err);
         throw err;
       }
     },
@@ -213,7 +213,7 @@ export function useCart() {
         // Refresh cart
         await fetchCart();
       } catch (err) {
-        console.error("Remove from cart error:", err);
+        // console.error("Remove from cart error:", err);
         throw err;
       }
     },
@@ -245,7 +245,7 @@ export function useCart() {
       // Refresh cart
       await fetchCart();
     } catch (err) {
-      console.error("Clear cart error:", err);
+      // console.error("Clear cart error:", err);
       throw err;
     }
   }, [user, fetchCart]);

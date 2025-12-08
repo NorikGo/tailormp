@@ -216,7 +216,7 @@ export async function GET(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Admin stats fetch error:", error);
+    // console.error("Admin stats fetch error:", error);
     return NextResponse.json(
       { error: "Failed to fetch admin stats" },
       { status: 500 }

@@ -66,7 +66,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ orders });
   } catch (error) {
-    console.error("Error fetching tailor orders:", error);
+    // console.error("Error fetching tailor orders:", error);
     return NextResponse.json(
       { error: "Fehler beim Laden der Bestellungen" },
       { status: 500 }

@@ -73,7 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }))
   } catch (error) {
-    console.error('Error fetching tailors for sitemap:', error)
+    // console.error('Error fetching tailors for sitemap:', error)
   }
 
   // Dynamic pages - Products
@@ -93,7 +93,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     }))
   } catch (error) {
-    console.error('Error fetching products for sitemap:', error)
+    // console.error('Error fetching products for sitemap:', error)
   }
 
   return [...staticPages, ...tailorPages, ...productPages]

@@ -42,7 +42,7 @@ export default function LoginForm() {
       // Redirect to home page after successful login
       router.push("/");
     } catch (err: any) {
-      console.error("Login error:", err);
+      // console.error("Login error:", err);
       setError(err.message || "Login fehlgeschlagen. Bitte versuche es erneut.");
     } finally {
       setIsLoading(false);

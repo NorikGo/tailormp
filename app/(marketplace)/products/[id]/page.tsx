@@ -81,7 +81,7 @@ export default function ProductDetailPage() {
           setData(result);
         }
       } catch (err: any) {
-        console.error("Fetch product error:", err);
+        // console.error("Fetch product error:", err);
         setError(err.message || "Fehler beim Laden des Produkts");
       } finally {
         setLoading(false);

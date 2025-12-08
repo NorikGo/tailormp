@@ -73,7 +73,7 @@ export default function TailorAnalyticsPage() {
         const data = await response.json();
         setAnalytics(data.analytics);
       } catch (err: any) {
-        console.error("Error fetching analytics:", err);
+        // console.error("Error fetching analytics:", err);
         setError(err.message || "Ein Fehler ist aufgetreten");
       } finally {
         setLoading(false);

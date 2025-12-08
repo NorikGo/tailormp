@@ -50,7 +50,7 @@ export async function PATCH(request: NextRequest) {
       message: "Passwort erfolgreich geändert",
     });
   } catch (error) {
-    console.error("Password update error:", error);
+    // console.error("Password update error:", error);
     return NextResponse.json({ error: "Interner Serverfehler" }, { status: 500 });
   }
 }

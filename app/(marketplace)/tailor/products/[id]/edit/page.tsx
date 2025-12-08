@@ -85,7 +85,7 @@ export default function ProductEditPage() {
         throw new Error("Produkt nicht gefunden");
       }
     } catch (err: any) {
-      console.error("Error fetching product:", err);
+      // console.error("Error fetching product:", err);
       setError(err.message || "Ein Fehler ist aufgetreten");
     } finally {
       setLoading(false);
@@ -122,7 +122,7 @@ export default function ProductEditPage() {
         router.push("/tailor/products");
       }, 1500);
     } catch (err: any) {
-      console.error("Error updating product:", err);
+      // console.error("Error updating product:", err);
       setError(err.message || "Ein Fehler ist aufgetreten");
     } finally {
       setSubmitting(false);
@@ -167,7 +167,7 @@ export default function ProductEditPage() {
       // Remove from local state
       setImages((prev) => prev.filter((img) => img.id !== imageId));
     } catch (err: any) {
-      console.error("Error deleting image:", err);
+      // console.error("Error deleting image:", err);
       alert(err.message || "Fehler beim Löschen des Bildes");
     } finally {
       setDeletingImageId(null);

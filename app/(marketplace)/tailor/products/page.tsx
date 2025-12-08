@@ -51,7 +51,7 @@ export default function ProductManagementPage() {
         throw new Error("Fehler beim Laden der Produkte");
       }
     } catch (err: any) {
-      console.error("Error fetching products:", err);
+      // console.error("Error fetching products:", err);
       setError(err.message || "Ein Fehler ist aufgetreten");
     } finally {
       setLoading(false);
@@ -82,7 +82,7 @@ export default function ProductManagementPage() {
       // Remove from local state
       setProducts((prev) => prev.filter((p) => p.id !== productId));
     } catch (err: any) {
-      console.error("Error deleting product:", err);
+      // console.error("Error deleting product:", err);
       alert(err.message || "Fehler beim Löschen");
     } finally {
       setDeletingId(null);

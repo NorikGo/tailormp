@@ -95,7 +95,7 @@ export async function sendOrderConfirmation(data: OrderConfirmationData) {
 
     return { success: true };
   } catch (error) {
-    console.error("Failed to send order confirmation email:", error);
+    // console.error("Failed to send order confirmation email:", error);
     return { success: false, error };
   }
 }
@@ -173,7 +173,7 @@ export async function sendWelcomeEmail(data: WelcomeEmailData) {
 
     return { success: true };
   } catch (error) {
-    console.error("Failed to send welcome email:", error);
+    // console.error("Failed to send welcome email:", error);
     return { success: false, error };
   }
 }
@@ -252,7 +252,7 @@ export async function sendOrderStatusUpdate(data: OrderStatusUpdateData) {
 
     return { success: true };
   } catch (error) {
-    console.error("Failed to send order status update email:", error);
+    // console.error("Failed to send order status update email:", error);
     return { success: false, error };
   }
 }

@@ -39,7 +39,7 @@ export async function GET(
       { status: 200 }
     );
   } catch (error) {
-    console.error("Product API error:", error);
+    // console.error("Product API error:", error);
     return NextResponse.json(
       { error: "Fehler beim Laden des Produkts" },
       { status: 500 }

@@ -44,7 +44,7 @@ export default function TailorProfilePage() {
           setData(result);
         }
       } catch (err: any) {
-        console.error("Fetch tailor error:", err);
+        // console.error("Fetch tailor error:", err);
         setError(err.message || "Fehler beim Laden des Profils");
       } finally {
         setLoading(false);

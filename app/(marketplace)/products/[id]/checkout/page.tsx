@@ -114,7 +114,7 @@ export default function CheckoutPage() {
         window.location.href = url;
       }
     } catch (err: any) {
-      console.error("Checkout error:", err);
+      // console.error("Checkout error:", err);
       setError(err.message || "Ein Fehler ist aufgetreten");
       setSubmitting(false);
     }

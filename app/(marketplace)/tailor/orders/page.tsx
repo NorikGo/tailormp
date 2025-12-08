@@ -46,7 +46,7 @@ export default function TailorOrdersPage() {
         const data = await response.json();
         setOrders(data.orders);
       } catch (err: any) {
-        console.error("Error fetching orders:", err);
+        // console.error("Error fetching orders:", err);
         setError(err.message || "Ein Fehler ist aufgetreten");
       } finally {
         setLoading(false);

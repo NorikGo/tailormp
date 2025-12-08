@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Logout error:", error);
+    // console.error("Logout error:", error);
     return NextResponse.json(
       { error: "Ein Fehler ist aufgetreten" },
       { status: 500 }

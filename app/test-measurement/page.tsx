@@ -108,7 +108,7 @@ export default function TestMeasurementPage() {
                 userId={testUserId}
                 variant="primary"
                 onComplete={(sessionId) => {
-                  console.log('✅ Session completed:', sessionId);
+                  // console.log('✅ Session completed:', sessionId);
                   alert(`Session ${sessionId} erfolgreich abgeschlossen!`);
                 }}
               />

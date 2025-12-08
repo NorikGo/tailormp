@@ -65,7 +65,7 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('Error fetching reviews:', error);
+    // console.error('Error fetching reviews:', error);
     return NextResponse.json(
       { error: 'Failed to fetch reviews' },
       { status: 500 }

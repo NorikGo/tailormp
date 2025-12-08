@@ -110,10 +110,10 @@ export async function GET(request: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("GET /api/cart error:", error);
-    console.error("Error details:", error instanceof Error ? error.message : String(error));
+    // console.error("GET /api/cart error:", error);
+    // console.error("Error details:", error instanceof Error ? error.message : String(error));
     if (error instanceof Error && error.stack) {
-      console.error("Stack trace:", error.stack);
+      // console.error("Stack trace:", error.stack);
     }
     return NextResponse.json(
       {
@@ -259,7 +259,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error("POST /api/cart error:", error);
+    // console.error("POST /api/cart error:", error);
     return NextResponse.json(
       { error: "Failed to add item to cart" },
       { status: 500 }

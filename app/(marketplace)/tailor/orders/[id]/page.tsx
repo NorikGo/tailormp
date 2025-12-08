@@ -66,7 +66,7 @@ export default function TailorOrderDetailPage() {
         setNewStatus(data.order.status);
         setTrackingNumber(data.order.trackingNumber || "");
       } catch (err: any) {
-        console.error("Error fetching order:", err);
+        // console.error("Error fetching order:", err);
         setError(err.message || "Ein Fehler ist aufgetreten");
       } finally {
         setLoading(false);
@@ -109,7 +109,7 @@ export default function TailorOrderDetailPage() {
       // Clear success message after 3 seconds
       setTimeout(() => setSuccessMessage(null), 3000);
     } catch (err: any) {
-      console.error("Error updating order:", err);
+      // console.error("Error updating order:", err);
       setError(err.message || "Ein Fehler ist aufgetreten");
     } finally {
       setUpdating(false);

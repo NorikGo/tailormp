@@ -100,7 +100,7 @@ export default function OrderDetailPage() {
         const data = await response.json();
         setOrder(data.order);
       } catch (err) {
-        console.error("Fetch order error:", err);
+        // console.error("Fetch order error:", err);
         setError(err instanceof Error ? err.message : "Fehler beim Laden der Bestellung");
       } finally {
         setLoading(false);

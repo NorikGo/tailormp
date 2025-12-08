@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
         });
       }
     } catch (dbError: any) {
-      console.error("Database error:", dbError);
+      // console.error("Database error:", dbError);
 
       // If user creation fails, we should clean up the Supabase auth user
       // This is a TODO for production - need to handle this properly
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
       userEmail: validatedData.email,
       userName: validatedData.email.split("@")[0],
     }).catch((error) => {
-      console.error("Failed to send welcome email:", error);
+      // console.error("Failed to send welcome email:", error);
       // Don't fail registration if email fails
     });
 
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generic error
-    console.error("Register error:", error);
+    // console.error("Register error:", error);
     return NextResponse.json(
       { error: "Ein Fehler ist aufgetreten" },
       { status: 500 }

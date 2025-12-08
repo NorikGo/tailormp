@@ -193,7 +193,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.error("POST /api/cart/checkout error:", error);
+    // console.error("POST /api/cart/checkout error:", error);
     return NextResponse.json(
       { error: "Failed to create checkout session" },
       { status: 500 }

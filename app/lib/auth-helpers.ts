@@ -22,7 +22,7 @@ export async function ensureUserInPrisma(supabaseUser: User): Promise<void> {
       },
     });
   } catch (error) {
-    console.error("Failed to sync user to Prisma:", error);
+    // console.error("Failed to sync user to Prisma:", error);
     throw new Error("Failed to sync user data");
   }
 }
@@ -48,7 +48,7 @@ export async function getAuthenticatedUser(): Promise<User | null> {
 
     return user;
   } catch (error) {
-    console.error("Authentication error:", error);
+    // console.error("Authentication error:", error);
     return null;
   }
 }
@@ -79,7 +79,7 @@ export async function getPrismaUser(userId: string) {
     });
     return user;
   } catch (error) {
-    console.error("Failed to get Prisma user:", error);
+    // console.error("Failed to get Prisma user:", error);
     return null;
   }
 }

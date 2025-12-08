@@ -67,7 +67,7 @@ export function useTailors(filters: TailorsFilters = {}) {
           error: null,
         });
       } catch (error: any) {
-        console.error("useTailors error:", error);
+        // console.error("useTailors error:", error);
         setState({
           tailors: [],
           pagination: null,

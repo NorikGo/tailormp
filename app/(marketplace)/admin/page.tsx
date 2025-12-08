@@ -144,7 +144,7 @@ export default function AdminDashboardPage() {
       const data = await response.json();
       setStats(data.stats);
     } catch (err: any) {
-      console.error("Error fetching stats:", err);
+      // console.error("Error fetching stats:", err);
       setError(err.message || "Ein Fehler ist aufgetreten");
     } finally {
       setLoading(false);
@@ -169,7 +169,7 @@ export default function AdminDashboardPage() {
       setUsers(data.users);
       setUsersPagination(data.pagination);
     } catch (err: any) {
-      console.error("Error fetching users:", err);
+      // console.error("Error fetching users:", err);
     } finally {
       setUsersLoading(false);
     }

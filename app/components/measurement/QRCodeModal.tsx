@@ -48,7 +48,7 @@ export default function QRCodeModal({
           }, 2000);
         }
       } catch (err) {
-        console.error('Polling error:', err);
+        // console.error('Polling error:', err);
       }
     }, 3000); // Poll alle 3 Sekunden
 
@@ -63,7 +63,7 @@ export default function QRCodeModal({
       });
       setQrCodeDataUrl(dataUrl);
     } catch (err) {
-      console.error('QR Code generation error:', err);
+      // console.error('QR Code generation error:', err);
     }
   }
 

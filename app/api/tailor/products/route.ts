@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    console.error('Error creating product:', error);
+    // console.error('Error creating product:', error);
     return NextResponse.json(
       { error: 'Failed to create product' },
       { status: 500 }
@@ -113,7 +113,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({ products });
   } catch (error) {
-    console.error('Error fetching products:', error);
+    // console.error('Error fetching products:', error);
     return NextResponse.json(
       { error: 'Failed to fetch products' },
       { status: 500 }

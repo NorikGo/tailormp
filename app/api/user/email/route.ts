@@ -47,7 +47,7 @@ export async function PATCH(request: NextRequest) {
       message: "Email-Änderung angefordert. Bitte bestätigen Sie Ihre neue Email-Adresse.",
     });
   } catch (error) {
-    console.error("Email update error:", error);
+    // console.error("Email update error:", error);
     return NextResponse.json({ error: "Interner Serverfehler" }, { status: 500 });
   }
 }

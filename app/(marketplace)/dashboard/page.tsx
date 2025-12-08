@@ -87,7 +87,7 @@ export default function CustomerDashboard() {
           completedOrders,
         });
       } catch (err: any) {
-        console.error("Error fetching orders:", err);
+        // console.error("Error fetching orders:", err);
         setError(err.message || "Ein Fehler ist aufgetreten");
       } finally {
         setLoading(false);
