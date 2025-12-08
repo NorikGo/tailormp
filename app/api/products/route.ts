@@ -105,7 +105,7 @@ export async function GET(request: NextRequest) {
 
     const totalPages = Math.ceil(total / limit);
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         products,
         pagination: {
@@ -117,6 +117,11 @@ export async function GET(request: NextRequest) {
       },
       { status: 200 }
     );
+
+    // Add cache headers for better performance
+    response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
+
+    return response;
   } catch (error) {
     console.error("Products API error:", error);
     return NextResponse.json(

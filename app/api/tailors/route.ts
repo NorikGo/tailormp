@@ -72,7 +72,7 @@ export async function GET(request: NextRequest) {
       prisma.tailor.count({ where }),
     ]);
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         tailors,
         pagination: {
@@ -84,6 +84,11 @@ export async function GET(request: NextRequest) {
       },
       { status: 200 }
     );
+
+    // Add cache headers for better performance
+    response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
+
+    return response;
   } catch (error) {
     console.error("Tailors API error:", error);
     return NextResponse.json(

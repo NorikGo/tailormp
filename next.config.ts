@@ -15,6 +15,27 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react", "@/components/ui"],
   },
+  // Performance optimizations
+  compress: true,
+  poweredByHeader: false,
+  // Strict CSP for security & performance
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN'
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;

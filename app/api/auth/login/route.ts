@@ -44,11 +44,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Load user role from database
-    const dbUser = await prisma.user.findUnique({
+    // Load user role from database, or create user if not exists
+    let dbUser = await prisma.user.findUnique({
       where: { id: data.user.id },
       select: { role: true, tailor: true },
     });
+
+    // If user doesn't exist in DB, create them (fallback for existing Supabase Auth users)
+    if (!dbUser) {
+      dbUser = await prisma.user.create({
+        data: {
+          id: data.user.id,
+          email: data.user.email || "",
+          password: "", // Password is managed by Supabase Auth
+          role: "customer", // Default role
+        },
+        select: { role: true, tailor: true },
+      });
+    }
 
     // If user is a tailor but doesn't have a tailor profile, create one
     if (dbUser?.role === "tailor" && !dbUser.tailor) {
