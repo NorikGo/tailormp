@@ -79,13 +79,15 @@ export async function POST(request: NextRequest) {
         });
       }
     } catch (dbError: any) {
-      // console.error("Database error:", dbError);
+      console.error("Database error:", dbError);
+      console.error("Database error message:", dbError.message);
+      console.error("Database error code:", dbError.code);
 
       // If user creation fails, we should clean up the Supabase auth user
       // This is a TODO for production - need to handle this properly
 
       return NextResponse.json(
-        { error: "Fehler beim Erstellen des Benutzers" },
+        { error: "Fehler beim Erstellen des Benutzers", details: dbError.message },
         { status: 500 }
       );
     }
@@ -127,9 +129,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Generic error
-    // console.error("Register error:", error);
+    console.error("Register error:", error);
     return NextResponse.json(
-      { error: "Ein Fehler ist aufgetreten" },
+      { error: "Ein Fehler ist aufgetreten", details: error instanceof Error ? error.message : String(error) },
       { status: 500 }
     );
   }
