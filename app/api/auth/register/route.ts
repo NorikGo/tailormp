@@ -92,8 +92,9 @@ export async function POST(request: NextRequest) {
 
     // Send welcome email (don't await - fire and forget)
     sendWelcomeEmail({
-      userEmail: validatedData.email,
+      to: validatedData.email,
       userName: validatedData.email.split("@")[0],
+      userRole: validatedData.role,
     }).catch((error) => {
       // console.error("Failed to send welcome email:", error);
       // Don't fail registration if email fails

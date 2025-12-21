@@ -69,7 +69,6 @@ export function ImageUpload({
       const data = await response.json();
       onUploadSuccess(data.url, data.fileName);
     } catch (error: any) {
-      console.error("Upload error:", error);
       const errorMessage = error.message || "Upload fehlgeschlagen";
       if (onUploadError) {
         onUploadError(errorMessage);

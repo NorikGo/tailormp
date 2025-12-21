@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 import prisma from "@/app/lib/prisma";
-import { sendOrderStatusUpdate } from "@/app/lib/email";
+import {
+  sendOrderStatusUpdateEmail,
+  generateOrderNumber,
+} from "@/app/lib/email";
 
 /**
  * GET /api/orders/[id]
@@ -186,12 +189,34 @@ export async function PATCH(
           ? (order.shippingAddress as { name?: string })
           : null;
 
-      await sendOrderStatusUpdate({
-        orderId: updatedOrder.id,
-        customerEmail: order.user.email,
+      // Get product title and tailor name for email
+      const orderItem = order.items[0];
+      const tailor = await prisma.tailor.findUnique({
+        where: { id: orderItem.tailorId },
+      });
+
+      // Map database status to email status
+      const emailStatusMap: Record<string, 'measuring' | 'production' | 'shipping' | 'completed'> = {
+        'paid': 'measuring',
+        'processing': 'production',
+        'shipped': 'shipping',
+        'completed': 'completed',
+      };
+
+      const emailStatus = emailStatusMap[status] || 'production';
+
+      // Send status update email (fire and forget)
+      sendOrderStatusUpdateEmail({
+        to: order.user.email,
         customerName: shippingAddress?.name || order.user.email.split("@")[0],
-        status,
-        trackingNumber,
+        orderNumber: generateOrderNumber(updatedOrder.id),
+        productTitle: orderItem.productTitle,
+        tailorName: tailor?.name || 'TailorMarket',
+        status: emailStatus,
+        trackingNumber: trackingNumber || undefined,
+        orderId: updatedOrder.id,
+      }).catch((error) => {
+        // console.error('Failed to send status update email:', error);
       });
     }
 

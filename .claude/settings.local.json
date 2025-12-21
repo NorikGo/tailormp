@@ -27,7 +27,11 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(tsx scripts/cleanup-console.ts:*)"
+      "Bash(tsx scripts/cleanup-console.ts:*)",
+      "Bash(rm:*)",
+      "Bash(find:*)",
+      "Bash(npm run dev:*)",
+      "Bash(timeout 10 bash:*)"
     ],
     "deny": [],
     "ask": []

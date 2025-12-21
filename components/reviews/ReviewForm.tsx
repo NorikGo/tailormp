@@ -81,7 +81,6 @@ export function ReviewForm({ productId, onSuccess }: ReviewFormProps) {
         onSuccess();
       }
     } catch (error) {
-      console.error("Review submission error:", error);
       toast({
         title: "Fehler",
         description:

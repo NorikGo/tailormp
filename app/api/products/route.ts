@@ -72,14 +72,22 @@ export async function GET(request: NextRequest) {
     // Calculate pagination
     const skip = (page - 1) * limit;
 
-    // Fetch products and total count
+    // Fetch products and total count in parallel with optimized queries
     const [products, total] = await Promise.all([
       prisma.product.findMany({
         where,
         orderBy,
         skip,
         take: limit,
-        include: {
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          price: true,
+          currency: true,
+          category: true,
+          isActive: true,
+          createdAt: true,
           tailor: {
             select: {
               id: true,
@@ -90,6 +98,11 @@ export async function GET(request: NextRequest) {
             },
           },
           images: {
+            select: {
+              id: true,
+              url: true,
+              position: true,
+            },
             orderBy: { position: "asc" },
             take: 1,
           },

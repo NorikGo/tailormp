@@ -8,13 +8,20 @@ import { dummyTailors, dummyProducts } from "@/app/lib/dummyData";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Maßgeschneiderte Anzüge weltweit",
+  title: "TailorMarket - Maßgeschneiderte Anzüge weltweit",
   description: "Entdecke talentierte Schneider aus aller Welt und lass dir deinen Traumanzug maßschneidern. Fair für Handwerker, erschwinglich für dich.",
+  keywords: ["Maßschneider", "maßgeschneiderte Anzüge", "Schneider online", "custom tailoring", "Maßanfertigung"],
   openGraph: {
     title: "TailorMarket - Maßgeschneiderte Anzüge weltweit",
     description: "Entdecke talentierte Schneider aus aller Welt und lass dir deinen Traumanzug maßschneidern.",
     url: "/",
     type: "website",
+    siteName: "TailorMarket",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TailorMarket - Maßgeschneiderte Anzüge weltweit",
+    description: "Entdecke talentierte Schneider aus aller Welt und lass dir deinen Traumanzug maßschneidern.",
   },
 };
 

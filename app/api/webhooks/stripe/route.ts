@@ -1,7 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/app/lib/stripe/config';
 import prisma from '@/app/lib/prisma';
-import { sendOrderConfirmation } from '@/app/lib/email';
+import {
+  sendOrderConfirmationEmail,
+  sendOrderNotificationTailorEmail,
+  formatCurrency,
+  formatDate,
+  generateOrderNumber
+} from '@/app/lib/email';
 import type Stripe from 'stripe';
 
 /**
@@ -204,23 +210,53 @@ async function handleCartCheckout(session: Stripe.Checkout.Session) {
   });
 
   if (user) {
-    // Send confirmation email for each order
+    // Send confirmation and notification emails for each order
     for (const order of orders) {
-      await sendOrderConfirmation({
-        orderId: order.id,
-        customerEmail: user.email,
-        customerName: shippingAddress.name,
-        items: order.items.map((item) => ({
-          title: item.productTitle,
-          quantity: item.quantity,
-          price: item.unitPrice,
-        })),
-        totalAmount: order.totalAmount,
-        shippingAddress,
+      const orderItem = order.items[0]; // Each order has exactly one item
+
+      // Get tailor info
+      const tailor = await prisma.tailor.findUnique({
+        where: { id: orderItem.tailorId },
+        include: { user: { select: { email: true } } },
       });
+
+      // Send confirmation email to customer (fire and forget)
+      sendOrderConfirmationEmail({
+        to: user.email,
+        customerName: shippingAddress.name,
+        orderNumber: generateOrderNumber(order.id),
+        orderDate: formatDate(order.createdAt),
+        productTitle: orderItem.productTitle,
+        productPrice: formatCurrency(order.totalAmount),
+        tailorName: tailor?.name || 'TailorMarket',
+        orderId: order.id,
+      }).catch((error) => {
+        // console.error('Failed to send order confirmation email:', error);
+      });
+
+      // Send notification email to tailor (fire and forget)
+      if (tailor) {
+        sendOrderNotificationTailorEmail({
+          to: tailor.user.email,
+          tailorName: tailor.name,
+          orderNumber: generateOrderNumber(order.id),
+          orderDate: formatDate(order.createdAt),
+          customerName: shippingAddress.name,
+          productTitle: orderItem.productTitle,
+          productPrice: formatCurrency(order.totalAmount),
+          shippingAddress: {
+            street: shippingAddress.street,
+            city: shippingAddress.city,
+            postalCode: shippingAddress.zip,
+            country: shippingAddress.country,
+          },
+          orderId: order.id,
+        }).catch((error) => {
+          // console.error('Failed to send tailor notification email:', error);
+        });
+      }
     }
   }
-  // - Email an Schneider: Neue Bestellung (jeweils einzeln)
 
   return orders;
 }
@@ -318,9 +354,55 @@ async function handleSingleProductCheckout(session: Stripe.Checkout.Session) {
 
   // console.log('Order created:', order.id);
 
-  // TODO: Send Email Notifications
-  // - Email an Kunden: Bestellbestätigung
-  // - Email an Schneider: Neue Bestellung
+  // Send Email Notifications
+  // Fetch user and tailor data
+  const user = await prisma.user.findUnique({
+    where: { id: customerId },
+    select: { email: true },
+  });
+
+  const tailor = await prisma.tailor.findUnique({
+    where: { id: tailorId },
+    include: { user: { select: { email: true } } },
+  });
+
+  if (user) {
+    // Send confirmation email to customer (fire and forget)
+    sendOrderConfirmationEmail({
+      to: user.email,
+      customerName: shippingAddress.name,
+      orderNumber: generateOrderNumber(order.id),
+      orderDate: formatDate(order.createdAt),
+      productTitle: product.title,
+      productPrice: formatCurrency(order.totalAmount),
+      tailorName: tailor?.name || 'TailorMarket',
+      orderId: order.id,
+    }).catch((error) => {
+      // console.error('Failed to send order confirmation email:', error);
+    });
+
+    // Send notification email to tailor (fire and forget)
+    if (tailor) {
+      sendOrderNotificationTailorEmail({
+        to: tailor.user.email,
+        tailorName: tailor.name,
+        orderNumber: generateOrderNumber(order.id),
+        orderDate: formatDate(order.createdAt),
+        customerName: shippingAddress.name,
+        productTitle: product.title,
+        productPrice: formatCurrency(order.totalAmount),
+        shippingAddress: {
+          street: shippingAddress.street,
+          city: shippingAddress.city,
+          postalCode: shippingAddress.zip,
+          country: shippingAddress.country,
+        },
+        orderId: order.id,
+      }).catch((error) => {
+        // console.error('Failed to send tailor notification email:', error);
+      });
+    }
+  }
 
   return order;
 }

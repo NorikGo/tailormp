@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -16,9 +16,11 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Product } from "@/app/types/product";
 import { dummyProducts, dummyTailors } from "@/app/lib/dummyData";
-import { ReviewForm } from "@/components/reviews/ReviewForm";
-import { ReviewList } from "@/components/reviews/ReviewList";
 import { CartButton } from "@/app/components/cart/CartButton";
+
+// Lazy load review components for better performance
+const ReviewForm = lazy(() => import("@/components/reviews/ReviewForm").then(mod => ({ default: mod.ReviewForm })));
+const ReviewList = lazy(() => import("@/components/reviews/ReviewList").then(mod => ({ default: mod.ReviewList })));
 
 interface ProductData {
   product: Product & {
@@ -301,26 +303,32 @@ export default function ProductDetailPage() {
         </Card>
       </div>
 
-      {/* Reviews Section */}
+      {/* Reviews Section - Lazy loaded for performance */}
       <div className="mt-12">
         <h2 className="text-2xl font-bold text-slate-900 mb-6">
           Kundenbewertungen
         </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Review Form */}
-          <div className="lg:col-span-1">
-            <ReviewForm
-              productId={id}
-              onSuccess={() => window.location.reload()}
-            />
+        <Suspense fallback={
+          <div className="flex justify-center items-center py-12">
+            <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
           </div>
+        }>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Review Form */}
+            <div className="lg:col-span-1">
+              <ReviewForm
+                productId={id}
+                onSuccess={() => window.location.reload()}
+              />
+            </div>
 
-          {/* Review List */}
-          <div className="lg:col-span-2">
-            <ReviewList productId={id} />
+            {/* Review List */}
+            <div className="lg:col-span-2">
+              <ReviewList productId={id} />
+            </div>
           </div>
-        </div>
+        </Suspense>
       </div>
     </div>
   );

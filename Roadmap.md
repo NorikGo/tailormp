@@ -1,8 +1,11 @@
 # 🚀 TAILORMARKET - DEVELOPMENT ROADMAP
 
-**Version:** 1.0  
-**Geschätzte Dauer:** 10-12 Wochen  
-**Status:** Phase 1 - In Progress
+**Version:** 3.3 - Development Beta Testing Phase
+**Geschätzte Dauer:** 10-12 Wochen (MVP) + Post-Launch Features
+**Status:** Phase 8.7.1 - App live auf Vercel, Beta Testing mit Bekannten ✅
+**Nächste Phase:** Bug Fixes + Geplantes "Umkrempeln" → Dann Production Setup
+**Post-MVP:** Phase 9 - 16 Enhancement Features dokumentiert
+**Letztes Update:** 2025-12-21 (Development Deployment + Beta Testing Start)
 
 ---
 
@@ -61,7 +64,56 @@
 - [x] Phase 5.11 - Tailor Dashboard
 - [x] Phase 5.12 - Integration Complete
 - [x] **PHASE 5 ABGESCHLOSSEN! ✅**
-- [ ] **→ NÄCHSTER SCHRITT: Phase 6 - Tailor Features**
+- [x] Phase 8.1 - Code Review & Bug Fixes
+- [x] Phase 8.2 - Manual Testing (Automated)
+- [x] Phase 8.3 - E2E Test Setup (Playwright) - 16/16 Tests ✅
+- [x] Phase 8.4 - Performance Optimization & Build Test ✅
+- [x] Phase 8.4.1 - Build Test (14.4s, 0 Errors, 2MB Bundle) ✅
+- [x] Phase 8.4.2 - Console Cleanup (81→3 statements, production-safe) ✅
+- [x] Phase 8.4.3 - Lighthouse Audit (100/96/96/100 - Production Ready!) ✅
+- [x] Phase 8.5 - Final Polish Check (6/6 Automated Tests Passed) ✅
+- [x] Phase 8.6 - Email Templates & Integration (komplett integriert) ✅
+- [x] Phase 8.7.0 - Vercel Setup & Production Checklist (Vorbereitung) ✅
+- [x] Phase 8.7.1 - Development Deployment + Beta Testing Setup ✅
+- [ ] **→ JETZT: Beta Testing mit Bekannten (laufend)**
+- [ ] **→ SPÄTER: Bug Fixes + Geplantes "Umkrempeln"**
+- [ ] **→ VIEL SPÄTER: Phase 8.7 - Production Setup (wenn ready für echte User)**
+
+---
+
+## 🎯 QUICK NAVIGATION - NÄCHSTER SCHRITT
+
+**✅ Heute abgeschlossen (2025-12-21):**
+- ✅ App ist LIVE auf Vercel: https://tailormp.vercel.app
+- ✅ Development Environment deployed (Supabase Dev + Stripe Test Mode)
+- ✅ Beta Testing Anleitung erstellt ([TESTING_GUIDE_FOR_FRIENDS.md](TESTING_GUIDE_FOR_FRIENDS.md))
+- ✅ Vercel Deployment Status: Ready ✅ (0% Error Rate)
+- ✅ WhatsApp/Email Nachricht für Bekannte vorbereitet
+
+**🧪 JETZT LAUFEND - Beta Testing Phase**
+
+### Was jetzt passiert:
+1. **Du:** Teilst Link mit Bekannten
+2. **Bekannte:** Testen die App (15-30 Min pro Person)
+3. **Du:** Sammelst Bug Reports + Feedback
+4. **Wir:** Fixen kritische Bugs (falls nötig)
+5. **Du:** "Umkrempeln" wie geplant (große Änderungen)
+6. **Später:** Production Setup (wenn ready für echte User)
+
+### Quick Actions für JETZT:
+```
+📱 WhatsApp/Email verschicken:
+"Hey! Bräuchte Feedback zu meiner App: https://tailormp.vercel.app
+(Test-Modus, keine echten Zahlungen, Stripe Test-Karte: 4242 4242 4242 4242)"
+```
+
+**Detaillierte Anleitung:** [TESTING_GUIDE_FOR_FRIENDS.md](TESTING_GUIDE_FOR_FRIENDS.md)
+
+### Nach Beta Testing:
+- Bug Fixes (je nach Feedback)
+- Geplantes "Umkrempeln" (deine Features/Änderungen)
+- Iteratives Development
+- **Viel später:** Production Setup (echte Zahlungen, echte User)
 
 ---
 
@@ -1285,51 +1337,853 @@ PLATFORM_COMMISSION_PERCENTAGE=10
 
 ---
 
-### [ ] 8.4 Final Polish Check (Phase 7.5.7)
+### ✅ 8.4 Performance Optimization
+
+**Status:** [x] Complete ✅
+**Dauer:** 2-3h
+**Datum:** 2025-12-11
+
+**Durchgeführt:**
+1. ✅ Database Composite Indexes (isActive+createdAt, category+price, tailorId+isActive)
+2. ✅ API Query Optimizations (Select nur nötige Felder, -40-60% Datentransfer)
+3. ✅ Code Splitting (Lazy Load Review Components, -25KB Bundle)
+4. ✅ Next.js Config Enhancements (Package Imports, Security Headers, Image Cache)
+5. ✅ Database Migration erfolgreich (`prisma db push`)
+6. ✅ Build Testing (28.3s, **58% schneller** als vorher!)
+
+**Ergebnisse:**
+- ⚡ Build Time: 67s → 28.3s (**-58% faster**)
+- 📦 Bundle Size: ~215KB → ~170KB (**-21%**)
+- ⚡ API Response: ~280ms → ~180ms (estimated **-36%**)
+- 🚀 Database Queries: ~45ms → ~28ms (estimated **-38%**)
+
+**Dokumentation:**
+- [PHASE8_PERFORMANCE_OPTIMIZATION.md](PHASE8_PERFORMANCE_OPTIMIZATION.md)
+
+---
+
+### [ ] 8.5 Final Polish Check
 
 **Status:** [ ] Todo
 **Dauer:** 3h
 **Priority:** 🔴 KRITISCH (Quality Gate)
+**Arbeitsanteil:** Du: 50% | Claude: 50%
 
 **Beschreibung:**
 Manuelle QA-Session zur Überprüfung aller Features und Behebung letzter Bugs vor dem Deployment.
 
-**Checkliste:**
-- [ ] Forms Testing (Login, Register, Measurement, Product, Review, Checkout)
-- [ ] API Routes Testing (Error Handling, Auth, Validation)
-- [ ] Empty States (Schneider, Produkte, Orders, Reviews, Measurements)
-- [ ] Images (next/image, alt-Text, Placeholder, Responsive)
-- [ ] Mobile Testing (Header, Navigation, Forms, Tables, Buttons, Text)
-- [ ] TypeScript (`npm run build` - Keine TS Errors)
-- [ ] Console (Browser & Terminal - Keine Errors/Warnings)
-- [ ] Performance Quick Check (Page Load <2s, Lazy Loading)
+---
 
-**Deliverables:**
-- Bug-Liste mit Priority (Critical/High/Medium/Low)
-- Fixes für alle Critical/High Bugs
-- Re-Testing nach Fixes
+#### **📝 TEIL 1: FORMS TESTING (30min - DU testest, CLAUDE fixt)**
 
-**Dokumentation:**
-- Detaillierte Anleitung: [Zwischenaufgabe.md - Section 7.5.7](Zwischenaufgabe.md#-757-final-polish-check)
+**Login Form:**
+- [ ] Erfolgreicher Login funktioniert
+- [ ] Fehlerhafte Email zeigt Validierungsfehler
+- [ ] Falsches Passwort zeigt Error Message
+- [ ] "Remember me" funktioniert
+- [ ] Redirect nach Login korrekt (Dashboard/Tailor Dashboard)
+
+**Register Form:**
+- [ ] Registrierung als Customer funktioniert
+- [ ] Registrierung als Tailor funktioniert
+- [ ] Email Validation funktioniert
+- [ ] Password Strength Check funktioniert
+- [ ] Welcome Email wird versendet
+- [ ] Auto-Login nach Registrierung
+
+**Measurement Forms:**
+- [ ] Manual Measurement Input funktioniert
+- [ ] Alle Felder validieren korrekt (nur Zahlen)
+- [ ] Mock Measurement QR Code funktioniert
+- [ ] Measurements werden gespeichert
+
+**Product Form (Tailor):**
+- [ ] Neues Produkt erstellen funktioniert
+- [ ] Image Upload funktioniert
+- [ ] Alle Felder validieren korrekt
+- [ ] Produkt Edit funktioniert
+- [ ] Produkt Delete funktioniert
+
+**Review Form:**
+- [ ] Review schreiben funktioniert
+- [ ] Star Rating funktioniert
+- [ ] Review wird sofort angezeigt
+
+**Checkout Form:**
+- [ ] Shipping Address Validation
+- [ ] Stripe Checkout öffnet korrekt
+- [ ] Test-Payment funktioniert
+- [ ] Redirect nach Success
 
 ---
 
-### [ ] 8.5-8.11 Launch Preparation
+#### **🔌 TEIL 2: API ROUTES TESTING (30min - CLAUDE)**
+
+**Auth API:**
+- [ ] `/api/auth/register` - Validation, Error Handling
+- [ ] `/api/auth/login` - Rate Limiting, Error Messages
+- [ ] `/api/auth/logout` - Session Clear
+
+**Products API:**
+- [ ] `/api/products` - Pagination, Filtering
+- [ ] `/api/products/[id]` - 404 für ungültige ID
+- [ ] `/api/tailor/products` - Auth Required
+
+**Orders API:**
+- [ ] `/api/orders` - Nur eigene Orders
+- [ ] `/api/orders/[id]` - Access Control (Customer vs Tailor)
+- [ ] PATCH Status Update - Nur Tailor
+
+**Checkout API:**
+- [ ] `/api/checkout/session` - Stripe Session Creation
+- [ ] `/api/webhooks/stripe` - Signature Verification
+
+---
+
+#### **🎨 TEIL 3: UI/UX POLISH (45min - DU testest, CLAUDE fixt)**
+
+**Empty States:**
+- [ ] Keine Produkte → "No products found" Message
+- [ ] Keine Orders → "No orders yet" mit CTA
+- [ ] Keine Reviews → "Be the first to review"
+- [ ] Leerer Cart → "Your cart is empty"
+- [ ] Keine Measurements → "Add measurements"
+
+**Images:**
+- [ ] Alle Bilder haben `alt` Text
+- [ ] Loading States (Skeleton/Spinner)
+- [ ] Broken Image Fallback
+- [ ] Responsive Images (Mobile optimiert)
+- [ ] next/image korrekt verwendet
+
+**Buttons & Links:**
+- [ ] Alle Buttons haben hover/active States
+- [ ] Loading States bei Form Submit
+- [ ] Disabled States visuell erkennbar
+- [ ] Links haben underline on hover
+
+**Typography:**
+- [ ] Font Sizes auf Mobile lesbar
+- [ ] Line Height ausreichend
+- [ ] Kontrast ausreichend (WCAG AA)
+
+---
+
+#### **📱 TEIL 4: MOBILE TESTING (45min - DU)**
+
+**Navigation:**
+- [ ] Mobile Menu öffnet/schließt korrekt
+- [ ] Alle Links funktionieren
+- [ ] Close Button funktioniert
+- [ ] Menu schließt beim Route-Wechsel
+
+**Forms:**
+- [ ] Input Fields groß genug (44x44px min)
+- [ ] Keyboard öffnet korrekt
+- [ ] Submit Buttons erreichbar
+- [ ] Validation Messages sichtbar
+
+**Tables & Lists:**
+- [ ] Horizontal Scroll wo nötig
+- [ ] Tap Targets groß genug
+- [ ] Text nicht abgeschnitten
+
+**Performance:**
+- [ ] Seiten laden <3s auf 3G
+- [ ] Smooth Scrolling
+- [ ] No Layout Shift
+
+---
+
+#### **⚡ TEIL 5: PERFORMANCE & CONSOLE CHECK (30min - CLAUDE)**
+
+**Build Check:**
+- [x] TypeScript (`npm run build` - Keine TS Errors) ✅
+- [ ] No Unused Imports
+- [ ] No Console Logs in Production Code
+- [ ] Bundle Size < 300KB initial
+
+**Browser Console:**
+- [ ] Keine Errors in Console
+- [ ] Keine Warnings in Console
+- [ ] Keine 404s im Network Tab
+- [ ] Keine CORS Errors
+
+**Performance:**
+- [ ] Lighthouse Score > 80 (Performance)
+- [ ] First Contentful Paint < 1.5s
+- [ ] Largest Contentful Paint < 2.5s
+- [ ] Time to Interactive < 3.5s
+
+---
+
+#### **🐛 TEIL 6: BUG FIXING (Restliche Zeit - CLAUDE)**
+
+**Nach jedem Test-Teil:**
+1. [ ] Bug-Liste erstellen mit Priority:
+   - 🔴 Critical (App unbenutzbar)
+   - 🟡 High (Feature nicht nutzbar)
+   - 🟢 Medium (Kleinere Probleme)
+   - ⚪ Low (Nice-to-have)
+
+2. [ ] CLAUDE fixt alle Critical & High Bugs
+3. [ ] Re-Testing nach Fixes
+4. [ ] Medium Bugs nur wenn Zeit bleibt
+
+**Bug Report Template:**
+```markdown
+**Priority:** 🔴/🟡/🟢/⚪
+**Feature:** [z.B. Login Form]
+**Issue:** [Beschreibung]
+**Steps to Reproduce:**
+1. ...
+2. ...
+**Expected:** ...
+**Actual:** ...
+```
+
+---
+
+**Deliverables:**
+- [ ] Vollständige Bug-Liste mit Priorities
+- [ ] Alle Critical Bugs gefixt
+- [ ] Alle High Bugs gefixt
+- [ ] Re-Test bestanden
+- [ ] QA Sign-Off ✅
+
+---
+
+### [x] 8.6 Email Templates & Integration
+
+**Status:** [x] Complete ✅
+**Dauer:** 4h (2.5h Templates + 1.5h Integration)
+**Priority:** 🔴 KRITISCH
+**Datum:** 2025-12-14
+
+**Beschreibung:**
+Transactional Email Templates für Order Lifecycle - komplett integriert.
+
+**Templates:**
+- [x] Order Confirmation (Customer) ✅
+- [x] Order Notification (Tailor) ✅
+- [x] Order Status Update (measuring, production, shipping, completed) ✅
+- [x] Welcome Email (nach Registrierung - Customer & Tailor) ✅
+
+**Tech Stack:**
+- ✅ React Email (Typsichere Templates mit React Components)
+- ✅ Resend (DSGVO-konform, 3000 Emails/Monat Free Tier)
+- ✅ Test-API Route für einfaches Testing
+
+**Implementiert:**
+1. ✅ 4 Email Templates (React Email Components)
+2. ✅ Email-Sending Utility Functions in `app/lib/email.ts`
+3. ✅ Helper Functions (formatCurrency, formatDate, generateOrderNumber)
+4. ✅ Test-API Route `/api/test-email` (nur Development)
+5. ✅ Environment Variables dokumentiert in `.env.local.example`
+6. ✅ Umfassende Dokumentation in `EMAIL_SETUP.md` & `EMAIL_QUICKSTART.md`
+
+**Integration in API Routes:**
+1. ✅ Welcome Email → `/api/auth/register` (fire-and-forget)
+2. ✅ Order Confirmation → `/api/webhooks/stripe` (Cart & Single Product)
+3. ✅ Order Notification (Tailor) → `/api/webhooks/stripe` (Cart & Single Product)
+4. ✅ Status Update Emails → `/api/orders/[id]` (PATCH)
+5. ✅ Build Testing - alle TypeScript Checks bestanden
+
+**Erfolgreich getestet:**
+- ✅ Resend API Key funktioniert
+- ✅ Test-Email erfolgreich versendet (ID: 8aa90b64-4299-4682-afea-ed8bc2994d43)
+- ✅ Production Build erfolgreich (15.5s compile time)
+
+---
+
+### [ ] 8.7 Production Environment Setup
+
+**Status:** [ ] Todo - Vorbereitung laufend ✅
+**Dauer:** 2-3h (optimiert mit Step-by-Step Checklist)
+**Priority:** 🔴 KRITISCH - ZWINGEND VOR LAUNCH
+**Arbeitsanteil:** Du: 70% | Claude: 30%
+
+**Beschreibung:**
+Production Environment einrichten und sichern. OHNE diesen Schritt kann die App NICHT live gehen.
+
+**Aktueller Stand (2025-12-19):**
+- ✅ Vercel Account konfiguriert (Projekt "tailormp" deployed)
+- ✅ Environment Variables in Vercel gesetzt (Development Config)
+- ✅ Build Settings optimiert (Next.js, Node 24.x, Standard Build Machine)
+- ✅ Detaillierte Checklist erstellt: [PRODUCTION_SETUP_CHECKLIST.md](PRODUCTION_SETUP_CHECKLIST.md)
+- [ ] Praxis-Test der Vercel Konfiguration durchführen
+- [ ] Production Credentials von Supabase & Stripe holen
+- [ ] Environment Variables auf Production umstellen
+- [ ] Live Testing & Launch
+
+---
+
+#### **🧪 TEIL 0: VERCEL PRAXIS-TEST (30min - OPTIONAL, aber empfohlen)**
+
+**Warum:** Verifizieren, dass die aktuelle Vercel Konfiguration nicht nur "auf dem Papier" gut aussieht, sondern auch wirklich funktioniert.
+
+**Test-Szenarien:**
+1. [ ] **Build Test:** Deployment triggern und Build-Logs prüfen
+   - Gehe zu Vercel → tailormp → Deployments
+   - Click auf neuestes Deployment → "Redeploy"
+   - Warte ~2-3min, prüfe ob Build erfolgreich
+   - **Erwartung:** ✅ Build successful, keine Errors
+
+2. [ ] **Live URL Test:** Deployed App im Browser öffnen
+   - Öffne `https://tailormp.vercel.app`
+   - **Check Homepage:** Lädt korrekt?
+   - **Check Navigation:** Links funktionieren?
+   - **Check Products Page:** Zeigt Produkte an?
+   - **Erwartung:** App läuft, nutzt aber noch Development DB
+
+3. [ ] **Environment Variables Test:** Verifizieren dass Secrets korrekt geladen werden
+   - Login auf deployed App versuchen
+   - Falls Login funktioniert → Supabase Connection works ✅
+   - Falls Fehler → Environment Variables prüfen
+
+4. [ ] **Performance Test:** Lighthouse Score auf Production URL
+   - Öffne Chrome DevTools → Lighthouse
+   - Run Audit auf `https://tailormp.vercel.app`
+   - **Erwartung:** Ähnliche Scores wie lokal (100/96/96/100)
+
+**Falls Probleme auftreten:**
+- Screenshot von Error machen
+- Build Logs kopieren
+- Claude fragen: "Praxis-Test zeigt Error X, was tun?"
+
+**Falls alles funktioniert:**
+- ✅ Vercel Config ist production-ready!
+- ✅ Weiter mit TEIL 1 (Supabase Production)
+
+---
+
+#### **📋 DETAILLIERTE CHECKLIST - Siehe separates Dokument**
+
+Für die vollständige Step-by-Step Anleitung für Production Setup:
+
+👉 **[PRODUCTION_SETUP_CHECKLIST.md](PRODUCTION_SETUP_CHECKLIST.md)** 👈
+
+**Die Checklist enthält:**
+- ✅ 5 Phasen mit genauen Anweisungen
+- ✅ Phase 1: Supabase Production (30 min)
+- ✅ Phase 2: Stripe Live Mode (45 min inkl. Wartezeit)
+- ✅ Phase 3: Database Migration (20 min)
+- ✅ Phase 4: Vercel Config Update (15 min)
+- ✅ Phase 5: Production Testing (30 min)
+- ✅ Troubleshooting Guide
+- ✅ Credentials Template zum Ausfüllen
+- ✅ Security Checklist
+
+**Quick Overview der 5 Phasen:**
+
+#### **PHASE 1: Supabase Production (30 min)**
+- Neues Supabase Project "tailormarket-production" erstellen
+- Region: Frankfurt (DSGVO Compliance)
+- Production Credentials holen (URL, anon_key, service_role_key)
+- Database Connection String erstellen
+
+#### **PHASE 2: Stripe Live Mode (45 min)**
+- Stripe Account aktivieren (Business Details, Ausweis Upload)
+- Bank Account verbinden (IBAN für Payouts)
+- Live API Keys holen (pk_live_..., sk_live_...)
+- Production Webhook erstellen für `tailormp.vercel.app`
+- ⏳ Wartezeit: 10-30min für Identity Verification
+
+#### **PHASE 3: Database Migration (20 min)**
+- Prisma Schema zu Production DB pushen
+- RLS Policies verifizieren
+- Optional: Seed Data für erste Produkte
+
+#### **PHASE 4: Vercel Environment Variables Update (15 min)**
+- 15 Environment Variables von Development → Production umstellen
+- Supabase URLs & Keys updaten
+- Stripe Test → Live Keys updaten
+- App URLs localhost → tailormp.vercel.app
+- Redeploy triggern (Fresh Build ohne Cache)
+
+#### **PHASE 5: Production Testing (30 min)**
+- Homepage, Login, Products testen
+- **Echte Test-Zahlung** mit Stripe Live Mode (€1-5)
+- Order erscheint in Dashboard?
+- Email Notifications funktionieren?
+- Database hat korrekte Daten?
+
+---
+
+**⚠️ KRITISCHE WARNINGS:**
+
+🔴 **NIEMALS DEV KEYS IN PRODUCTION VERWENDEN!**
+- Dev Keys haben zu viele Permissions → Sicherheitsrisiko
+- Development Supabase ≠ Production Supabase
+- Stripe Test Mode ≠ Live Mode
+
+🔴 **STRIPE LIVE MODE = ECHTES GELD!**
+- Test-Zahlungen mit echter Kreditkarte
+- Beträge niedrig halten (€1-5)
+- Geld kommt auf dein Bankkonto (2-7 Tage später)
+
+🔴 **PRODUCTION DB SEPARATION WICHTIG!**
+- Development DB für lokales Testen
+- Production DB für echte User
+- Nie dieselbe DB für beides nutzen!
+
+---
+
+**Vorbereitung für Production Setup Session:**
+
+**Bereithalten:**
+- [ ] Stripe Dashboard offen: [dashboard.stripe.com](https://dashboard.stripe.com)
+- [ ] Supabase Dashboard offen: [supabase.com/dashboard](https://supabase.com/dashboard)
+- [ ] Vercel Dashboard offen: [vercel.com/dashboard](https://vercel.com/dashboard)
+- [ ] Ausweis/Reisepass (Stripe Verification)
+- [ ] Kreditkarte (Test-Zahlung)
+- [ ] Bank IBAN (Stripe Payouts)
+- [ ] 2-3 Stunden Zeit (mit Pausen)
+- [ ] Notepad für Credentials (oder Password Manager)
+
+**Geschätzte Zeit mit optimierter Checklist:**
+- Vercel Praxis-Test: 30min (optional)
+- Supabase Production: 30min
+- Stripe Live Mode: 45min (inkl. Wartezeit)
+- Database Migration: 20min
+- Vercel Config Update: 15min
+- Production Testing: 30min
+
+**Total: ~2-3h** (statt vorher 5-6h dank vorbereiteter Checklist!)
+
+**Parallel-Arbeit möglich:**
+- Während Stripe Verification wartet → Database Migration machen
+- Während DNS Propagation wartet → Andere Checks durchführen
+
+---
+
+### [ ] 8.8 Monitoring & Error Tracking
 
 **Status:** [ ] Todo
-**Dauer:** ~22h gesamt
+**Dauer:** 2h
+**Priority:** 🟡 HOCH (kann nach Launch nachgezogen werden)
+**Arbeitsanteil:** Du: 40% | Claude: 60%
 
-**Schritte:**
-5. Complete E2E Test Suite
-6. Performance Optimization
-7. Email Templates
-8. Production Environment Setup
-9. Database Seeding
-10. Monitoring (Sentry)
-11. Analytics (Plausible)
-12. Documentation
-13. Final Testing
-14. Soft Launch
+**Beschreibung:**
+Monitoring und Error Tracking einrichten für Production. Hilft Fehler schnell zu erkennen und zu fixen.
+
+---
+
+#### **🔍 SENTRY SETUP (1h - DU + CLAUDE)**
+
+**Schritt-für-Schritt:**
+1. [ ] Gehe zu [sentry.io/signup](https://sentry.io/signup)
+2. [ ] Erstelle Account (Free Tier: 5K Events/Monat)
+3. [ ] Erstelle neues Projekt: "TailorMarket"
+4. [ ] Platform: Next.js
+5. [ ] **Kopiere DSN** → `NEXT_PUBLIC_SENTRY_DSN`
+6. [ ] CLAUDE installiert Sentry SDK:
+   ```bash
+   npm install @sentry/nextjs
+   npx @sentry/wizard@latest -i nextjs
+   ```
+7. [ ] CLAUDE konfiguriert:
+   - Frontend Error Tracking
+   - Backend Error Tracking
+   - Performance Monitoring
+   - Source Maps Upload
+8. [ ] Test: Error provozieren und in Sentry Dashboard prüfen
+
+**Sentry Features aktivieren:**
+- [ ] Error Grouping (automatisch)
+- [ ] Release Tracking (Git Integration)
+- [ ] Email Alerts für Critical Errors
+- [ ] Slack Integration (optional)
+
+---
+
+#### **📊 VERCEL ANALYTICS (15min - DU)**
+
+**Schritt-für-Schritt:**
+1. [ ] Gehe zu Vercel Dashboard → dein Projekt
+2. [ ] Analytics Tab → "Enable Analytics"
+3. [ ] Fertig! (automatisch aktiviert)
+
+**Features:**
+- Page Views
+- Unique Visitors
+- Top Pages
+- Real User Monitoring (Core Web Vitals)
+
+---
+
+#### **⏰ UPTIME MONITORING (30min - DU)**
+
+**Option A: UptimeRobot (Free)**
+1. [ ] Gehe zu [uptimerobot.com](https://uptimerobot.com)
+2. [ ] Erstelle Account
+3. [ ] Klicke "Add New Monitor"
+   - Monitor Type: HTTP(s)
+   - URL: `https://deine-app.vercel.app`
+   - Monitoring Interval: 5 minutes
+4. [ ] Email Alert einrichten
+5. [ ] Optional: Slack/Discord Webhook
+
+**Option B: Vercel Built-in Monitoring**
+- Already included in Vercel Dashboard!
+- Zeigt Deployment Status, Errors, Performance
+
+---
+
+#### **🗄️ DATABASE MONITORING (15min - CLAUDE)**
+
+**Supabase Built-in:**
+- [ ] Gehe zu Supabase Dashboard → Database
+- [ ] Enable "Database Webhooks" für kritische Events
+- [ ] Monitor: Query Performance, Connections, Storage
+
+**Alerts einrichten:**
+- [ ] Disk Usage > 80%
+- [ ] Connection Pool > 90%
+- [ ] Slow Queries > 5s
+
+---
+
+### [ ] 8.9 Analytics & DSGVO
+
+**Status:** [ ] Todo
+**Dauer:** 1-2h
+**Priority:** 🟢 MITTEL (kann nach Launch nachgezogen werden)
+**Arbeitsanteil:** Du: 50% | Claude: 50%
+
+**Beschreibung:**
+Privacy-freundliche Analytics + Cookie Consent für DSGVO-Konformität.
+
+---
+
+#### **📈 ANALYTICS SETUP (45min - DU + CLAUDE)**
+
+**Option A: Plausible (DSGVO-konform, empfohlen)**
+1. [ ] Gehe zu [plausible.io](https://plausible.io) (€9/Monat)
+2. [ ] Erstelle Account
+3. [ ] Add Site: `tailormarket.com`
+4. [ ] **Kopiere Script Snippet**
+5. [ ] CLAUDE fügt Script in `app/layout.tsx` ein
+6. [ ] Test: Eigene Besuche in Plausible Dashboard prüfen
+
+**Option B: Vercel Analytics (bereits aktiviert)**
+- Nutze nur Vercel Analytics (ausreichend für Start)
+
+**Custom Events tracken:**
+- [ ] Product View
+- [ ] Add to Cart
+- [ ] Checkout Started
+- [ ] Order Completed
+- [ ] Review Submitted
+
+---
+
+#### **🍪 COOKIE CONSENT (45min - CLAUDE)**
+
+**WICHTIG für DSGVO:**
+1. [ ] CLAUDE installiert Cookie Consent Library:
+   ```bash
+   npm install react-cookie-consent
+   ```
+2. [ ] CLAUDE erstellt Cookie Banner Component
+3. [ ] CLAUDE integriert in `app/layout.tsx`
+4. [ ] Banner Inhalt:
+   - "Diese Website nutzt Cookies für Analytics"
+   - "Akzeptieren" Button
+   - "Ablehnen" Button
+   - Link zu Datenschutzerklärung
+
+**Cookie Categories:**
+- [ ] Essentiell (immer aktiv): Auth, Session
+- [ ] Analytics (optional): Plausible, Vercel
+- [ ] Marketing (optional): none
+
+---
+
+#### **📄 DATENSCHUTZ UPDATE (30min - DU + CLAUDE)**
+
+1. [ ] CLAUDE erstellt Cookie Policy in `/datenschutz` (falls nicht vorhanden)
+2. [ ] DU prüfst Legal Requirements:
+   - [ ] Cookie-Liste vollständig
+   - [ ] Analytics Provider erwähnt
+   - [ ] Widerrufsrecht erklärt
+   - [ ] Kontakt-Email korrekt
+
+---
+
+### [ ] 8.10 Database Seeding (Production)
+
+**Status:** [ ] Todo
+**Dauer:** 1h
+**Priority:** 🟢 NIEDRIG (optional für Launch)
+**Arbeitsanteil:** Du: 20% | Claude: 80%
+
+**Beschreibung:**
+Demo-Daten in Production Database für bessere User Experience beim Launch.
+
+---
+
+#### **DEMO CONTENT (CLAUDE erstellt)**
+
+**Demo Tailor Accounts:**
+- [ ] 3-5 Demo Tailors mit vollständigen Profilen
+  - Name, Bio, Country, Languages
+  - Years Experience, Specialties
+  - Portfolio Images (mindestens 3 pro Tailor)
+  - Rating & Reviews (von Demo Customers)
+
+**Demo Products:**
+- [ ] 10-15 Demo Products
+  - Mix: Anzüge, Hemden, Hosen, Kleider
+  - Verschiedene Preisklassen (€50 - €500)
+  - Hochwertige Stock Images
+  - Detaillierte Descriptions
+  - Verschiedene Categories
+
+**Demo Reviews:**
+- [ ] 5-10 Reviews pro Top-Product
+  - Mix: 4-5 Sterne
+  - Realistische deutsche Texte
+  - Verschiedene Dates
+
+---
+
+#### **SEED SCRIPT (CLAUDE)**
+
+```bash
+# CLAUDE erstellt:
+npx tsx scripts/seed-production.ts
+```
+
+**Script Features:**
+- [ ] Prüft ob Production DB leer ist
+- [ ] Erstellt Demo Users (Tailors + Customers)
+- [ ] Erstellt Demo Products mit Images
+- [ ] Erstellt Demo Reviews
+- [ ] Erstellt Demo Orders (in Status "completed")
+- [ ] Idempotent (kann mehrfach ausgeführt werden)
+
+**DU musst:**
+- [ ] Production Database Connection String bereitstellen
+- [ ] Seed Execution bestätigen
+
+---
+
+### [ ] 8.11 Documentation
+
+**Status:** [ ] Todo
+**Dauer:** 2h
+**Priority:** 🟢 NIEDRIG (kann schrittweise gemacht werden)
+**Arbeitsanteil:** Du: 30% | Claude: 70%
+
+**Beschreibung:**
+Dokumentation für Entwickler und User erstellen.
+
+---
+
+#### **README.md (30min - CLAUDE)**
+
+- [ ] Project Overview
+- [ ] Tech Stack (Next.js, Supabase, Stripe, Resend)
+- [ ] Features Liste
+- [ ] Getting Started (Development Setup)
+- [ ] Environment Variables
+- [ ] Scripts (`npm run dev`, `build`, `test:e2e`)
+- [ ] Project Structure
+- [ ] Contributing Guidelines (optional)
+
+---
+
+#### **DEPLOYMENT_GUIDE.md (30min - CLAUDE)**
+
+- [ ] Vercel Deployment Steps
+- [ ] Environment Variables Setup
+- [ ] Supabase Production Setup
+- [ ] Stripe Live Mode Setup
+- [ ] Database Migration
+- [ ] Resend Domain Verification
+- [ ] Testing Checklist
+- [ ] Rollback Strategy
+
+---
+
+#### **API_DOCUMENTATION.md (45min - CLAUDE)**
+
+**Dokumentierte Endpoints:**
+- Auth: `/api/auth/*`
+- Products: `/api/products/*`
+- Orders: `/api/orders/*`
+- Checkout: `/api/checkout/*`
+- Tailor: `/api/tailor/*`
+
+**Format:**
+```markdown
+## POST /api/auth/register
+
+**Request:**
+{
+  "email": "user@example.com",
+  "password": "SecurePass123!",
+  "role": "customer"
+}
+
+**Response (201):**
+{
+  "user": { "id": "...", "email": "...", "role": "..." },
+  "message": "Registrierung erfolgreich"
+}
+
+**Errors:**
+- 400: Validation Error
+- 422: Invalid Input
+- 500: Server Error
+```
+
+---
+
+#### **USER_GUIDE.md für Tailors (15min - DU + CLAUDE)**
+
+- [ ] Wie registriere ich mich als Tailor?
+- [ ] Wie erstelle ich ein Produkt?
+- [ ] Wie lade ich Portfolio-Bilder hoch?
+- [ ] Wie verwalte ich Bestellungen?
+- [ ] Wie aktualisiere ich Order Status?
+- [ ] Wie funktioniert die Auszahlung?
+
+---
+
+### [ ] 8.12 Final Testing & Soft Launch
+
+**Status:** [ ] Todo
+**Dauer:** 2-3h
+**Priority:** 🔴 KRITISCH - LETZTER SCHRITT VOR LIVE
+**Arbeitsanteil:** Du: 80% | Claude: 20%
+
+**Beschreibung:**
+Finaler Test in Production Environment. ERST nach diesem Schritt ist die App ready für echte User!
+
+---
+
+#### **🧪 PRODUCTION SMOKE TESTS (1h - DU)**
+
+**Kompletter User Flow als Customer:**
+1. [ ] Registrierung als Customer
+   - Email erhalten? ✅
+   - Login funktioniert? ✅
+2. [ ] Browse Products
+   - Alle Images laden? ✅
+   - Filtering funktioniert? ✅
+3. [ ] Product Detail
+   - Reviews angezeigt? ✅
+   - Add to Cart? ✅
+4. [ ] Measurement
+   - QR Code scannen (Mock)? ✅
+   - Measurements gespeichert? ✅
+5. [ ] Checkout
+   - Stripe öffnet korrekt? ✅
+   - **ECHTE ZAHLUNG (€1-5)**? ✅
+   - Redirect zu Success? ✅
+   - Confirmation Email? ✅
+6. [ ] Order Dashboard
+   - Order angezeigt? ✅
+   - Details korrekt? ✅
+
+**Kompletter User Flow als Tailor:**
+1. [ ] Registrierung als Tailor
+   - Tailor Profile erstellt? ✅
+   - Email erhalten? ✅
+2. [ ] Profile Setup
+   - Bio + Portfolio Images? ✅
+   - Speichern funktioniert? ✅
+3. [ ] Product erstellen
+   - Image Upload? ✅
+   - Product live? ✅
+4. [ ] Order Management
+   - Test-Order sichtbar? ✅
+   - Status Update? ✅
+   - Customer Email versendet? ✅
+
+---
+
+#### **📱 MOBILE TESTING (30min - DU)**
+
+**Teste auf echten Geräten:**
+- [ ] iPhone/Android: Navigation
+- [ ] iPhone/Android: Forms (Login, Register)
+- [ ] iPhone/Android: Checkout Flow
+- [ ] iPhone/Android: Image Upload (Tailor)
+- [ ] iPhone/Android: Performance (< 3s Load)
+
+---
+
+#### **⚡ PERFORMANCE CHECK (15min - DU + CLAUDE)**
+
+**Lighthouse Audit auf Production URL:**
+1. [ ] Öffne Chrome DevTools → Lighthouse
+2. [ ] Run Audit (Mobile + Desktop)
+3. [ ] Ziele:
+   - Performance: > 80 ✅
+   - Accessibility: > 90 ✅
+   - Best Practices: > 90 ✅
+   - SEO: > 90 ✅
+
+**Falls Scores niedrig:**
+- [ ] CLAUDE optimiert Critical Issues
+- [ ] Re-Test
+
+---
+
+#### **🔒 SECURITY SCAN (30min - OPTIONAL)**
+
+**Quick Security Check:**
+- [ ] HTTPS überall aktiv? ✅
+- [ ] Keine Secrets in Client-Code? ✅
+- [ ] CSP Headers aktiv? ✅
+- [ ] Rate Limiting funktioniert? ✅
+- [ ] SQL Injection geschützt (Prisma)? ✅
+- [ ] XSS geschützt (React)? ✅
+
+**Tools (optional):**
+- [ ] OWASP ZAP Scan
+- [ ] Snyk Security Scan
+- [ ] npm audit
+
+---
+
+#### **🚀 SOFT LAUNCH (1-2 Tage - DU)**
+
+**Invite-Only Beta:**
+1. [ ] Invite 5-10 Test-User
+   - Mix: Customers + Tailors
+   - Freunde/Familie/Bekannte
+2. [ ] Bitte um Feedback:
+   - Bugs melden
+   - UX Feedback
+   - Feature Requests
+3. [ ] Bug Fixes (Critical/High)
+4. [ ] Re-Test
+
+**Nach 1-2 Tagen:**
+- [ ] Alle Critical Bugs gefixt? ✅
+- [ ] Payments funktionieren? ✅
+- [ ] Emails kommen an? ✅
+- [ ] Performance OK? ✅
+- [ ] **READY FOR PUBLIC LAUNCH!** 🎉
+
+---
+
+**GO/NO-GO Checklist:**
+- [ ] ✅ Production Environment Setup komplett
+- [ ] ✅ Alle Critical Bugs gefixt
+- [ ] ✅ Stripe Payments funktionieren (Live Mode)
+- [ ] ✅ Emails werden versendet
+- [ ] ✅ Performance > 80 (Lighthouse)
+- [ ] ✅ Mobile funktioniert
+- [ ] ✅ Soft Launch erfolgreich (5+ Test-User)
+- [ ] ✅ Monitoring aktiv (Sentry/Vercel)
+- [ ] ✅ Backup Strategy vorhanden
+
+**Wenn alle Checks ✅ → LAUNCH! 🚀**
 
 ---
 
@@ -1337,6 +2191,668 @@ Manuelle QA-Session zur Überprüfung aller Features und Behebung letzter Bugs v
 
 - [x] **MVP DEPLOYED & LIVE! 🎉**
 - **→ Post-MVP Features & Iteration**
+
+---
+
+## 🚀 PHASE 9: POST-MVP FEATURES & ENHANCEMENTS
+
+Nach dem Launch - Features zur Verbesserung von UX, Trust & Business Growth.
+
+---
+
+## 🔥 CRITICAL FEATURES (vor/kurz nach Launch)
+
+### [ ] 9.1 Password Reset Flow
+
+**Status:** [ ] Todo
+**Dauer:** 2-3h
+**Priority:** 🔴 KRITISCH
+**Arbeitsanteil:** Du: 20% | Claude: 80%
+
+**Beschreibung:**
+Users können Passwort zurücksetzen wenn sie es vergessen haben.
+
+**Implementation:**
+- [ ] "Forgot Password?" Link auf Login Page
+- [ ] `/forgot-password` Page mit Email Input
+- [ ] API Route: `/api/auth/forgot-password`
+  - Generate Reset Token (UUID)
+  - Save Token in Database (expires in 24h)
+  - Send Email mit Reset Link
+- [ ] `/reset-password` Page mit Token Validation
+- [ ] API Route: `/api/auth/reset-password`
+  - Validate Token
+  - Update Password
+  - Invalidate Token
+- [ ] Email Template: Password Reset
+
+**Supabase Integration:**
+- [ ] Nutze Supabase Auth Reset Password Flow
+- [ ] Email Template in Supabase konfigurieren
+
+**Testing:**
+- [ ] Forgot Password Flow testen
+- [ ] Token Expiration testen
+- [ ] Invalid Token Error Handling
+
+---
+
+### [ ] 9.2 Email Verification
+
+**Status:** [ ] Todo
+**Dauer:** 2h
+**Priority:** 🔴 KRITISCH (Security)
+**Arbeitsanteil:** Du: 20% | Claude: 80%
+
+**Beschreibung:**
+Neue User müssen Email verifizieren bevor sie bestellen können.
+
+**Implementation:**
+- [ ] Supabase Email Confirmation aktivieren
+- [ ] Verification Email Template konfigurieren
+- [ ] `/verify-email` Page (nach Registrierung)
+- [ ] "Resend Verification Email" Button
+- [ ] Middleware: Block Orders ohne verified Email
+- [ ] UI: Badge "Email not verified" im Header
+- [ ] Redirect zu `/verify-email` bei Order Attempt
+
+**Supabase Config:**
+- [ ] Enable Email Confirmation in Auth Settings
+- [ ] Customize Email Template
+- [ ] Set Redirect URL nach Verification
+
+**Testing:**
+- [ ] Registrierung → Email empfangen?
+- [ ] Click Verification Link → Redirect?
+- [ ] Resend Email funktioniert?
+- [ ] Unverified User kann nicht bestellen?
+
+---
+
+### [ ] 9.3 Rate Limiting für alle API Routes
+
+**Status:** [ ] Todo
+**Dauer:** 2h
+**Priority:** 🟡 HOCH (Security)
+**Arbeitsanteil:** Du: 10% | Claude: 90%
+
+**Beschreibung:**
+Erweitere Rate Limiting auf alle kritischen API Routes.
+
+**Bereits implementiert:**
+- [x] `/api/auth/register` - 3 requests/hour
+- [x] `/api/auth/login` - bereits implementiert
+
+**Noch zu schützen:**
+- [ ] `/api/products` - 100 requests/minute
+- [ ] `/api/orders` - 30 requests/minute
+- [ ] `/api/reviews` - 10 requests/minute (create)
+- [ ] `/api/checkout/session` - 10 requests/minute
+- [ ] `/api/tailor/products` - 20 requests/minute (create/update)
+- [ ] `/api/upload/*` - 5 requests/minute
+
+**Implementation:**
+- [ ] Erweitere `rateLimitMiddleware.ts`
+- [ ] Add neue Rate Limit Configs in `rateLimit.ts`
+- [ ] Apply to alle API Routes
+- [ ] Return 429 Too Many Requests
+- [ ] Add Retry-After Header
+
+**Testing:**
+- [ ] Spam Requests → 429 Error?
+- [ ] Normal Usage → kein Rate Limit?
+- [ ] IP-based Limiting funktioniert?
+
+---
+
+## ⭐ HIGH IMPACT FEATURES (Quick Wins)
+
+### [ ] 9.4 Product Search & Filtering
+
+**Status:** [ ] Todo
+**Dauer:** 2-3h
+**Priority:** ⭐⭐⭐ HOCH (UX)
+**Arbeitsanteil:** Du: 30% | Claude: 70%
+
+**Beschreibung:**
+Search Bar + Filter für bessere Product Discovery.
+
+**Features:**
+- [ ] Search Bar auf `/products` Page
+  - Durchsuche: Title, Description, Tailor Name
+  - Real-time Search (debounced)
+- [ ] Filter Sidebar:
+  - [ ] Kategorie (Anzüge, Hemden, Hosen, Kleider)
+  - [ ] Preis Range (Slider €0-€1000)
+  - [ ] Schneider (Multi-Select)
+  - [ ] Rating (min. 4 Sterne, etc.)
+- [ ] Sort Options:
+  - [ ] Preis: Low to High
+  - [ ] Preis: High to Low
+  - [ ] Rating: High to Low
+  - [ ] Neueste zuerst
+- [ ] "X Results found" Counter
+- [ ] "Clear Filters" Button
+
+**Implementation:**
+- [ ] Update `/api/products` Route:
+  - Add query params: `search`, `category`, `minPrice`, `maxPrice`, `tailorId`, `minRating`, `sort`
+  - Add WHERE clauses für Filter
+  - Add ORDER BY für Sorting
+- [ ] Create `ProductFilters` Component
+- [ ] Create `SearchBar` Component
+- [ ] Update `products/page.tsx`
+- [ ] URL Query Params (sharable Filter Links)
+
+**Testing:**
+- [ ] Search funktioniert?
+- [ ] Filter kombinierbar?
+- [ ] Sorting funktioniert?
+- [ ] URLParams persistent?
+
+---
+
+### [ ] 9.5 Order Tracking Timeline
+
+**Status:** [ ] Todo
+**Dauer:** 1.5-2h
+**Priority:** ⭐⭐ MITTEL-HOCH (UX)
+**Arbeitsanteil:** Du: 20% | Claude: 80%
+
+**Beschreibung:**
+Visual Timeline auf Order Detail Page für bessere Order Transparency.
+
+**Features:**
+- [ ] Timeline Component mit 4 Steps:
+  1. Bezahlt ✅
+  2. Maßprüfung (measuring)
+  3. Produktion (production)
+  4. Versandt (shipping) → Zugestellt (completed)
+- [ ] Active Step highlighted
+- [ ] Completed Steps: Green Checkmark
+- [ ] Current Step: Blue Spinner/Badge
+- [ ] Future Steps: Gray
+- [ ] Timestamps für jeden Step
+- [ ] Tracking Number anzeigen (wenn vorhanden)
+
+**Implementation:**
+- [ ] Create `OrderTimeline` Component
+- [ ] Map Order Status → Timeline Steps
+- [ ] Add to `/orders/[id]` Page
+- [ ] Responsive Design (Mobile: Vertical Timeline)
+
+**Testing:**
+- [ ] Verschiedene Status anzeigen korrekt?
+- [ ] Timestamps richtig?
+- [ ] Mobile Layout gut?
+
+---
+
+### [ ] 9.6 Product Image Gallery
+
+**Status:** [ ] Todo
+**Dauer:** 2-3h
+**Priority:** ⭐⭐ MITTEL (Conversion)
+**Arbeitsanteil:** Du: 30% | Claude: 70%
+
+**Beschreibung:**
+Multiple Images pro Produkt statt nur 1 Image.
+
+**Features:**
+- [ ] Upload bis zu 5 Images pro Product (Tailor)
+- [ ] Main Image + Thumbnail Gallery
+- [ ] Image Carousel auf Product Detail Page
+- [ ] Zoom on Hover (Desktop)
+- [ ] Swipe on Mobile
+- [ ] Image Order ändern (Tailor Dashboard)
+
+**Database:**
+- [ ] `ProductImage` Model bereits vorhanden!
+- [ ] Relation: Product → many ProductImages
+
+**Implementation:**
+- [ ] Update `/tailor/products/new` & `/tailor/products/[id]/edit`:
+  - Multi-Image Upload (bis zu 5)
+  - Image Preview mit Delete Button
+  - Drag & Drop Reordering
+- [ ] Update `/products/[id]`:
+  - Image Gallery Component
+  - Thumbnail Navigation
+  - Lightbox/Zoom Feature
+- [ ] API Route: `/api/upload/product-images` (multi-upload)
+
+**Testing:**
+- [ ] Upload 5 Images?
+- [ ] Gallery Navigation?
+- [ ] Mobile Swipe?
+- [ ] Image Delete?
+
+---
+
+### [ ] 9.7 Favorites / Wishlist
+
+**Status:** [ ] Todo
+**Dauer:** 2-3h
+**Priority:** ⭐ MITTEL (Engagement)
+**Arbeitsanteil:** Du: 20% | Claude: 80%
+
+**Beschreibung:**
+User können Products zu Favorites hinzufügen.
+
+**Features:**
+- [ ] Heart Icon auf ProductCard
+- [ ] Toggle Favorite (filled/outlined heart)
+- [ ] `/favorites` Page mit Favorite Products
+- [ ] Remove from Favorites
+- [ ] Empty State: "No favorites yet"
+- [ ] Counter im Header: "5 Favorites"
+
+**Database:**
+- [ ] `Favorite` Model:
+  ```prisma
+  model Favorite {
+    id        String   @id @default(cuid())
+    userId    String
+    productId String
+    createdAt DateTime @default(now())
+    user      User     @relation(fields: [userId], references: [id])
+    product   Product  @relation(fields: [productId], references: [id])
+    @@unique([userId, productId])
+  }
+  ```
+
+**Implementation:**
+- [ ] Prisma Schema Update
+- [ ] Migration: `prisma db push`
+- [ ] API Routes:
+  - POST `/api/favorites` - Add to Favorites
+  - DELETE `/api/favorites/[id]` - Remove
+  - GET `/api/favorites` - Get User Favorites
+- [ ] `FavoriteButton` Component (Heart Icon)
+- [ ] `/favorites` Page
+- [ ] Add to ProductCard
+- [ ] Add to Product Detail Page
+
+**Testing:**
+- [ ] Add to Favorites?
+- [ ] Remove from Favorites?
+- [ ] Favorites Page angezeigt?
+- [ ] Auth Required?
+
+---
+
+## 📊 BUSINESS FEATURES
+
+### [ ] 9.8 Admin Dashboard
+
+**Status:** [ ] Todo
+**Dauer:** 4-5h
+**Priority:** ⭐⭐⭐ HOCH (Business Insights)
+**Arbeitsanteil:** Du: 30% | Claude: 70%
+
+**Beschreibung:**
+Admin Dashboard für Platform Management & Analytics.
+
+**Features:**
+- [ ] Overview Page (`/admin/dashboard`):
+  - Total Revenue (letzte 30 Tage)
+  - Total Orders (letzte 30 Tage)
+  - Active Users (Customer + Tailors)
+  - Top Tailors (by Revenue)
+  - Recent Orders (letzte 10)
+- [ ] Charts:
+  - Revenue over Time (Line Chart)
+  - Orders over Time (Bar Chart)
+  - Top Products (Pie Chart)
+- [ ] User Management (`/admin/users`):
+  - User List (Customer + Tailors)
+  - Search Users
+  - Ban/Unban User
+  - Delete User (+ all data)
+- [ ] Product Moderation (`/admin/products`):
+  - Flag inappropriate Products
+  - Approve/Reject new Products
+  - Delete Products
+
+**Database:**
+- [ ] Add `role` field to User: `customer | tailor | admin`
+- [ ] Migration: Set your User to `admin`
+
+**Implementation:**
+- [ ] Middleware: Check Admin Role
+- [ ] API Routes:
+  - GET `/api/admin/stats` - Dashboard Stats
+  - GET `/api/admin/users` - User List
+  - PATCH `/api/admin/users/[id]` - Ban/Unban
+  - DELETE `/api/admin/users/[id]` - Delete User
+  - GET `/api/admin/products` - Product List
+  - DELETE `/api/admin/products/[id]` - Delete Product
+- [ ] Charts Library: `recharts` oder `chart.js`
+- [ ] Admin Layout mit Sidebar
+- [ ] Protected Routes (Admin only)
+
+**Testing:**
+- [ ] Only Admin can access?
+- [ ] Stats korrekt?
+- [ ] Charts angezeigt?
+- [ ] User Management funktioniert?
+
+---
+
+### [ ] 9.9 Tailor Payout Dashboard
+
+**Status:** [ ] Todo
+**Dauer:** 4-5h
+**Priority:** ⭐⭐⭐ HOCH (Tailor Satisfaction)
+**Arbeitsanteil:** Du: 40% | Claude: 60%
+
+**Beschreibung:**
+Tailors sehen ihre Earnings & können Payouts anfordern.
+
+**Features:**
+- [ ] Earnings Overview (`/tailor/earnings`):
+  - Total Earnings (All Time)
+  - Available Balance (nicht ausgezahlt)
+  - Pending Payouts
+  - Last Payout Date & Amount
+- [ ] Transaction History:
+  - Liste aller Orders mit Earnings
+  - Status: Paid, Pending, Payout Requested
+  - Filter by Date Range
+- [ ] Payout Request:
+  - Button "Request Payout" (nur wenn Balance > €50)
+  - Payout Method: Bank Transfer (IBAN)
+  - Status: Pending → Processed
+- [ ] Admin Approval:
+  - Admin sieht Payout Requests
+  - Approve/Reject
+  - Mark as Paid
+
+**Database:**
+- [ ] `Payout` Model:
+  ```prisma
+  model Payout {
+    id        String   @id @default(cuid())
+    tailorId  String
+    amount    Float
+    status    String   @default("pending") // pending, approved, paid, rejected
+    iban      String
+    requestedAt DateTime @default(now())
+    processedAt DateTime?
+    tailor    Tailor   @relation(fields: [tailorId], references: [id])
+  }
+  ```
+
+**Implementation:**
+- [ ] Prisma Schema Update
+- [ ] Migration
+- [ ] API Routes:
+  - GET `/api/tailor/earnings` - Earnings Stats
+  - GET `/api/tailor/payouts` - Payout History
+  - POST `/api/tailor/payouts` - Request Payout
+  - GET `/api/admin/payouts` - All Payouts (Admin)
+  - PATCH `/api/admin/payouts/[id]` - Approve/Reject (Admin)
+- [ ] `/tailor/earnings` Page
+- [ ] Payout Request Modal
+- [ ] Admin Payout Management Page
+
+**Later: Stripe Connect Integration**
+- [ ] Automated Payouts via Stripe Connect
+- [ ] Direct Bank Transfer
+
+**Testing:**
+- [ ] Earnings berechnet korrekt?
+- [ ] Payout Request funktioniert?
+- [ ] Admin Approval?
+- [ ] Email Notification bei Payout?
+
+---
+
+### [ ] 9.10 Notifications System
+
+**Status:** [ ] Todo
+**Dauer:** 5-6h
+**Priority:** ⭐⭐ MITTEL-HOCH (Engagement)
+**Arbeitsanteil:** Du: 20% | Claude: 80%
+
+**Beschreibung:**
+In-App Notifications für wichtige Events.
+
+**Features:**
+- [ ] Bell Icon im Header mit Badge (Unread Count)
+- [ ] Notification Dropdown:
+  - Letzte 10 Notifications
+  - Mark as Read
+  - "See all" Link
+- [ ] `/notifications` Page:
+  - Alle Notifications
+  - Filter: Unread, All
+  - Pagination
+- [ ] Notification Types:
+  - New Order (Tailor)
+  - Order Status Update (Customer)
+  - New Review (Tailor)
+  - Payout Approved (Tailor)
+  - Product Approved (Tailor, wenn Moderation aktiv)
+
+**Database:**
+- [ ] `Notification` Model:
+  ```prisma
+  model Notification {
+    id        String   @id @default(cuid())
+    userId    String
+    type      String   // order_new, order_status, review_new, payout_approved
+    title     String
+    message   String
+    link      String?  // URL to related resource
+    read      Boolean  @default(false)
+    createdAt DateTime @default(now())
+    user      User     @relation(fields: [userId], references: [id])
+  }
+  ```
+
+**Implementation:**
+- [ ] Prisma Schema Update
+- [ ] Migration
+- [ ] API Routes:
+  - GET `/api/notifications` - Get User Notifications
+  - PATCH `/api/notifications/[id]/read` - Mark as Read
+  - PATCH `/api/notifications/mark-all-read` - Mark All
+- [ ] Helper Function: `createNotification(userId, type, data)`
+- [ ] Trigger Notifications:
+  - Nach Order Creation
+  - Nach Order Status Update
+  - Nach Review Creation
+  - Nach Payout Approval
+- [ ] `NotificationBell` Component (Header)
+- [ ] `NotificationDropdown` Component
+- [ ] `/notifications` Page
+
+**Optional: Real-time (Pusher/Socket.io):**
+- [ ] Real-time Notifications via WebSocket
+- [ ] Push Notifications (Browser API)
+
+**Testing:**
+- [ ] Notifications erstellt?
+- [ ] Badge Count korrekt?
+- [ ] Mark as Read funktioniert?
+- [ ] Links korrekt?
+
+---
+
+## 🎨 UX ENHANCEMENTS
+
+### [ ] 9.11 Tailor Response Time Badge
+
+**Status:** [ ] Todo
+**Dauer:** 1h
+**Priority:** ⭐ NIEDRIG (Trust Signal)
+**Arbeitsanteil:** Du: 10% | Claude: 90%
+
+**Beschreibung:**
+Zeige "Antwortet in < 24h" Badge auf Tailor Profilen.
+
+**Features:**
+- [ ] Berechne Average Response Time:
+  - Zeit zwischen Order Creation & erstem Status Update
+  - Durchschnitt der letzten 10 Orders
+- [ ] Badge auf Tailor Profile:
+  - "⚡ Antwortet in < 24h" (green)
+  - "📧 Antwortet in 1-3 Tagen" (yellow)
+  - Kein Badge wenn > 3 Tage
+- [ ] Badge auch auf TailorCard (Tailor Listing)
+
+**Implementation:**
+- [ ] Add `averageResponseTime` field to Tailor (calculated)
+- [ ] Function: `calculateResponseTime(tailorId)`
+- [ ] Cron Job: Update alle Tailors (daily)
+- [ ] Badge Component
+- [ ] Add to Tailor Profile & TailorCard
+
+**Testing:**
+- [ ] Response Time korrekt berechnet?
+- [ ] Badge angezeigt?
+
+---
+
+### [ ] 9.12 Review Reply System
+
+**Status:** [ ] Todo
+**Dauer:** 3h
+**Priority:** ⭐ NIEDRIG-MITTEL (Customer Service)
+**Arbeitsanteil:** Du: 20% | Claude: 80%
+
+**Beschreibung:**
+Tailors können auf Reviews antworten.
+
+**Features:**
+- [ ] "Reply" Button auf Reviews (nur Tailor der gereviewed wurde)
+- [ ] Reply Form (Textarea + Submit)
+- [ ] Reply angezeigt unter Review
+- [ ] Edit/Delete Reply (Tailor only)
+- [ ] Email an Customer: "Tailor hat geantwortet"
+
+**Database:**
+- [ ] Add `reply` field to Review:
+  ```prisma
+  model Review {
+    ...
+    reply     String?
+    repliedAt DateTime?
+  }
+  ```
+
+**Implementation:**
+- [ ] Migration
+- [ ] API Route: PATCH `/api/reviews/[id]/reply`
+  - Only Tailor can reply
+  - Only to Reviews of their Products
+- [ ] Update Review Display Component
+- [ ] Reply Form Component
+- [ ] Email Notification (optional)
+
+**Testing:**
+- [ ] Nur Tailor kann replyen?
+- [ ] Reply gespeichert?
+- [ ] Email versendet?
+
+---
+
+### [ ] 9.13 Product Variants (Sizes, Colors)
+
+**Status:** [ ] Todo
+**Dauer:** 5-6h
+**Priority:** ⭐⭐ MITTEL (Scalability)
+**Arbeitsanteil:** Du: 30% | Claude: 70%
+
+**Beschreibung:**
+Products mit Varianten (Size, Color) statt separate Products.
+
+**Features:**
+- [ ] Variant System:
+  - Size: XS, S, M, L, XL, XXL
+  - Color: Red, Blue, Black, White, etc.
+  - Custom Fields (z.B. "Stoffart")
+- [ ] Variant Selection im Checkout
+- [ ] Inventory Tracking pro Variant
+- [ ] Price per Variant (optional)
+
+**Database:**
+- [ ] `ProductVariant` Model:
+  ```prisma
+  model ProductVariant {
+    id        String  @id @default(cuid())
+    productId String
+    size      String?
+    color     String?
+    sku       String? // Stock Keeping Unit
+    price     Float?  // Optional variant price
+    stock     Int     @default(0)
+    product   Product @relation(fields: [productId], references: [id])
+  }
+  ```
+
+**Implementation:**
+- [ ] Prisma Schema Update
+- [ ] Migration
+- [ ] Update Product Create/Edit Forms:
+  - Add Variants Section
+  - Add/Remove Variants
+  - Set Stock per Variant
+- [ ] Update Product Detail Page:
+  - Variant Selector (Dropdowns/Buttons)
+  - Update Price when Variant selected
+  - Check Stock availability
+- [ ] Update Checkout:
+  - Save selected Variant
+  - Reduce Stock after Order
+- [ ] API Routes for Variants
+
+**Testing:**
+- [ ] Variants erstellt?
+- [ ] Selection funktioniert?
+- [ ] Stock Tracking?
+- [ ] Checkout mit Variant?
+
+---
+
+## 📝 POST-LAUNCH OPTIMIZATIONS
+
+### [ ] 9.14 SEO Optimization
+
+**Dauer:** 2-3h | **Priority:** 🟢 MITTEL
+
+- [ ] Dynamic Meta Tags (Title, Description per Page)
+- [ ] Open Graph Tags (Social Sharing)
+- [ ] Structured Data (JSON-LD für Products, Reviews)
+- [ ] Sitemap.xml generieren
+- [ ] Robots.txt optimieren
+- [ ] Alt Tags für alle Images
+
+---
+
+### [ ] 9.15 Performance Optimizations
+
+**Dauer:** 3-4h | **Priority:** 🟢 MITTEL
+
+- [ ] Image Optimization (WebP, Lazy Loading)
+- [ ] Code Splitting (weitere Components)
+- [ ] Database Query Optimization (N+1 Problem lösen)
+- [ ] Redis Caching (Products, Tailors)
+- [ ] CDN für Static Assets
+
+---
+
+### [ ] 9.16 Accessibility (A11Y)
+
+**Dauer:** 3-4h | **Priority:** 🟢 MITTEL
+
+- [ ] Keyboard Navigation testen
+- [ ] Screen Reader Support
+- [ ] ARIA Labels hinzufügen
+- [ ] Color Contrast prüfen (WCAG AA)
+- [ ] Focus States verbessern
+- [ ] Skip Links hinzufügen
 
 ---
 
@@ -1351,9 +2867,9 @@ Manuelle QA-Session zur Überprüfung aller Features und Behebung letzter Bugs v
 - [x] Phase 5: Checkout & Orders (12/12 Steps) ✅
 - [x] Phase 6: Tailor Features (6/6 Steps) ✅
 - [x] Phase 7: Reviews & Polish (8/12 Steps) ✅
-- [~] Phase 8: Testing & Deployment (3/14 Steps) 🔄 **E2E Tests: 16/16 passed (100%)!**
+- [~] Phase 8: Testing & Deployment (5/12 Steps) 🔄 **E2E: 100% | Performance: ⚡ | Emails: ✅**
 
-**Gesamtfortschritt:** 61/81 Steps (75.3%)
+**Gesamtfortschritt:** 63/79 Steps (79.7%)
 
 ---
 
@@ -1379,17 +2895,24 @@ Erstelle den Header wie in der Roadmap beschrieben.
 
 ## 🎯 NÄCHSTER SCHRITT
 
-**→ Phase 8.2: Manual Testing**
+**→ Phase 8.5: Final Polish Check**
 
-Phase 8.1 (Code Review) ist abgeschlossen!
+Phase 8.4 (Performance Optimization) ist abgeschlossen! ⚡
 
-**Completed in Phase 8.1:**
-- ✅ Vollständige Code Review
-- ✅ Issue #1 gefixt (Price Field Inconsistency)
-- ✅ Database Schema cleaned up
-- ✅ API Tests erfolgreich
+**Completed in Phase 8:**
+- ✅ Phase 8.1: Code Review & Bug Fixes
+- ✅ Phase 8.2: Manual Testing (Automated Portion)
+- ✅ Phase 8.3: E2E Test Setup (16/16 Tests passed - 100%)
+- ✅ Phase 8.4: Performance Optimization (Build -58% faster!)
 
-Das MVP ist **feature-complete**! Alle Kern-Features sind implementiert:
+**Performance Improvements:**
+- ⚡ Build Time: 67s → 28.3s (**-58% faster**)
+- 📦 Bundle Size: ~215KB → ~170KB (**-21%**)
+- 🚀 Database Composite Indexes für schnellere Queries
+- 💨 Code Splitting (Lazy Load Reviews)
+- 🔒 Enhanced Security Headers
+
+Das MVP ist **feature-complete & performance-optimized**! Alle Kern-Features:
 - ✅ Authentication & Authorization
 - ✅ Product & Tailor Marketplace mit Advanced Filters
 - ✅ Shopping Cart & Checkout (Stripe Integration)
@@ -1397,35 +2920,54 @@ Das MVP ist **feature-complete**! Alle Kern-Features sind implementiert:
 - ✅ Review System
 - ✅ Measurement Tool (Mock/Manual Provider)
 - ✅ Tailor Product Management
+- ✅ **Performance Optimizations (NEU!)**
 
-**Nächste Schritte:**
-1. Manual Testing aller Features
-2. Bug Fixes & Polish
-3. Performance Optimization
-4. Production Deployment Vorbereitung
+**Nächster Schritt: Phase 8.5 - Final Polish Check**
+- Manual Browser Testing aller Features
+- Bug-Erfassung & Priorisierung
+- Console Error Check
+- Mobile Responsiveness Check
 
 **Quick Start Test:**
 ```bash
-# Terminal 1: Dev Server
+# Dev Server starten
 npm run dev
 
-# Terminal 2: Stripe Webhooks
-stripe listen --forward-to localhost:3000/api/webhooks/stripe
-
-# Test Checkout Flow:
-# 1. Öffne: http://localhost:3000/products
-# 2. Klicke auf Produkt → "Jetzt bestellen"
-# 3. Fülle Checkout aus, zahle mit: 4242 4242 4242 4242
-# 4. Siehe Success Page & Dashboard
+# Öffne: http://localhost:3000
+# Teste alle Features im Browser
 ```
 
 **Dokumentation:**
-- `docs/PHASE_5_IMPLEMENTATION.md` - Vollständige Feature-Dokumentation
-- `docs/PHASE_5_QUICKSTART.md` - Testing Guide
+- [PHASE8_PERFORMANCE_OPTIMIZATION.md](PHASE8_PERFORMANCE_OPTIMIZATION.md) - Performance Report
+- [E2E_TEST_SUCCESS.md](E2E_TEST_SUCCESS.md) - E2E Test Results
+- [PHASE8_CODE_REVIEW.md](PHASE8_CODE_REVIEW.md) - Code Review Report
 
 ---
 
-**Version:** 1.8
-**Letztes Update:** 2025-12-04
-**Status:** Phase 8.3 Complete - 100% E2E Pass Rate! (61/80 Steps = 76.3%) ✨
-**Nächster Schritt:** Phase 8.4 - Performance Optimization oder weitere E2E Tests
+**Version:** 2.1
+**Letztes Update:** 2025-12-14
+**Status:** Phase 8.6 Complete - Email Templates Ready! 📧 (63/79 Steps = 79.7%)
+**Nächster Schritt:** Phase 8.5 - Final Polish Check (Manual QA) ODER Phase 8.7 - Production Setup
+
+---
+
+## ⚠️ KRITISCHE PRE-LAUNCH CHECKLISTE
+
+**🔒 SICHERHEIT (ZWINGEND ERFORDERLICH):**
+
+1. **Supabase Keys austauschen**
+   - [ ] Production Project erstellen
+   - [ ] Neue NEXT_PUBLIC_SUPABASE_URL
+   - [ ] Neue NEXT_PUBLIC_SUPABASE_ANON_KEY
+   - [ ] Neue SUPABASE_SERVICE_ROLE_KEY
+   - [ ] ⚠️ Dev-Keys NIEMALS in Production!
+
+2. **Stripe Production Setup**
+   - [ ] Stripe Account verifizieren
+   - [ ] Live Mode aktivieren
+   - [ ] Production Keys generieren (STRIPE_SECRET_KEY, PUBLISHABLE_KEY)
+   - [ ] Webhook Endpoint konfigurieren
+   - [ ] Test-Payment durchführen
+   - [ ] ⚠️ Test-Keys NIEMALS in Production!
+
+**📋 Details siehe Phase 8.7 - Production Environment Setup**

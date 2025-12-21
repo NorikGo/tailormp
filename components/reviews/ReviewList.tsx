@@ -68,7 +68,6 @@ export function ReviewList({ productId, tailorId, limit }: ReviewListProps) {
       setReviews(limit ? data.reviews.slice(0, limit) : data.reviews);
       setStats(data.stats);
     } catch (err) {
-      console.error("Fetch reviews error:", err);
       setError(err instanceof Error ? err.message : "Fehler beim Laden");
     } finally {
       setLoading(false);
@@ -101,7 +100,6 @@ export function ReviewList({ productId, tailorId, limit }: ReviewListProps) {
       // Refresh reviews
       fetchReviews();
     } catch (error) {
-      console.error("Delete review error:", error);
       toast({
         title: "Fehler",
         description:

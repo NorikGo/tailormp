@@ -188,6 +188,10 @@ model Product {
   @@index([createdAt])
   @@index([price])
   @@index([isActive])
+  // Composite indexes for common query patterns
+  @@index([isActive, createdAt(sort: Desc)])
+  @@index([category, price])
+  @@index([tailorId, isActive])
 }
 
 //
