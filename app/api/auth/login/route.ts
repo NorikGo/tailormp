@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       // Invalid credentials
+      console.error("[LOGIN] Supabase auth error:", error.message, error);
       return NextResponse.json(
         { error: "Ungültige Anmeldedaten" },
         { status: 401 }
@@ -38,6 +39,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!data.user || !data.session) {
+      console.error("[LOGIN] No user or session returned:", { user: !!data.user, session: !!data.session });
       return NextResponse.json(
         { error: "Anmeldung fehlgeschlagen" },
         { status: 401 }
@@ -45,6 +47,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Load user role from database, or create user if not exists
+    console.log("[LOGIN] Attempting to find user in DB:", data.user.id);
     let dbUser = await prisma.user.findUnique({
       where: { id: data.user.id },
       select: { role: true, tailor: true },
@@ -52,6 +55,7 @@ export async function POST(request: NextRequest) {
 
     // If user doesn't exist in DB, create them (fallback for existing Supabase Auth users)
     if (!dbUser) {
+      console.log("[LOGIN] User not found in DB, creating new user");
       dbUser = await prisma.user.create({
         data: {
           id: data.user.id,
@@ -62,6 +66,7 @@ export async function POST(request: NextRequest) {
         select: { role: true, tailor: true },
       });
     }
+    console.log("[LOGIN] User loaded/created successfully, role:", dbUser?.role);
 
     // If user is a tailor but doesn't have a tailor profile, create one
     if (dbUser?.role === "tailor" && !dbUser.tailor) {
@@ -112,7 +117,11 @@ export async function POST(request: NextRequest) {
     }
 
     // Generic error
-    // console.error("Login error:", error);
+    console.error("[LOGIN] Unexpected error:", error);
+    console.error("[LOGIN] Error details:", {
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return NextResponse.json(
       { error: "Ein Fehler ist aufgetreten" },
       { status: 500 }
