@@ -314,9 +314,10 @@ export interface SuitMeasurements {
 
 ### R2.1 Price Calculation Engine
 
-**Status:** [ ] Todo
-**Dauer:** 4-5h
+**Status:** [x] DONE (2025-12-23)
+**Dauer:** 4-5h (Tatsächlich: ~30min)
 **Dateien:** `lib/pricing/suit-pricing.ts` (neu)
+**Commit:** `f14cd13` on `development` branch
 
 **Aufgabe:**
 Erstelle eine zentrale Preisberechnungs-Logik.
@@ -403,9 +404,11 @@ WICHTIG:
 
 **Test Checklist:**
 
-- [ ] Preisberechnung funktioniert
-- [ ] Aufteilung ergibt immer 100%
-- [ ] Edge Cases getestet (ungültige IDs)
+- [x] Preisberechnung funktioniert (7/7 Tests passed)
+- [x] Aufteilung ergibt immer 100% (validatePricingConfig)
+- [x] Edge Cases getestet (ungültige IDs, inactive fabrics)
+- [x] Helper-Functions: formatPrice, getPricingOverview
+- [x] TypeScript Compilation: 0 Errors
 
 ---
 
