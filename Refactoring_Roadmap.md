@@ -669,9 +669,10 @@ shadcn/ui nutzen:
 
 ### R3.3 Suit Configuration Flow (KERN-FEATURE)
 
-**Status:** [ ] Todo
-**Dauer:** 8-10h
-**Dateien:** `app/(marketplace)/suits/configure/*` (neu)
+**Status:** [x] DONE (2025-12-23)
+**Dauer:** 8-10h (Tatsächlich: ~3h)
+**Dateien:** `app/(marketplace)/suits/configure/*` (neu), `app/contexts/SuitConfigContext.tsx`, `app/components/suits/ConfigProgress.tsx`, `app/api/fabrics/route.ts`, `app/api/suits/configured/route.ts`
+**Commits:** `1719a74` on `development` branch
 
 **Aufgabe:**
 Erstelle den Haupt-Flow für Anzug-Konfiguration.
@@ -805,11 +806,15 @@ WICHTIG:
 
 **Test Checklist:**
 
-- [ ] Flow ist komplett durchlaufbar
-- [ ] Zurück-Navigation funktioniert
-- [ ] Preis wird korrekt berechnet
-- [ ] Config wird in Cart übernommen
-- [ ] Mobile-optimiert
+- [x] Flow ist komplett durchlaufbar (5 Steps implementiert)
+- [x] Zurück-Navigation funktioniert (ChevronLeft Buttons, "Ändern" Links)
+- [x] Preis wird korrekt berechnet (Base + Fabric + Customizations)
+- [x] Config wird in Cart übernommen (API Integration via /api/suits/configured)
+- [x] Mobile-optimiert (Responsive Grids, Stack-Layout)
+- [x] State Management mit localStorage (SuitConfigContext)
+- [x] Progress Bar (ConfigProgress component)
+- [x] Validation (Measurements, Fabric selection)
+- [x] Build erfolgreich (63 Routes compiled)
 
 ---
 
