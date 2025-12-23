@@ -173,6 +173,20 @@ model Product {
   customizationOptions Json? // { fabrics: [...], colors: [...], buttons: [...], etc. }
   requiresMeasurements Boolean @default(true)
 
+  // ── SUIT-SPECIFIC FIELDS (R1.1) ──
+  // Suit Model & Style
+  suitModel    String? // "classic" | "business" | "premium"
+  fitType      String? // "slim" | "regular" | "relaxed"
+  lapelStyle   String? // "notch" | "peak" | "shawl"
+  ventStyle    String? // "single" | "double" | "none"
+  buttonCount  Int?    @default(2) // 1, 2, 3
+  pocketStyle  String? // "flap" | "patch" | "welted"
+
+  // Fabric (wird in R1.2 zur Relation)
+  fabricId     String? // Relation zur Fabric Library (kommt in R1.2)
+  fabricName   String? // Temporär: Name des Stoffs
+  fabricMaterial String? // Temporär: z.B. "100% Wool"
+
   // Timestamps
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @default(now()) @updatedAt
@@ -188,6 +202,8 @@ model Product {
   @@index([createdAt])
   @@index([price])
   @@index([isActive])
+  @@index([suitModel]) // NEW: für Anzug-Modell Filter
+  @@index([fitType])   // NEW: für Fit-Type Filter
   // Composite indexes for common query patterns
   @@index([isActive, createdAt(sort: Desc)])
   @@index([category, price])
