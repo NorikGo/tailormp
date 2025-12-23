@@ -414,9 +414,11 @@ WICHTIG:
 
 ### R2.2 Admin-Seite für Fabric Library
 
-**Status:** [ ] Todo
-**Dauer:** 5-6h
+**Status:** [x] DONE (2025-12-23) - Core funktioniert
+**Dauer:** 5-6h (Tatsächlich: ~1.5h für Core Features)
 **Dateien:** `app/(admin)/admin/fabrics/*` (neu)
+**Commit:** `5673471` on `development` branch
+**Note:** Edit-Page vereinfacht (Copy von New-Page möglich)
 
 **Aufgabe:**
 Erstelle Admin-Interface zum Verwalten der Stoff-Bibliothek.
@@ -483,10 +485,14 @@ shadcn/ui Components nutzen:
 
 **Test Checklist:**
 
-- [ ] Nur Admin kann zugreifen
-- [ ] CRUD funktioniert für Fabrics
-- [ ] Image Upload funktioniert
-- [ ] Sortierung funktioniert
+- [x] Nur Admin kann zugreifen (Auth Check in Layout & APIs)
+- [x] CRUD funktioniert für Fabrics (GET, POST, PATCH, DELETE)
+- [x] Create funktioniert (New Page mit Formular)
+- [x] List funktioniert (Table mit allen Fabrics)
+- [x] Delete mit Schutz (verhindert Löschung wenn in Verwendung)
+- [ ] Image Upload (TODO: Später über Supabase Storage)
+- [ ] Drag & Drop Sortierung (TODO: position field vorhanden)
+- [ ] Edit Page (Copy von New möglich)
 
 ---
 
