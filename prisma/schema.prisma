@@ -129,9 +129,10 @@ model Tailor {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  user     User      @relation(fields: [user_id], references: [id])
-  products Product[]
-  reviews  Review[]
+  user          User           @relation(fields: [user_id], references: [id])
+  products      Product[]
+  reviews       Review[]
+  tailorFabrics TailorFabric[] // R4.2: Verfügbare Stoffe
 
   @@index([country])
   @@index([rating])
@@ -149,27 +150,59 @@ model Tailor {
 //
 
 model Fabric {
-  id            String    @id @default(cuid())
-  name          String    // z.B. "Navy Blue Wool 120s"
+  id            String          @id @default(cuid())
+  name          String          // z.B. "Navy Blue Wool 120s"
   description   String?
-  material      String    // z.B. "100% Wool", "Wool/Cashmere Blend"
-  weight        String?   // z.B. "260g/m²"
-  pattern       String?   // z.B. "Solid", "Pinstripe", "Check"
-  color         String    // z.B. "Navy Blue"
-  season        String?   // z.B. "All Season", "Summer", "Winter"
+  material      String          // z.B. "100% Wool", "Wool/Cashmere Blend"
+  weight        String?         // z.B. "260g/m²"
+  pattern       String?         // z.B. "Solid", "Pinstripe", "Check"
+  color         String          // z.B. "Navy Blue"
+  season        String?         // z.B. "All Season", "Summer", "Winter"
   imageUrl      String?
-  priceCategory String    // "standard" | "premium" | "luxury"
-  priceAdd      Float     @default(0) // Aufpreis zu Basispreis
-  isActive      Boolean   @default(true)
-  position      Int       @default(0) // Sortierung für Admin-UI
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  priceCategory String          // "standard" | "premium" | "luxury"
+  priceAdd      Float           @default(0) // Aufpreis zu Basispreis
+  isActive      Boolean         @default(true)
+  position      Int             @default(0) // Sortierung für Admin-UI
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 
   products      Product[]
+  tailorFabrics TailorFabric[]  // R4.2: Schneider können Stoffe als verfügbar markieren
 
   @@index([isActive, position])
   @@index([priceCategory])
   @@index([color])
+}
+
+//
+// ───────────────────────────────────────────
+//  TAILOR FABRIC (R4.2 - Stoff-Verfügbarkeit pro Schneider)
+// ───────────────────────────────────────────
+//
+
+model TailorFabric {
+  id              String   @id @default(cuid())
+  tailorId        String
+  fabricId        String
+
+  // Availability
+  isAvailable     Boolean  @default(true) // Kann temporär deaktiviert werden
+  stockQuantity   Int?     // Optional: Menge verfügbar (null = unbegrenzt)
+
+  // Pricing (optional override)
+  customPriceAdd  Float?   // Optional: Schneider-spezifischer Aufpreis (überschreibt fabric.priceAdd)
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tailor          Tailor   @relation(fields: [tailorId], references: [id], onDelete: Cascade)
+  fabric          Fabric   @relation(fields: [fabricId], references: [id], onDelete: Cascade)
+
+  @@unique([tailorId, fabricId]) // Ein Schneider kann denselben Stoff nur einmal haben
+  @@index([tailorId])
+  @@index([fabricId])
+  @@index([isAvailable])
 }
 
 //
