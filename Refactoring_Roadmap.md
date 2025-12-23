@@ -502,9 +502,10 @@ shadcn/ui Components nutzen:
 
 ### R3.1 Brand Identity & Naming
 
-**Status:** [ ] Todo
-**Dauer:** 3-4h
-**Dateien:** `lib/constants/brand.ts`, diverse UI Components
+**Status:** [x] DONE (2025-12-23)
+**Dauer:** 3-4h (Tatsächlich: ~1.5h)
+**Dateien:** `app/lib/constants/brand.ts`, Header, Footer, Homepage, Products, Tailors
+**Commits:** `2016e07`, `36bca52` on `development` branch
 
 **Aufgabe:**
 Definiere klare Marken-Identity und ersetze generische Texte.
@@ -572,9 +573,13 @@ Dateien aktualisieren:
 
 **Test Checklist:**
 
-- [ ] Keine generischen "Produkt"-Texte mehr
-- [ ] Vietnam-Story ist sichtbar
-- [ ] Marken-Werte sind kommuniziert
+- [x] Keine generischen "Produkt"-Texte mehr (TERMINOLOGY verwendet)
+- [x] Vietnam-Story ist sichtbar (Homepage Vietnam Section)
+- [x] Marken-Werte sind kommuniziert (Homepage Fairness Section)
+- [x] BRAND constants erstellt mit allen Werten
+- [x] Header/Footer verwenden BRAND.name und TERMINOLOGY
+- [x] Products page mit Vietnam-fokussierten Texten
+- [x] Tailors page mit Fairness-Messaging
 
 ---
 
