@@ -16,6 +16,7 @@ import { useAuth } from "@/app/contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { CartIcon } from "@/app/components/cart/CartIcon";
+import { BRAND, TERMINOLOGY } from "@/app/lib/constants/brand";
 
 export default function Header() {
   const { user, logout, loading, isCustomer, isTailor } = useAuth();
@@ -37,16 +38,16 @@ export default function Header() {
     if (isTailor) {
       return [
         { href: "/tailor/dashboard", label: "Dashboard" },
-        { href: "/tailor/products", label: "Produkte" },
+        { href: "/tailor/products", label: TERMINOLOGY.navProducts },
         { href: "/tailor/orders", label: "Bestellungen" },
         { href: "/tailor/analytics", label: "Analytics" },
       ];
     }
     return [
       { href: "/", label: "Home" },
-      { href: "/tailors", label: "Schneider" },
-      { href: "/products", label: "Produkte" },
-      { href: "/about", label: "Über uns" },
+      { href: "/tailors", label: TERMINOLOGY.navTailors },
+      { href: "/products", label: TERMINOLOGY.navProducts },
+      { href: "/about", label: TERMINOLOGY.navAbout },
     ];
   };
 
@@ -70,7 +71,7 @@ export default function Header() {
 
           {/* Logo */}
           <Link href="/" className="text-2xl font-bold text-slate-900 hover:text-slate-700 transition-colors">
-            TailorMarket
+            {BRAND.name}
           </Link>
 
           {/* Desktop Navigation */}

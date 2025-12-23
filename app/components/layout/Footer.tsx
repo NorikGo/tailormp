@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BRAND } from "@/app/lib/constants/brand";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -10,9 +11,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
           {/* Spalte 1 - Über TailorMarket */}
           <div>
-            <h3 className="text-xl font-bold text-slate-900 mb-4">TailorMarket</h3>
+            <h3 className="text-xl font-bold text-slate-900 mb-4">{BRAND.name}</h3>
             <p className="text-slate-600 text-sm leading-relaxed">
-              Verbindet talentierte Schneider weltweit mit Kunden, die maßgeschneiderte Qualität schätzen.
+              {BRAND.mission}
             </p>
           </div>
 
@@ -63,7 +64,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-slate-200">
           <p className="text-center text-sm text-slate-600">
-            © {currentYear} TailorMarket. Alle Rechte vorbehalten.
+            © {currentYear} {BRAND.name}. Alle Rechte vorbehalten.
           </p>
         </div>
       </div>
