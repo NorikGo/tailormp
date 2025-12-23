@@ -26,6 +26,14 @@ export interface SuitConfiguration {
   liningColor?: string;
   monoGramText?: string;
   specialNotes?: string;
+
+  // Customizations
+  customizations?: {
+    lining?: boolean;
+    monogram?: boolean;
+    monogramText?: string;
+    extraTrousers?: boolean;
+  };
 }
 
 /**
