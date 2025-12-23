@@ -6,22 +6,23 @@ import TailorGrid from "@/app/components/marketplace/TailorGrid";
 import ProductGrid from "@/app/components/marketplace/ProductGrid";
 import { dummyTailors, dummyProducts } from "@/app/lib/dummyData";
 import { Metadata } from "next";
+import { BRAND, TERMINOLOGY } from "@/app/lib/constants/brand";
 
 export const metadata: Metadata = {
-  title: "TailorMarket - Maßgeschneiderte Anzüge weltweit",
-  description: "Entdecke talentierte Schneider aus aller Welt und lass dir deinen Traumanzug maßschneidern. Fair für Handwerker, erschwinglich für dich.",
-  keywords: ["Maßschneider", "maßgeschneiderte Anzüge", "Schneider online", "custom tailoring", "Maßanfertigung"],
+  title: `${BRAND.name} - ${BRAND.tagline}`,
+  description: BRAND.mission,
+  keywords: ["Maßanzüge Vietnam", "faire Maßschneider", "Anzüge aus Vietnam", "custom suits", "Maßanfertigung fair"],
   openGraph: {
-    title: "TailorMarket - Maßgeschneiderte Anzüge weltweit",
-    description: "Entdecke talentierte Schneider aus aller Welt und lass dir deinen Traumanzug maßschneidern.",
+    title: `${BRAND.name} - ${BRAND.tagline}`,
+    description: BRAND.mission,
     url: "/",
     type: "website",
-    siteName: "TailorMarket",
+    siteName: BRAND.name,
   },
   twitter: {
     card: "summary_large_image",
-    title: "TailorMarket - Maßgeschneiderte Anzüge weltweit",
-    description: "Entdecke talentierte Schneider aus aller Welt und lass dir deinen Traumanzug maßschneidern.",
+    title: `${BRAND.name} - ${BRAND.tagline}`,
+    description: BRAND.mission,
   },
 };
 
@@ -40,73 +41,86 @@ export default async function HomePage() {
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center text-center py-12 md:py-20 lg:py-32 max-w-4xl mx-auto">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4 md:mb-6 leading-tight px-4">
-          Maßgeschneiderte Anzüge. Weltweit.
+          {BRAND.slogan}
         </h1>
 
         <p className="text-base sm:text-lg md:text-xl text-slate-600 mb-6 md:mb-8 max-w-2xl leading-relaxed px-4">
-          Entdecke talentierte Schneider aus aller Welt und lass dir deinen Traumanzug maßschneidern.
-          Fair für Handwerker, erschwinglich für dich.
+          Hochwertige Handarbeit von erfahrenen Schneidern aus Vietnam – zu {BRAND.pricing.savingsVsLocal} günstigeren Preisen als in Deutschland.
         </p>
 
-        <Button size="lg" asChild className="w-full sm:w-auto mx-4">
-          <Link href="/tailors">
-            Schneider entdecken
-          </Link>
-        </Button>
+        <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4">
+          <Button size="lg" asChild>
+            <Link href="/products">
+              {TERMINOLOGY.buyNow}
+            </Link>
+          </Button>
+          <Button size="lg" variant="outline" asChild>
+            <Link href="/tailors">
+              {TERMINOLOGY.exploreTailors}
+            </Link>
+          </Button>
+        </div>
+
+        {/* Trust Signals */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 w-full max-w-3xl px-4">
+          {BRAND.guarantees.map((guarantee) => (
+            <div key={guarantee.title} className="text-center">
+              <p className="text-sm font-semibold text-slate-900">{guarantee.title}</p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* Wie es funktioniert Section */}
-      <section className="py-12 md:py-16 bg-white">
+      <section className="py-12 md:py-16 bg-slate-50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-slate-900 mb-8 md:mb-12">
-            So funktioniert&apos;s
+            {TERMINOLOGY.howItWorks}
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {/* Schritt 1 */}
-            <Card className="text-center">
-              <CardContent className="pt-6">
-                <div className="flex justify-center mb-4">
-                  <Search className="w-12 h-12 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-semibold text-slate-900 mb-3">
-                  Schneider finden
-                </h3>
-                <p className="text-slate-600">
-                  Durchsuche hunderte verifizierte Schneider aus aller Welt und finde den perfekten Partner für dein Projekt.
-                </p>
-              </CardContent>
-            </Card>
+            {BRAND.howItWorks.map((step) => (
+              <Card key={step.step} className="text-center">
+                <CardContent className="pt-6">
+                  <div className="flex justify-center mb-4">
+                    <span className="text-4xl">{step.icon}</span>
+                  </div>
+                  <div className="text-sm font-semibold text-blue-600 mb-2">
+                    Schritt {step.step}
+                  </div>
+                  <h3 className="text-xl font-semibold text-slate-900 mb-3">
+                    {step.title}
+                  </h3>
+                  <p className="text-slate-600">{step.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
 
-            {/* Schritt 2 */}
-            <Card className="text-center">
-              <CardContent className="pt-6">
-                <div className="flex justify-center mb-4">
-                  <Ruler className="w-12 h-12 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-semibold text-slate-900 mb-3">
-                  Maße angeben
-                </h3>
-                <p className="text-slate-600">
-                  Nutze unser Measurement-Tool für präzise Maße oder sende deine bereits vorhandenen Maßangaben.
-                </p>
-              </CardContent>
-            </Card>
+          {/* Vietnam Story */}
+          <div className="mt-16 text-center max-w-3xl mx-auto">
+            <h3 className="text-2xl font-bold text-slate-900 mb-4">
+              {BRAND.vietnam.title}
+            </h3>
+            <p className="text-lg text-slate-600 mb-4">{BRAND.vietnam.why}</p>
+            <p className="text-slate-600">{BRAND.vietnam.quality}</p>
+          </div>
+        </div>
+      </section>
 
-            {/* Schritt 3 */}
-            <Card className="text-center">
-              <CardContent className="pt-6">
-                <div className="flex justify-center mb-4">
-                  <ShoppingBag className="w-12 h-12 text-blue-600" />
-                </div>
+      {/* Fairness Section */}
+      <section className="py-12 md:py-16 bg-blue-50">
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {BRAND.values.map((value) => (
+              <div key={value.id} className="text-center">
+                <div className="text-4xl mb-4">{value.icon}</div>
                 <h3 className="text-xl font-semibold text-slate-900 mb-3">
-                  Bestellen & genießen
+                  {value.title}
                 </h3>
-                <p className="text-slate-600">
-                  Erhalte deine maßgeschneiderte Kleidung direkt nach Hause geliefert und genieße perfekte Passform.
-                </p>
-              </CardContent>
-            </Card>
+                <p className="text-slate-600">{value.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -137,10 +151,10 @@ export default async function HomePage() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
             <div>
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-2">
-                Beliebte Produkte
+                Beliebte {TERMINOLOGY.products}
               </h2>
               <p className="text-sm md:text-base text-slate-600">
-                Unsere meistgefragten maßgeschneiderten Stücke
+                Unsere meistgefragten {TERMINOLOGY.products}
               </p>
             </div>
             <Button variant="outline" asChild className="w-full sm:w-auto">
