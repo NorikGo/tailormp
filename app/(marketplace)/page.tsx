@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { Search, Ruler, ShoppingBag } from "lucide-react";
 import TailorGrid from "@/app/components/marketplace/TailorGrid";
 import ProductGrid from "@/app/components/marketplace/ProductGrid";
@@ -125,6 +126,78 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Price Transparency Section */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
+              Transparente Preise
+            </h2>
+            <p className="text-lg text-slate-600">
+              Bei uns siehst du genau, wohin dein Geld fließt.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            {/* Bei uns */}
+            <Card className="bg-green-50 border-green-200">
+              <CardContent className="pt-6">
+                <div className="text-center mb-4">
+                  <p className="text-sm font-semibold text-green-700 mb-2">
+                    Bei TailorMarket
+                  </p>
+                  <p className="text-4xl font-bold text-slate-900">
+                    {BRAND.pricing.min}-{BRAND.pricing.max}€
+                  </p>
+                  <p className="text-sm text-slate-600 mt-1">pro Maßanzug</p>
+                </div>
+                <div className="space-y-2 text-sm mt-6">
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-600">Schneider</span>
+                    <span className="font-semibold text-green-700">60%</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-600">Plattform & Logistik</span>
+                    <span className="font-semibold text-slate-700">25%</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-600">Qualitätssicherung</span>
+                    <span className="font-semibold text-slate-700">15%</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* In Deutschland */}
+            <Card className="bg-slate-50 border-slate-200">
+              <CardContent className="pt-6">
+                <div className="text-center mb-4">
+                  <p className="text-sm font-semibold text-slate-500 mb-2">
+                    Vergleich Deutschland
+                  </p>
+                  <p className="text-4xl font-bold text-slate-900">
+                    1.200-2.500€
+                  </p>
+                  <p className="text-sm text-slate-600 mt-1">pro Maßanzug</p>
+                </div>
+                <div className="text-center mt-6">
+                  <Badge variant="secondary" className="text-lg px-4 py-2">
+                    {BRAND.pricing.savingsVsLocal} günstiger
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="text-center bg-slate-50 rounded-lg p-6">
+            <p className="text-slate-700 leading-relaxed">
+              <strong className="text-slate-900">Faire Bezahlung garantiert:</strong>{" "}
+              {BRAND.vietnam.fairness}
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Top Schneider Section */}
       <section className="py-12 md:py-16 bg-slate-50">
         <div className="max-w-7xl mx-auto">
@@ -162,6 +235,79 @@ export default async function HomePage() {
             </Button>
           </div>
           <ProductGrid products={featuredProducts} />
+        </div>
+      </section>
+
+      {/* Social Proof Section */}
+      <section className="py-12 md:py-16 bg-slate-50">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
+              Vertrauen durch Transparenz
+            </h2>
+            <p className="text-lg text-slate-600">
+              Gemeinsam bauen wir eine faire Alternative zu Fast Fashion
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+                {topTailors.length}+
+              </div>
+              <div className="text-sm text-slate-600">Verifizierte Schneider</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+                {featuredProducts.length}+
+              </div>
+              <div className="text-sm text-slate-600">Anzüge verfügbar</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+                60%
+              </div>
+              <div className="text-sm text-slate-600">Gehen an Schneider</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+                4.8/5
+              </div>
+              <div className="text-sm text-slate-600">Kundenbewertung</div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg border border-slate-200 p-8 text-center">
+            <p className="text-lg text-slate-700 italic mb-4">
+              "Endlich eine Plattform, die Qualität und Fairness vereint. Mein Anzug sitzt perfekt, und ich weiß genau, dass der Schneider fair bezahlt wurde."
+            </p>
+            <p className="text-sm font-semibold text-slate-900">Michael S.</p>
+            <p className="text-xs text-slate-500">Kunde seit 2024</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA Section */}
+      <section className="py-16 md:py-24 bg-gradient-to-br from-blue-600 to-blue-700">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+            Bereit für deinen perfekten Maßanzug?
+          </h2>
+          <p className="text-lg md:text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+            Starte jetzt die Konfiguration und erhalte deinen individuell gefertigten Anzug in 3-4 Wochen.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" asChild className="bg-white text-blue-600 hover:bg-blue-50">
+              <Link href="/products">
+                {TERMINOLOGY.buyNow}
+              </Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-blue-600">
+              <Link href="/tailors">
+                {TERMINOLOGY.exploreTailors}
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
     </div>
