@@ -98,9 +98,10 @@
 
 ### R1.1 Product Model erweitern
 
-**Status:** [ ] Todo
-**Dauer:** 3-4h
+**Status:** [x] DONE (2025-12-23)
+**Dauer:** 3-4h (Tatsächlich: ~1h)
 **Dateien:** `prisma/schema.prisma`
+**Commit:** `bed4b02` on `development` branch
 
 **Aufgabe:**
 Erweitere das Product Model um Anzug-spezifische Felder.
@@ -134,17 +135,20 @@ WICHTIG:
 
 **Test Checklist:**
 
-- [ ] Migration läuft ohne Fehler
-- [ ] Bestehende Daten bleiben intakt
-- [ ] Neue Felder in Prisma Client verfügbar
+- [x] Migration läuft ohne Fehler (via `db push`)
+- [x] Bestehende Daten bleiben intakt
+- [x] Neue Felder in Prisma Client verfügbar
+- [x] Build erfolgreich (45s, 63 Routes OK)
+- [x] Pushed zu development branch
 
 ---
 
 ### R1.2 Fabric Library Model erstellen
 
-**Status:** [ ] Todo
-**Dauer:** 2-3h
+**Status:** [x] DONE (2025-12-23)
+**Dauer:** 2-3h (Tatsächlich: ~30min)
 **Dateien:** `prisma/schema.prisma`
+**Commit:** `9af1acd` on `development` branch
 
 **Aufgabe:**
 Erstelle ein zentrales Fabric-Modell für kuratierte Stoffe.
@@ -190,17 +194,20 @@ RLS Policy für Fabric:
 
 **Test Checklist:**
 
-- [ ] Fabric Model erstellt
-- [ ] Relation zu Product funktioniert
-- [ ] Dummy Fabrics können angelegt werden
+- [x] Fabric Model erstellt (mit allen Feldern)
+- [x] Relation zu Product funktioniert (fabricId + fabric)
+- [x] Dummy Fabrics können angelegt werden (Test erfolgreich)
+- [x] CRUD Operations getestet (Create, Read, List, Delete)
+- [x] Build erfolgreich (15s, 3x schneller!)
 
 ---
 
 ### R1.3 Suit Model Categories festlegen
 
-**Status:** [ ] Todo
-**Dauer:** 2h
+**Status:** [x] DONE (2025-12-23)
+**Dauer:** 2h (Tatsächlich: ~20min)
 **Dateien:** `lib/constants/suit-models.ts` (neu), `types/suit.ts` (neu)
+**Commit:** `820119a` on `development` branch
 
 **Aufgabe:**
 Definiere die 3-5 Standard-Anzugmodelle als TypeScript Constants.
@@ -292,9 +299,12 @@ export interface SuitMeasurements {
 
 **Test Checklist:**
 
-- [ ] Constants sind korrekt definiert
-- [ ] Types können importiert werden
-- [ ] 3 Modelle sind klar unterscheidbar
+- [x] Constants sind korrekt definiert (SUIT_MODELS mit 3 Modellen)
+- [x] Types können importiert werden (TypeScript Compilation OK)
+- [x] 3 Modelle sind klar unterscheidbar (Classic 590€, Business 650€, Premium 750€)
+- [x] Helper-Functions erstellt (getSuitModelById, getActiveSuitModels, getSuitModelBasePrice)
+- [x] Umfangreiche Type-Definitionen (SuitConfiguration, SuitMeasurements, etc.)
+- [x] Style-Constants mit Beschreibungen (FIT_TYPES, LAPEL_STYLES, etc.)
 
 ---
 
