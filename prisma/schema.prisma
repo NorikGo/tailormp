@@ -144,6 +144,36 @@ model Tailor {
 
 //
 // ───────────────────────────────────────────
+//  FABRIC LIBRARY (R1.2 - Zentrale Stoff-Verwaltung)
+// ───────────────────────────────────────────
+//
+
+model Fabric {
+  id            String    @id @default(cuid())
+  name          String    // z.B. "Navy Blue Wool 120s"
+  description   String?
+  material      String    // z.B. "100% Wool", "Wool/Cashmere Blend"
+  weight        String?   // z.B. "260g/m²"
+  pattern       String?   // z.B. "Solid", "Pinstripe", "Check"
+  color         String    // z.B. "Navy Blue"
+  season        String?   // z.B. "All Season", "Summer", "Winter"
+  imageUrl      String?
+  priceCategory String    // "standard" | "premium" | "luxury"
+  priceAdd      Float     @default(0) // Aufpreis zu Basispreis
+  isActive      Boolean   @default(true)
+  position      Int       @default(0) // Sortierung für Admin-UI
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  products      Product[]
+
+  @@index([isActive, position])
+  @@index([priceCategory])
+  @@index([color])
+}
+
+//
+// ───────────────────────────────────────────
 //  PRODUCT (Produkte des Schneiders)
 // ───────────────────────────────────────────
 //
@@ -182,10 +212,11 @@ model Product {
   buttonCount  Int?    @default(2) // 1, 2, 3
   pocketStyle  String? // "flap" | "patch" | "welted"
 
-  // Fabric (wird in R1.2 zur Relation)
-  fabricId     String? // Relation zur Fabric Library (kommt in R1.2)
-  fabricName   String? // Temporär: Name des Stoffs
-  fabricMaterial String? // Temporär: z.B. "100% Wool"
+  // Fabric (R1.2 - Relation zur Fabric Library)
+  fabricId       String? // Relation zur Fabric Library
+  fabric         Fabric? @relation(fields: [fabricId], references: [id])
+  fabricName     String? // DEPRECATED: Wird durch fabric.name ersetzt
+  fabricMaterial String? // DEPRECATED: Wird durch fabric.material ersetzt
 
   // Timestamps
   createdAt   DateTime       @default(now())
@@ -202,8 +233,9 @@ model Product {
   @@index([createdAt])
   @@index([price])
   @@index([isActive])
-  @@index([suitModel]) // NEW: für Anzug-Modell Filter
-  @@index([fitType])   // NEW: für Fit-Type Filter
+  @@index([suitModel]) // R1.1: für Anzug-Modell Filter
+  @@index([fitType])   // R1.1: für Fit-Type Filter
+  @@index([fabricId])  // R1.2: für Fabric-Filter
   // Composite indexes for common query patterns
   @@index([isActive, createdAt(sort: Desc)])
   @@index([category, price])
