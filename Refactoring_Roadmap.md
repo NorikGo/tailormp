@@ -585,9 +585,10 @@ Dateien aktualisieren:
 
 ### R3.2 Homepage Refactoring
 
-**Status:** [ ] Todo
-**Dauer:** 4-5h
+**Status:** [x] DONE (2025-12-23)
+**Dauer:** 4-5h (Tatsächlich: ~1h, da viele Sections bereits in R3.1 erstellt)
 **Dateien:** `app/(marketplace)/page.tsx`
+**Commits:** `caf7b04` on `development` branch
 
 **Aufgabe:**
 Homepage zu fokussierter Anzug-Landingpage umbauen.
@@ -655,10 +656,14 @@ shadcn/ui nutzen:
 
 **Test Checklist:**
 
-- [ ] Homepage fühlt sich premium an
-- [ ] Vietnam-Story ist prominent
-- [ ] CTAs sind klar
-- [ ] Mobile optimiert
+- [x] Homepage fühlt sich premium an (Gradient CTAs, große Bilder, Premium-Wording)
+- [x] Vietnam-Story ist prominent (Eigene Section mit allen BRAND.vietnam Infos)
+- [x] CTAs sind klar (3x CTAs: Hero, Final, in Sections)
+- [x] Mobile optimiert (Responsive Grid, Stack auf mobil)
+- [x] Preistransparenz mit 60/25/15% Breakdown
+- [x] Social Proof mit Statistiken und Testimonial
+- [x] Trust Signals im Hero (BRAND.guarantees)
+- [x] "Wie es funktioniert" mit Icons (BRAND.howItWorks)
 
 ---
 
