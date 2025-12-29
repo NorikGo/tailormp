@@ -1,15 +1,16 @@
-import { Search, Ruler, ShoppingBag, CheckCircle, MessageSquare, Package } from "lucide-react";
+import { Sparkles, Ruler, CreditCard, Package, Plane } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Metadata } from "next";
+import { BRAND } from "@/app/lib/constants/brand";
 
 export const metadata: Metadata = {
-  title: "Wie es funktioniert",
-  description: "Von der Suche bis zur perfekt sitzenden Kleidung – in wenigen einfachen Schritten zu deiner Maßanfertigung.",
+  title: "So funktioniert's – TailorMarket | Maßanzüge aus Vietnam",
+  description: "In 5 einfachen Schritten zu deinem Maßanzug aus Vietnam. Von der Konfiguration bis zur Lieferung – transparent, fair und hochwertig.",
   openGraph: {
-    title: "Wie TailorMarket funktioniert",
-    description: "Erfahre, wie du in 5 einfachen Schritten zu deiner maßgeschneiderten Kleidung kommst.",
+    title: "So funktioniert TailorMarket – Dein Maßanzug aus Vietnam",
+    description: "Modell wählen, Maße angeben, fertigen lassen. In 4-6 Wochen zu dir nach Hause geliefert.",
     url: "/how-it-works",
   },
 };
@@ -20,17 +21,17 @@ export default function HowItWorksPage() {
       {/* Hero Section */}
       <div className="max-w-4xl mx-auto text-center mb-16">
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-          Wie es funktioniert
+          So funktioniert's
         </h1>
         <p className="text-xl text-slate-600 leading-relaxed">
-          Von der Suche bis zur perfekt sitzenden Kleidung –
-          in wenigen einfachen Schritten zu deiner Maßanfertigung.
+          In 5 einfachen Schritten zu deinem Maßanzug aus Vietnam.
+          Transparent, fair und hochwertig – in 4-6 Wochen bei dir.
         </p>
       </div>
 
       {/* Steps */}
       <div className="max-w-5xl mx-auto space-y-16 mb-16">
-        {/* Step 1 */}
+        {/* Step 1: Modell & Stoff wählen */}
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="md:w-1/2">
             <div className="flex items-center gap-3 mb-4">
@@ -38,32 +39,30 @@ export default function HowItWorksPage() {
                 1
               </div>
               <h2 className="text-2xl font-bold text-slate-900">
-                Schneider finden
+                {BRAND.howItWorks[0].title}
               </h2>
             </div>
             <p className="text-slate-700 leading-relaxed mb-4">
-              Durchsuche unsere Auswahl an verifizierten Schneidern aus der ganzen
-              Welt. Filtere nach Spezialisierung, Standort und Bewertungen, um den
-              perfekten Schneider für dein Projekt zu finden.
+              {BRAND.howItWorks[0].description}
             </p>
             <p className="text-slate-600 text-sm">
-              Jeder Schneider hat ein detailliertes Profil mit Portfolio, Bewertungen
-              und Informationen zu seiner Erfahrung.
+              Du hast die Wahl zwischen verschiedenen Anzugmodellen (Classic, Business, Premium)
+              und einer Auswahl von 10-20 hochwertigen Stoffen aus Wolle, Wolle-Kaschmir-Mix und mehr.
             </p>
           </div>
           <div className="md:w-1/2">
             <Card className="bg-blue-50 border-blue-200">
               <CardContent className="p-8 text-center">
-                <Search className="w-16 h-16 text-blue-600 mx-auto mb-4" />
+                <Sparkles className="w-16 h-16 text-blue-600 mx-auto mb-4" />
                 <p className="text-sm text-slate-700">
-                  Über 100 verifizierte Schneider aus 20+ Ländern
+                  3 Anzugmodelle × 10-20 Premium-Stoffe
                 </p>
               </CardContent>
             </Card>
           </div>
         </div>
 
-        {/* Step 2 */}
+        {/* Step 2: Maße digital erfassen */}
         <div className="flex flex-col md:flex-row-reverse items-center gap-8">
           <div className="md:w-1/2">
             <div className="flex items-center gap-3 mb-4">
@@ -71,17 +70,16 @@ export default function HowItWorksPage() {
                 2
               </div>
               <h2 className="text-2xl font-bold text-slate-900">
-                Produkt wählen & Maße angeben
+                {BRAND.howItWorks[1].title}
               </h2>
             </div>
             <p className="text-slate-700 leading-relaxed mb-4">
-              Wähle aus dem Portfolio des Schneiders dein Wunschprodukt. Nach der
-              Bestellung wirst du durch unseren Messprozess geführt – entweder mit
-              unserem digitalen Measurement-Tool oder manueller Eingabe.
+              {BRAND.howItWorks[1].description}
             </p>
             <p className="text-slate-600 text-sm">
-              Detaillierte Messanleitungen und Support helfen dir dabei, präzise
-              Maße anzugeben.
+              Du musst nicht zum Schneider gehen! Unser digitales Tool führt dich durch
+              alle notwendigen Maße (Jacke: Brust, Taille, Schultern, Ärmellänge;
+              Hose: Taille, Hüfte, Innenbeinlänge). Mit Hilfe-Icons und Messanleitungen.
             </p>
           </div>
           <div className="md:w-1/2">
@@ -96,7 +94,7 @@ export default function HowItWorksPage() {
           </div>
         </div>
 
-        {/* Step 3 */}
+        {/* Step 3: Bestellung & Zahlung */}
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="md:w-1/2">
             <div className="flex items-center gap-3 mb-4">
@@ -104,32 +102,33 @@ export default function HowItWorksPage() {
                 3
               </div>
               <h2 className="text-2xl font-bold text-slate-900">
-                Bezahlen & Kommunizieren
+                Bestellung & Zahlung
               </h2>
             </div>
             <p className="text-slate-700 leading-relaxed mb-4">
-              Bezahle sicher über unsere Plattform. Der Schneider erhält 90% des
-              Preises, während 10% als Plattformgebühr einbehalten werden. Du kannst
-              direkt mit dem Schneider kommunizieren, um Details zu klären.
+              Bezahle sicher über Stripe. <strong className="text-blue-600">60% des Verkaufspreises
+              gehen direkt an deinen Schneider</strong> – deutlich mehr als bei traditionellen
+              Marken (10-20%). Die restlichen 40% decken Plattformkosten, Qualitätskontrolle
+              und Support.
             </p>
             <p className="text-slate-600 text-sm">
-              Sichere Zahlung via Stripe. Dein Geld wird erst nach erfolgreicher
-              Lieferung an den Schneider ausgezahlt.
+              Dein Geld wird sicher aufbewahrt und erst nach erfolgreicher Lieferung
+              an den Schneider ausgezahlt.
             </p>
           </div>
           <div className="md:w-1/2">
             <Card className="bg-purple-50 border-purple-200">
               <CardContent className="p-8 text-center">
-                <ShoppingBag className="w-16 h-16 text-purple-600 mx-auto mb-4" />
+                <CreditCard className="w-16 h-16 text-purple-600 mx-auto mb-4" />
                 <p className="text-sm text-slate-700">
-                  Sichere Bezahlung & faire Konditionen
+                  Sichere Zahlung via Stripe + 60% faire Bezahlung
                 </p>
               </CardContent>
             </Card>
           </div>
         </div>
 
-        {/* Step 4 */}
+        {/* Step 4: Fertigung in Vietnam */}
         <div className="flex flex-col md:flex-row-reverse items-center gap-8">
           <div className="md:w-1/2">
             <div className="flex items-center gap-3 mb-4">
@@ -137,16 +136,17 @@ export default function HowItWorksPage() {
                 4
               </div>
               <h2 className="text-2xl font-bold text-slate-900">
-                Anfertigung verfolgen
+                Fertigung in Vietnam
               </h2>
             </div>
             <p className="text-slate-700 leading-relaxed mb-4">
-              Der Schneider beginnt mit der Anfertigung deines Produkts. Du erhältst
-              regelmäßige Updates zum Status und kannst den Fortschritt in deinem
-              Dashboard verfolgen.
+              Dein Schneider in Vietnam fertigt deinen Anzug handwerklich an.
+              Der Prozess dauert <strong>3-4 Wochen</strong> und umfasst Maßprüfung (1-2 Tage),
+              handwerkliche Fertigung, Qualitätskontrolle und professionellen Versand.
             </p>
             <p className="text-slate-600 text-sm">
-              Typische Produktionszeit: 2-4 Wochen, je nach Komplexität und Schneider.
+              Du kannst den Status jederzeit in deinem Dashboard verfolgen und erhältst
+              Updates vom Schneider bei wichtigen Meilensteinen.
             </p>
           </div>
           <div className="md:w-1/2">
@@ -154,14 +154,14 @@ export default function HowItWorksPage() {
               <CardContent className="p-8 text-center">
                 <Package className="w-16 h-16 text-yellow-600 mx-auto mb-4" />
                 <p className="text-sm text-slate-700">
-                  Transparente Statusupdates vom Schneider
+                  Handwerkliche Fertigung in 3-4 Wochen
                 </p>
               </CardContent>
             </Card>
           </div>
         </div>
 
-        {/* Step 5 */}
+        {/* Step 5: Lieferung & Passform-Check */}
         <div className="flex flex-col md:flex-row items-center gap-8">
           <div className="md:w-1/2">
             <div className="flex items-center gap-3 mb-4">
@@ -169,24 +169,25 @@ export default function HowItWorksPage() {
                 5
               </div>
               <h2 className="text-2xl font-bold text-slate-900">
-                Erhalten & Bewerten
+                Lieferung & Passform-Check
               </h2>
             </div>
             <p className="text-slate-700 leading-relaxed mb-4">
-              Erhalte deine maßgeschneiderte Kleidung direkt zu dir nach Hause.
-              Nach Erhalt kannst du eine Bewertung abgeben und deine Erfahrung
-              mit anderen teilen.
+              Dein Anzug wird per <strong>DHL Express</strong> direkt zu dir nach Hause geliefert.
+              Geschätzte Gesamtdauer: <strong>4-6 Wochen</strong> (Fertigung + Versand).
             </p>
             <p className="text-slate-600 text-sm">
-              Bei Problemen steht unser Support-Team bereit, um zu helfen.
+              <strong>Passform-Garantie:</strong> Sollte der Anzug nicht perfekt sitzen,
+              übernehmen wir die Kosten für lokale Anpassungen bei einem Schneider deiner
+              Wahl (bis zu 100€). Außerdem hast du 14 Tage Rückgaberecht.
             </p>
           </div>
           <div className="md:w-1/2">
             <Card className="bg-pink-50 border-pink-200">
               <CardContent className="p-8 text-center">
-                <CheckCircle className="w-16 h-16 text-pink-600 mx-auto mb-4" />
+                <Plane className="w-16 h-16 text-pink-600 mx-auto mb-4" />
                 <p className="text-sm text-slate-700">
-                  Perfekt sitzende Maßanfertigung für dich
+                  DHL Express Lieferung + Passform-Garantie
                 </p>
               </CardContent>
             </Card>
@@ -196,23 +197,23 @@ export default function HowItWorksPage() {
 
       {/* CTA Section */}
       <div className="max-w-3xl mx-auto text-center">
-        <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-none">
+        <Card className="bg-linear-to-r from-blue-50 to-purple-50 border-none">
           <CardContent className="p-8">
             <h2 className="text-2xl font-bold text-slate-900 mb-4">
-              Bereit für deine Maßanfertigung?
+              Bereit für deinen Maßanzug?
             </h2>
             <p className="text-slate-700 mb-6">
-              Starte jetzt und finde den perfekten Schneider für dein Projekt
+              Starte jetzt die Konfiguration und wähle Modell, Stoff und deine Maße
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/tailors">
+              <Link href="/suits/configure">
                 <Button size="lg">
-                  Schneider entdecken
+                  Anzug konfigurieren
                 </Button>
               </Link>
-              <Link href="/products">
+              <Link href="/tailors">
                 <Button size="lg" variant="outline">
-                  Produkte durchsuchen
+                  Unsere Schneider
                 </Button>
               </Link>
             </div>
