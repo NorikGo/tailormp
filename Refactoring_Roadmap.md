@@ -1677,6 +1677,74 @@ Schrittweise Rollout mit Feedback-Loop.
 
 ---
 
+## ⚠️ WICHTIGE TO-DOs VOR LAUNCH AUF EIGENER DOMAIN
+
+### Aktueller Service-Status (Free Tiers & Test Modes):
+
+**Supabase:**
+- Status: FREE TIER
+- Limits: 500MB Storage, 2GB Bandwidth/Monat, 50.000 Monthly Active Users
+- Action vor Launch: Auf bezahlten Plan upgraden für Production-Workload
+
+**Stripe:**
+- Status: TEST MODE (Dummy-Zahlungen)
+- Action vor Launch: Live Mode aktivieren, echte Zahlungen verarbeiten
+
+**Resend:**
+- Status: FREE TIER
+- Limits: 100 Emails/Tag, 3.000 Emails/Monat
+- Action vor Launch: Auf bezahlten Plan upgraden (ab $20/Monat für 50k Emails)
+
+### Security: API Keys & Secrets austauschen
+
+**KRITISCH - Vor Launch auf eigener Domain (nicht Vercel):**
+
+Alle API Keys und Secrets MÜSSEN ausgetauscht werden:
+- [ ] **Supabase Keys** (ANON_KEY, SERVICE_ROLE_KEY) → neue Keys generieren
+- [ ] **Supabase URL** → ggf. neues Projekt für Production
+- [ ] **Stripe Keys** (SECRET_KEY, PUBLISHABLE_KEY, WEBHOOK_SECRET) → Live Mode Keys
+- [ ] **Resend API Key** → neuen Key generieren
+- [ ] **Database URL** → neue Production-Datenbank mit starkem Passwort
+- [ ] **NextAuth Secret** (falls verwendet) → neu generieren
+- [ ] Alle anderen Third-Party Service Keys
+
+**Warum?**
+- Aktuelle Keys sind in Git History & Dev-Umgebungen bekannt
+- Test-Keys haben ggf. niedrigere Security-Standards
+- Clean Start für Production mit strikter Key-Verwaltung
+- Rotation Best Practice
+
+**Wie?**
+1. Für jeden Service: Neuen Production Account/Projekt anlegen
+2. Neue API Keys generieren
+3. In Production Environment Variables setzen (NICHT in Code!)
+4. Alte Keys revoking (nach erfolgreicher Migration)
+5. Key Rotation Policy etablieren (alle 90 Tage)
+
+### Measurement Tool Integration
+
+**Aktueller Stand:**
+- Workaround: Manuelles Eingabeformular in Configuration Flow (Step 3)
+- Zweck: Testzwecke und MVP-Launch
+
+**Zukünftig erforderlich:**
+- Professionelles Measurement Tool für bessere Passform
+- **Evaluation durchgeführt:** Remote Measure API von externem Anbieter
+- **Entscheidung:** Zu teuer für aktuelles Stadium
+- **Alternativen zu prüfen:**
+  - 3D Body Scanner Integration (z.B. Size Stream, 3DLOOK)
+  - AI-basierte Measurement Apps (z.B. MySize, True Fit)
+  - Hybrid: Professionelle Anleitung + manuelle Eingabe (aktuell)
+  - Partner mit lokalen Schneidern für physische Messungen
+
+**To-Do vor Scale:**
+- [ ] Measurement Tool evaluieren (ROI vs. Kosten)
+- [ ] Beta-Tests: Passform-Genauigkeit mit aktuellem System messen
+- [ ] Entscheiden: Wann lohnt sich externes Tool? (ab X Bestellungen/Monat)
+- [ ] Fallback beibehalten: Manuelle Eingabe sollte immer möglich bleiben
+
+---
+
 ## 🎯 NEXT STEPS - WO ANFANGEN?
 
 **Empfohlene Reihenfolge:**
