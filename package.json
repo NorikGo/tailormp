@@ -8,6 +8,7 @@
     "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "eslint",
+    "postinstall": "prisma generate",
     "perf:check": "tsx scripts/performance-check.ts",
     "db:seed": "tsx prisma/seed.ts",
     "test:e2e": "playwright test",
