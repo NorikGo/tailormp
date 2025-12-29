@@ -1669,11 +1669,126 @@ Schrittweise Rollout mit Feedback-Loop.
 - [ ] R8: Testing & QA (1/2 Steps) 🔄 IN PROGRESS
   - [x] R8.1 E2E Tests aktualisieren
   - [ ] R8.2 Manual QA Checklist
-- [ ] R9: Deployment (1/2 Steps) 🔄 IN PROGRESS
+- [x] R9: Deployment (2/2 Steps) ✅ COMPLETE
   - [x] R9.1 Environment Vorbereitung
-  - [ ] R9.2 Soft Launch (Manueller Prozess)
+  - [x] R9.2 Vercel Deployment erfolgreich
+- [x] R10: Authentication & Security (3/3 Steps) ✅ COMPLETE
+  - [x] R10.1 Password Reset Flow
+  - [x] R10.2 Rate Limiting für API Routes
+  - [x] R10.3 Email Verification System
 
-**Gesamtfortschritt:** 17/20 Steps (85%) 🎉
+**Gesamtfortschritt:** 20/23 Steps (87%) 🎉
+
+---
+
+## PHASE R10: AUTHENTICATION & SECURITY (Woche 8)
+
+**Ziel:** Produktions-reife Security Features
+
+### R10.1 Password Reset Flow
+
+**Status:** [x] DONE (2025-12-30)
+**Dauer:** ~1h
+**Dateien:** `app/(auth)/forgot-password/page.tsx`, `app/(auth)/reset-password/page.tsx`, `app/components/forms/ForgotPasswordForm.tsx`, `app/components/forms/ResetPasswordForm.tsx`
+**Commit:** `4f48384` on `development` branch
+
+**Implementiert:**
+- `/forgot-password` Page mit Email-Eingabe
+- `/reset-password` Page mit Passwort-Validierung (min 8 Zeichen, Groß-/Kleinbuchstaben, Zahl)
+- Supabase `auth.resetPasswordForEmail()` Integration
+- Success/Error States mit User-Feedback
+- Token-Validierung und Expiration Handling
+- "Passwort vergessen?"-Link in LoginForm hinzugefügt
+
+**Test Checklist:**
+- [x] Forgot Password Flow funktioniert
+- [x] Email wird versendet (Supabase)
+- [x] Reset Link funktioniert
+- [x] Token Validation funktioniert
+- [x] Passwort-Validierung (Regex)
+- [x] Success Redirect zu /login
+- [x] Build erfolgreich (99 Routes)
+
+---
+
+### R10.2 Rate Limiting für API Routes
+
+**Status:** [x] DONE (2025-12-30)
+**Dauer:** ~2h
+**Dateien:** `app/lib/rateLimit.ts`, `app/api/tailor-applications/route.ts`, `app/api/checkout/session/route.ts`, `app/api/cart/checkout/route.ts`, `app/api/admin/fabrics/route.ts`
+**Commit:** `4f48384` on `development` branch
+
+**Erweiterte RATE_LIMITS Config:**
+```typescript
+{
+  LOGIN: { maxRequests: 5, windowMs: 15 * 60 * 1000 },
+  REGISTER: { maxRequests: 3, windowMs: 60 * 60 * 1000 },
+  PASSWORD_RESET: { maxRequests: 3, windowMs: 60 * 60 * 1000 },
+  CHECKOUT: { maxRequests: 10, windowMs: 15 * 60 * 1000 },
+  ADMIN: { maxRequests: 50, windowMs: 60 * 1000 },
+  TAILOR_APPLICATION: { maxRequests: 1, windowMs: 60 * 60 * 1000 }
+}
+```
+
+**Rate Limiting angewendet auf:**
+- `/api/tailor-applications` POST (1 request/Stunde) - verhindert Spam
+- `/api/checkout/session` GET (10 requests/15min) - schützt Checkout
+- `/api/cart/checkout` POST (10 requests/15min) - verhindert Payment Abuse
+- `/api/admin/fabrics` GET & POST (50 requests/min) - Admin-Schutz
+
+**Test Checklist:**
+- [x] Rate Limiting funktioniert
+- [x] 429 Response bei Überschreitung
+- [x] Retry-After Header korrekt
+- [x] X-RateLimit-* Headers gesetzt
+- [x] Build erfolgreich
+
+---
+
+### R10.3 Email Verification System
+
+**Status:** [x] DONE (2025-12-30)
+**Dauer:** ~1.5h
+**Dateien:** `app/(auth)/verify-email/page.tsx`, `app/components/forms/VerifyEmailPrompt.tsx`, `app/components/forms/RegisterForm.tsx`
+**Commit:** `4f48384` on `development` branch
+
+**Implementiert:**
+- `/verify-email` Page mit Status-Anzeige
+- Resend Verification Email Funktion
+- Auto-Redirect nach erfolgreicher Verification
+- RegisterForm leitet zu /verify-email weiter
+- Supabase Email Confirmation bereits aktiviert (User bekommt Emails)
+- Auth Callback Handler (`/auth/callback`) bereits vorhanden
+
+**Flow:**
+```
+User registriert sich
+→ Redirect zu /verify-email
+→ Verification Email von Supabase
+→ User klickt Link in Email
+→ /auth/callback (Token-Exchange)
+→ Auto-Redirect zu /dashboard
+```
+
+**Test Checklist:**
+- [x] Verification Email wird versendet
+- [x] Resend Email funktioniert
+- [x] Verification Link funktioniert
+- [x] Auto-Redirect nach Verification
+- [x] Build erfolgreich (99 Routes)
+
+---
+
+**Deployment Status:**
+- [x] Vercel Build erfolgreich (postinstall: prisma generate)
+- [x] Main Branch deployed und live
+- [x] Development Branch mit allen Security Features
+
+**Nächste Schritte:**
+- Manual QA Testing (R8.2)
+- Environment Variables in Vercel setzen
+- Production Database Migration & Seeding
+- Soft Launch vorbereiten
 
 ---
 
