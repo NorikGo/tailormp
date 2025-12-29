@@ -110,15 +110,15 @@ export async function POST(request: NextRequest) {
     const platformFee = subtotal * platformFeePercentage;
     const total = subtotal + platformFee;
 
-    // Create Stripe line items
+    // Create Stripe line items (Anzug-spezifisch)
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
       cart.items.map((item) => ({
         price_data: {
           currency: "eur",
           product_data: {
-            name: item.product.title,
-            description: `Von ${item.product.tailor.name}${
-              item.notes ? ` - ${item.notes}` : ""
+            name: `Maßanzug: ${item.product.title}`,
+            description: `Handgefertigt von ${item.product.tailor.name} in Vietnam | Maßanfertigung nach Ihren Maßen${
+              item.notes ? ` | ${item.notes}` : ""
             }`,
             images: [], // TODO: Add product images if available
           },

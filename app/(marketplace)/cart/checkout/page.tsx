@@ -11,7 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2, ArrowLeft, CreditCard } from "lucide-react";
+import { Loader2, ArrowLeft, CreditCard, Package, Shield, Clock } from "lucide-react";
+import { BRAND } from "@/app/lib/constants/brand";
+import Image from "next/image";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // Validation Schema
@@ -296,52 +298,153 @@ export default function CheckoutPage() {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 bg-white rounded-lg border shadow-sm p-6">
-              <h2 className="text-xl font-semibold text-slate-900 mb-4">
-                Zusammenfassung
-              </h2>
+            <div className="sticky top-24 space-y-4">
+              {/* Bestellübersicht Card */}
+              <div className="bg-white rounded-lg border shadow-sm p-6">
+                <h2 className="text-xl font-semibold text-slate-900 mb-4">
+                  Ihre Bestellung
+                </h2>
 
-              {/* Items */}
-              <div className="space-y-2 mb-4">
-                {cart.items.map((item) => (
-                  <div key={item.id} className="flex justify-between text-sm">
-                    <span className="text-slate-600">
-                      {item.product.title} × {item.quantity}
-                    </span>
-                    <span className="text-slate-900 font-medium">
-                      {(item.priceAtAdd * item.quantity).toFixed(2)} €
-                    </span>
+                {/* Items - Anzug-spezifisch */}
+                <div className="space-y-4 mb-4">
+                  {cart.items.map((item) => (
+                    <div key={item.id} className="pb-4 border-b border-slate-100 last:border-0">
+                      {/* Product Image & Title */}
+                      <div className="flex gap-3 mb-2">
+                        {item.product.images[0] && (
+                          <div className="relative w-16 h-16 rounded overflow-hidden bg-slate-100 flex-shrink-0">
+                            <Image
+                              src={item.product.images[0].url}
+                              alt={item.product.title}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        )}
+                        <div className="flex-1">
+                          <h3 className="font-medium text-slate-900 text-sm">
+                            {item.product.title}
+                          </h3>
+                          <p className="text-xs text-slate-600 mt-0.5">
+                            von {item.product.tailor.name}
+                            {item.product.tailor.isVerified && (
+                              <span className="ml-1">✓</span>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Anzug Details */}
+                      {item.measurementSession && (
+                        <div className="bg-slate-50 rounded p-2 mb-2">
+                          <p className="text-xs text-slate-600">
+                            <Package className="w-3 h-3 inline mr-1" />
+                            Maßanfertigung nach Ihren Maßen
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Notizen */}
+                      {item.notes && (
+                        <p className="text-xs text-slate-500 italic mt-1">
+                          "{item.notes}"
+                        </p>
+                      )}
+
+                      {/* Preis */}
+                      <div className="flex justify-between mt-2">
+                        <span className="text-sm text-slate-600">
+                          Anzug × {item.quantity}
+                        </span>
+                        <span className="text-sm font-semibold text-slate-900">
+                          {(item.priceAtAdd * item.quantity).toFixed(2)} €
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="border-t pt-4 space-y-2">
+                  {/* Subtotal */}
+                  <div className="flex justify-between text-slate-600">
+                    <span>Zwischensumme</span>
+                    <span>{subtotal.toFixed(2)} €</span>
                   </div>
-                ))}
+
+                  {/* Platform Fee */}
+                  <div className="flex justify-between text-slate-600">
+                    <span>Plattform-Gebühr</span>
+                    <span>{platformFee.toFixed(2)} €</span>
+                  </div>
+
+                  <div className="border-t pt-2" />
+
+                  {/* Total */}
+                  <div className="flex justify-between text-lg font-semibold text-slate-900">
+                    <span>Gesamt</span>
+                    <span>{total.toFixed(2)} €</span>
+                  </div>
+                </div>
+
+                {/* Info */}
+                <p className="mt-4 text-xs text-slate-500">
+                  Sichere Zahlung über Stripe. Nach Bestätigung werden Sie zur
+                  Stripe-Checkout-Seite weitergeleitet.
+                </p>
               </div>
 
-              <div className="border-t pt-4 space-y-2">
-                {/* Subtotal */}
-                <div className="flex justify-between text-slate-600">
-                  <span>Zwischensumme</span>
-                  <span>{subtotal.toFixed(2)} €</span>
-                </div>
-
-                {/* Platform Fee */}
-                <div className="flex justify-between text-slate-600">
-                  <span>Plattform-Gebühr</span>
-                  <span>{platformFee.toFixed(2)} €</span>
-                </div>
-
-                <div className="border-t pt-2" />
-
-                {/* Total */}
-                <div className="flex justify-between text-lg font-semibold text-slate-900">
-                  <span>Gesamt</span>
-                  <span>{total.toFixed(2)} €</span>
+              {/* Anzug-Informationen Card */}
+              <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg border border-slate-200 p-5">
+                <h3 className="font-semibold text-slate-900 mb-3 text-sm flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-blue-600" />
+                  Was Sie erwartet
+                </h3>
+                <div className="space-y-2.5">
+                  <div className="flex items-start gap-2">
+                    <Clock className="w-4 h-4 text-slate-600 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs font-medium text-slate-900">
+                        Fertigung in Vietnam
+                      </p>
+                      <p className="text-xs text-slate-600">
+                        Geschätzte Lieferzeit: 4-6 Wochen
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Package className="w-4 h-4 text-slate-600 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs font-medium text-slate-900">
+                        100% Maßanfertigung
+                      </p>
+                      <p className="text-xs text-slate-600">
+                        Jeder Anzug wird individuell gefertigt
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Shield className="w-4 h-4 text-slate-600 mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs font-medium text-slate-900">
+                        Passform-Garantie
+                      </p>
+                      <p className="text-xs text-slate-600">
+                        Kostenlose Anpassung bei lokalem Schneider
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Info */}
-              <p className="mt-4 text-xs text-slate-500">
-                Sichere Zahlung über Stripe. Nach Bestätigung werden Sie zur
-                Stripe-Checkout-Seite weitergeleitet.
-              </p>
+              {/* Fairness Info */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-xs text-blue-900 font-medium mb-1">
+                  💙 Faire Bezahlung garantiert
+                </p>
+                <p className="text-xs text-blue-700">
+                  {BRAND.values[0].description}
+                </p>
+              </div>
             </div>
           </div>
         </div>
