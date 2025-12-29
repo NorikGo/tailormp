@@ -42,12 +42,22 @@ export const RATE_LIMITS = {
   // Authentication endpoints (strict)
   LOGIN: { maxRequests: 5, windowMs: 15 * 60 * 1000 }, // 5 requests per 15 minutes
   REGISTER: { maxRequests: 3, windowMs: 60 * 60 * 1000 }, // 3 requests per hour
+  PASSWORD_RESET: { maxRequests: 3, windowMs: 60 * 60 * 1000 }, // 3 requests per hour
 
   // API endpoints (authenticated)
   API_AUTHENTICATED: { maxRequests: 100, windowMs: 60 * 1000 }, // 100 requests per minute
 
   // API endpoints (anonymous/public)
   API_ANONYMOUS: { maxRequests: 10, windowMs: 60 * 1000 }, // 10 requests per minute
+
+  // Checkout & Payments (moderate)
+  CHECKOUT: { maxRequests: 10, windowMs: 15 * 60 * 1000 }, // 10 requests per 15 minutes
+
+  // Admin endpoints (strict)
+  ADMIN: { maxRequests: 50, windowMs: 60 * 1000 }, // 50 requests per minute
+
+  // Tailor Application (very strict)
+  TAILOR_APPLICATION: { maxRequests: 1, windowMs: 60 * 60 * 1000 }, // 1 request per hour
 };
 
 /**

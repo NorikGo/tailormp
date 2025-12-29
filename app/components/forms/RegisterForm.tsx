@@ -62,6 +62,8 @@ export default function RegisterForm() {
   };
 
   if (success) {
+    // Redirect to verify-email page
+    router.push("/verify-email");
     return (
       <div className="w-full max-w-md mx-auto">
         <div className="p-6 text-center bg-green-50 border border-green-200 rounded-lg">
@@ -69,16 +71,8 @@ export default function RegisterForm() {
             Registrierung erfolgreich!
           </h2>
           <p className="text-green-700 mb-4">
-            Bitte bestätige deine E-Mail-Adresse über den Link, den wir dir gesendet haben.
+            Du wirst weitergeleitet...
           </p>
-          <p className="text-green-700 mb-4">
-            Nach der Bestätigung kannst du dich anmelden.
-          </p>
-          <Link href="/login">
-            <Button className="w-full">
-              Zur Anmeldung
-            </Button>
-          </Link>
         </div>
       </div>
     );

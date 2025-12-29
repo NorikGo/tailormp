@@ -33,7 +33,9 @@
       "Bash(npm run dev:*)",
       "Bash(timeout 10 bash:*)",
       "Bash(git checkout:*)",
-      "Bash(npx shadcn@latest add:*)"
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(vercel --version:*)",
+      "Bash(vercel:*)"
     ],
     "deny": [],
     "ask": []

@@ -3,6 +3,8 @@ import { createClient } from "@/utils/supabase/server";
 import { prisma } from "@/app/lib/prisma";
 import { z } from "zod";
 import Stripe from "stripe";
+import { checkRateLimitForRequest } from "@/app/lib/middleware/rateLimitMiddleware";
+import { RATE_LIMITS } from "@/app/lib/rateLimit";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2025-11-17.clover",
@@ -23,6 +25,10 @@ const checkoutSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
+  // Rate limiting for checkout (moderate)
+  const rateLimitResponse = checkRateLimitForRequest(request, RATE_LIMITS.CHECKOUT);
+  if (rateLimitResponse) return rateLimitResponse;
+
   try {
     // Auth check
     const supabase = await createClient();

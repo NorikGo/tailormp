@@ -1,7 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
+import { checkRateLimitForRequest } from "@/app/lib/middleware/rateLimitMiddleware";
+import { RATE_LIMITS } from "@/app/lib/rateLimit";
 
 export async function POST(request: NextRequest) {
+  // Rate limiting - very strict for applications (1 per hour per IP)
+  const rateLimitResponse = checkRateLimitForRequest(
+    request,
+    RATE_LIMITS.TAILOR_APPLICATION
+  );
+  if (rateLimitResponse) return rateLimitResponse;
+
   try {
     const body = await request.json();
     const {

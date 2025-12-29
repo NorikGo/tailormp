@@ -6,6 +6,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 import { prisma } from '@/app/lib/prisma';
 import { z } from 'zod';
+import { checkRateLimitForRequest } from '@/app/lib/middleware/rateLimitMiddleware';
+import { RATE_LIMITS } from '@/app/lib/rateLimit';
 
 // Validation Schema
 const fabricSchema = z.object({
@@ -51,6 +53,10 @@ async function checkAdminAuth() {
  * Liste aller Fabrics (für Admin)
  */
 export async function GET(request: NextRequest) {
+  // Rate limiting for admin endpoints
+  const rateLimitResponse = checkRateLimitForRequest(request, RATE_LIMITS.ADMIN);
+  if (rateLimitResponse) return rateLimitResponse;
+
   // Auth Check
   const { authorized } = await checkAdminAuth();
   if (!authorized) {
@@ -83,6 +89,10 @@ export async function GET(request: NextRequest) {
  * Neuen Fabric erstellen
  */
 export async function POST(request: NextRequest) {
+  // Rate limiting for admin endpoints
+  const rateLimitResponse = checkRateLimitForRequest(request, RATE_LIMITS.ADMIN);
+  if (rateLimitResponse) return rateLimitResponse;
+
   // Auth Check
   const { authorized } = await checkAdminAuth();
   if (!authorized) {
