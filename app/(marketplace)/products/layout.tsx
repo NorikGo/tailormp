@@ -1,20 +1,22 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Maßgeschneiderte Produkte entdecken",
+  title: "Maßanzüge entdecken – TailorMarket | Premium Anzüge aus Vietnam",
   description:
-    "Durchsuche unsere Auswahl an maßgeschneiderten Produkten von talentierten Schneidern aus aller Welt. Anzüge, Hemden, Hosen und mehr - individuell für dich gefertigt.",
+    "Entdecke hochwertige Maßanzüge von erfahrenen Schneidern aus Vietnam. Handgefertigt, fair produziert, 50-70% günstiger als in Deutschland. 550-750€.",
   keywords: [
-    "maßgeschneiderte Produkte",
-    "Maßanzüge",
-    "custom Hemden",
-    "Schneider Produkte",
-    "handgefertigte Kleidung",
+    "Maßanzüge kaufen",
+    "Anzug Vietnam",
+    "Premium Anzüge",
+    "Maßanzug online",
+    "Custom Suits",
+    "Handgefertigte Anzüge",
+    "Fair Trade Anzüge"
   ],
   openGraph: {
-    title: "Maßgeschneiderte Produkte entdecken | TailorMarket",
+    title: "Maßanzüge entdecken – TailorMarket",
     description:
-      "Durchsuche unsere Auswahl an maßgeschneiderten Produkten von talentierten Schneidern aus aller Welt.",
+      "Hochwertige Maßanzüge aus Vietnam. Handgefertigt. Fair produziert. 550-750€.",
     url: "/products",
     type: "website",
   },

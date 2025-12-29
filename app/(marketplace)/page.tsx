@@ -10,20 +10,30 @@ import { Metadata } from "next";
 import { BRAND, TERMINOLOGY } from "@/app/lib/constants/brand";
 
 export const metadata: Metadata = {
-  title: `${BRAND.name} - ${BRAND.tagline}`,
-  description: BRAND.mission,
-  keywords: ["Maßanzüge Vietnam", "faire Maßschneider", "Anzüge aus Vietnam", "custom suits", "Maßanfertigung fair"],
+  title: `${BRAND.name} – Maßanzüge aus Vietnam | Fair & Hochwertig`,
+  description: `Hochwertige Maßanzüge von erfahrenen Schneidern aus Vietnam. 50-70% günstiger als in Deutschland. Fair produziert. Perfekte Passform garantiert. 550-750€.`,
+  keywords: [
+    "Maßanzug Vietnam",
+    "Anzug maßgeschneidert",
+    "Fair Fashion",
+    "Schneider Vietnam",
+    "Maßanzug günstig",
+    "Hoi An Schneider",
+    "Custom Suit Vietnam",
+    "Maßanfertigung Anzug",
+    "Faire Bezahlung Schneider"
+  ],
   openGraph: {
-    title: `${BRAND.name} - ${BRAND.tagline}`,
-    description: BRAND.mission,
+    title: `${BRAND.name} – Dein Maßanzug aus Vietnam`,
+    description: `Fair gefertigt. Perfekt sitzend. 550-750€. Hochwertige Maßanzüge direkt von Schneidern aus Vietnam.`,
     url: "/",
     type: "website",
     siteName: BRAND.name,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${BRAND.name} - ${BRAND.tagline}`,
-    description: BRAND.mission,
+    title: `${BRAND.name} – Maßanzüge aus Vietnam`,
+    description: `Fair gefertigt. Perfekt sitzend. 550-750€.`,
   },
 };
 
