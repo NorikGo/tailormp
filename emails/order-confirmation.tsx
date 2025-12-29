@@ -54,9 +54,16 @@ export default function OrderConfirmationEmail({
             </Text>
 
             <Text style={text}>
-              wir haben Ihre Bestellung erhalten und an <strong>{tailorName}</strong> weitergeleitet.
-              Der Schneider wird sich nun Ihre Maße ansehen und mit der Produktion beginnen.
+              Ihr Maßanzug wird gefertigt! Wir haben Ihre Bestellung an <strong>{tailorName}</strong> in Vietnam weitergeleitet.
+              Der Schneider wird nun Ihre Maße prüfen und mit der handwerklichen Fertigung Ihres Anzugs beginnen.
             </Text>
+
+            <Section style={highlightBox}>
+              <Text style={highlightText}>
+                💙 <strong>Fair gefertigt:</strong> 60% des Verkaufspreises gehen direkt an Ihren Schneider –
+                deutlich mehr als bei traditionellen Marken.
+              </Text>
+            </Section>
 
             {/* Order Details Box */}
             <Section style={orderBox}>
@@ -99,17 +106,26 @@ export default function OrderConfirmationEmail({
 
             {/* Next Steps */}
             <Section>
-              <Heading style={h2}>Wie geht es weiter?</Heading>
+              <Heading style={h2}>Die nächsten Schritte</Heading>
               <Text style={text}>
-                1. <strong>Maßprüfung:</strong> Der Schneider prüft Ihre Maße<br />
-                2. <strong>Produktion:</strong> Ihr Kleidungsstück wird angefertigt<br />
-                3. <strong>Versand:</strong> Sie erhalten eine Tracking-Nummer<br />
-                4. <strong>Zustellung:</strong> Freuen Sie sich auf Ihr maßgeschneidertes Stück!
+                1. <strong>Maßprüfung (1-2 Tage):</strong> Ihr Schneider prüft Ihre Maße und meldet sich bei Rückfragen<br />
+                2. <strong>Handwerkliche Fertigung (3-4 Wochen):</strong> Ihr Anzug wird in Vietnam maßgefertigt<br />
+                3. <strong>Qualitätskontrolle & Versand:</strong> Professionelle Prüfung und schneller Versand<br />
+                4. <strong>Lieferung zu Ihnen:</strong> DHL Express Lieferung mit Tracking
+              </Text>
+            </Section>
+
+            <Section style={guaranteeBox}>
+              <Text style={guaranteeTitle}>🛡️ Unsere Passform-Garantie</Text>
+              <Text style={text}>
+                Sollte Ihr Anzug nicht perfekt sitzen, übernehmen wir die Kosten für lokale Anpassungen
+                bei einem Schneider Ihrer Wahl (bis zu 100€). Außerdem haben Sie 14 Tage Rückgaberecht.
               </Text>
             </Section>
 
             <Text style={text}>
-              Sie können den Status Ihrer Bestellung jederzeit in Ihrem Dashboard einsehen.
+              Sie können den Status Ihrer Bestellung jederzeit in Ihrem Dashboard verfolgen.
+              Die geschätzte Lieferzeit beträgt 4-6 Wochen.
             </Text>
 
             <Text style={text}>
@@ -287,4 +303,34 @@ const footerText = {
 const footerLink = {
   color: '#2563eb',
   textDecoration: 'none',
+};
+
+const highlightBox = {
+  backgroundColor: '#eff6ff',
+  border: '1px solid #bfdbfe',
+  borderRadius: '8px',
+  padding: '16px',
+  margin: '24px 0',
+};
+
+const highlightText = {
+  color: '#1e40af',
+  fontSize: '15px',
+  lineHeight: '24px',
+  margin: '0',
+};
+
+const guaranteeBox = {
+  backgroundColor: '#f0fdf4',
+  border: '1px solid #bbf7d0',
+  borderRadius: '8px',
+  padding: '20px',
+  margin: '24px 0',
+};
+
+const guaranteeTitle = {
+  color: '#166534',
+  fontSize: '16px',
+  fontWeight: '600',
+  margin: '0 0 8px',
 };

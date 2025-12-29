@@ -129,9 +129,10 @@ model Tailor {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  user     User      @relation(fields: [user_id], references: [id])
-  products Product[]
-  reviews  Review[]
+  user          User           @relation(fields: [user_id], references: [id])
+  products      Product[]
+  reviews       Review[]
+  tailorFabrics TailorFabric[] // R4.2: Verfügbare Stoffe
 
   @@index([country])
   @@index([rating])
@@ -140,6 +141,68 @@ model Tailor {
   @@index([totalOrders])
   @@index([yearsExperience])
   @@index([stripeAccountId])
+}
+
+//
+// ───────────────────────────────────────────
+//  FABRIC LIBRARY (R1.2 - Zentrale Stoff-Verwaltung)
+// ───────────────────────────────────────────
+//
+
+model Fabric {
+  id            String          @id @default(cuid())
+  name          String          // z.B. "Navy Blue Wool 120s"
+  description   String?
+  material      String          // z.B. "100% Wool", "Wool/Cashmere Blend"
+  weight        String?         // z.B. "260g/m²"
+  pattern       String?         // z.B. "Solid", "Pinstripe", "Check"
+  color         String          // z.B. "Navy Blue"
+  season        String?         // z.B. "All Season", "Summer", "Winter"
+  imageUrl      String?
+  priceCategory String          // "standard" | "premium" | "luxury"
+  priceAdd      Float           @default(0) // Aufpreis zu Basispreis
+  isActive      Boolean         @default(true)
+  position      Int             @default(0) // Sortierung für Admin-UI
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  products      Product[]
+  tailorFabrics TailorFabric[]  // R4.2: Schneider können Stoffe als verfügbar markieren
+
+  @@index([isActive, position])
+  @@index([priceCategory])
+  @@index([color])
+}
+
+//
+// ───────────────────────────────────────────
+//  TAILOR FABRIC (R4.2 - Stoff-Verfügbarkeit pro Schneider)
+// ───────────────────────────────────────────
+//
+
+model TailorFabric {
+  id              String   @id @default(cuid())
+  tailorId        String
+  fabricId        String
+
+  // Availability
+  isAvailable     Boolean  @default(true) // Kann temporär deaktiviert werden
+  stockQuantity   Int?     // Optional: Menge verfügbar (null = unbegrenzt)
+
+  // Pricing (optional override)
+  customPriceAdd  Float?   // Optional: Schneider-spezifischer Aufpreis (überschreibt fabric.priceAdd)
+
+  // Timestamps
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  tailor          Tailor   @relation(fields: [tailorId], references: [id], onDelete: Cascade)
+  fabric          Fabric   @relation(fields: [fabricId], references: [id], onDelete: Cascade)
+
+  @@unique([tailorId, fabricId]) // Ein Schneider kann denselben Stoff nur einmal haben
+  @@index([tailorId])
+  @@index([fabricId])
+  @@index([isAvailable])
 }
 
 //
@@ -173,6 +236,21 @@ model Product {
   customizationOptions Json? // { fabrics: [...], colors: [...], buttons: [...], etc. }
   requiresMeasurements Boolean @default(true)
 
+  // ── SUIT-SPECIFIC FIELDS (R1.1) ──
+  // Suit Model & Style
+  suitModel    String? // "classic" | "business" | "premium"
+  fitType      String? // "slim" | "regular" | "relaxed"
+  lapelStyle   String? // "notch" | "peak" | "shawl"
+  ventStyle    String? // "single" | "double" | "none"
+  buttonCount  Int?    @default(2) // 1, 2, 3
+  pocketStyle  String? // "flap" | "patch" | "welted"
+
+  // Fabric (R1.2 - Relation zur Fabric Library)
+  fabricId       String? // Relation zur Fabric Library
+  fabric         Fabric? @relation(fields: [fabricId], references: [id])
+  fabricName     String? // DEPRECATED: Wird durch fabric.name ersetzt
+  fabricMaterial String? // DEPRECATED: Wird durch fabric.material ersetzt
+
   // Timestamps
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @default(now()) @updatedAt
@@ -188,6 +266,9 @@ model Product {
   @@index([createdAt])
   @@index([price])
   @@index([isActive])
+  @@index([suitModel]) // R1.1: für Anzug-Modell Filter
+  @@index([fitType])   // R1.1: für Fit-Type Filter
+  @@index([fabricId])  // R1.2: für Fabric-Filter
   // Composite indexes for common query patterns
   @@index([isActive, createdAt(sort: Desc)])
   @@index([category, price])
@@ -374,4 +455,41 @@ model CartItem {
   @@index([cartId])
   @@index([productId])
   @@index([measurementSessionId])
+}
+
+//
+// ───────────────────────────────────────────
+//  TAILOR APPLICATION (R4.1 - Bewerbungs-System)
+// ───────────────────────────────────────────
+//
+
+model TailorApplication {
+  id              String    @id @default(cuid())
+  
+  // Applicant Info
+  name            String
+  email           String
+  phone           String
+  country         String    @default("Vietnam")
+  city            String
+  
+  // Experience
+  yearsExperience Int
+  specialties     String[]  // JSON array: ["suits", "shirts", "pants", etc.]
+  portfolioLinks  String?   // URLs zu Portfolio
+  motivation      String    // Warum möchtest du bei uns mitmachen?
+  imageUrls       String[]  // Supabase Storage URLs für Beispielbilder
+  
+  // Application Status
+  status          String    @default("pending") // "pending" | "approved" | "rejected"
+  reviewedAt      DateTime?
+  reviewedBy      String?   // Admin User ID
+  notes           String?   // Admin notes
+  
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  @@index([status])
+  @@index([createdAt])
+  @@index([email])
 }

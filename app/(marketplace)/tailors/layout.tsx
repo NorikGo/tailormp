@@ -1,21 +1,23 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Schneider weltweit entdecken",
+  title: "Unsere Schneider – TailorMarket | Erfahrene Schneider aus Vietnam",
   description:
-    "Finde talentierte Schneider aus aller Welt. Verifizierte Handwerker mit jahrelanger Erfahrung in Maßanfertigung. Von Vietnam über Thailand bis Indien - entdecke die besten Schneider.",
+    "Lerne unsere 12 erfahrenen Schneider aus Vietnam kennen. Alle Partner haben 10+ Jahre Erfahrung und fertigen für internationale Luxusmarken wie Hugo Boss und Armani. Fair bezahlt mit 60% des Verkaufspreises.",
   keywords: [
-    "Schneider finden",
-    "Maßschneider weltweit",
-    "verifizierte Schneider",
     "Schneider Vietnam",
-    "Schneider Thailand",
-    "Schneider Indien",
+    "Hoi An Schneider",
+    "Maßschneider Vietnam",
+    "Tailor Vietnam",
+    "Fair Trade Schneider",
+    "Handwerk Vietnam",
+    "Schneider Ho Chi Minh City",
+    "Schneider Hanoi"
   ],
   openGraph: {
-    title: "Schneider weltweit entdecken | TailorMarket",
+    title: "Unsere Schneider – TailorMarket",
     description:
-      "Finde talentierte Schneider aus aller Welt. Verifizierte Handwerker mit jahrelanger Erfahrung.",
+      "12 erfahrene Schneider aus Vietnam. Fair bezahlt. 10+ Jahre Erfahrung.",
     url: "/tailors",
     type: "website",
   },

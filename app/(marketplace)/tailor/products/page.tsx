@@ -124,10 +124,9 @@ export default function ProductManagementPage() {
               Bestellungen
             </Button>
           </Link>
-          <Link href="/tailor/products/new">
-            <Button size="lg">
-              <Plus className="w-4 h-4 mr-2" />
-              Neues Produkt
+          <Link href="/tailor/profile/edit">
+            <Button variant="outline">
+              Profil bearbeiten
             </Button>
           </Link>
         </div>
@@ -150,14 +149,11 @@ export default function ProductManagementPage() {
                 Noch keine Produkte
               </h3>
               <p className="text-slate-600 mb-6">
-                Erstelle dein erstes Produkt, um es auf dem Marketplace anzubieten
+                Produkte werden automatisch erstellt, wenn Kunden Anzüge bei dir konfigurieren.
               </p>
-              <Link href="/tailor/products/new">
-                <Button>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Produkt erstellen
-                </Button>
-              </Link>
+              <p className="text-slate-600 text-sm">
+                Stelle sicher, dass dein Profil vollständig ausgefüllt ist und du verfügbare Stoffe festgelegt hast.
+              </p>
             </div>
           </CardContent>
         </Card>

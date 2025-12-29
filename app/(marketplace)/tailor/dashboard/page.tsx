@@ -248,12 +248,7 @@ export default function TailorDashboard() {
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Link href="/tailor/products/new">
-            <Button className="w-full" variant="outline">
-              Neues Produkt erstellen
-            </Button>
-          </Link>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
           <Link href="/tailor/products">
             <Button className="w-full" variant="outline">
               Produkte verwalten

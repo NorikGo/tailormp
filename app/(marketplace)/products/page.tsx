@@ -5,6 +5,7 @@ import ProductGrid from "@/app/components/marketplace/ProductGrid";
 import { useProducts } from "@/app/hooks/useProducts";
 import { dummyProducts } from "@/app/lib/dummyData";
 import { ProductFilters } from "@/components/marketplace/ProductFilters";
+import { TERMINOLOGY } from "@/app/lib/constants/brand";
 
 export default function ProductsPage() {
   const { products, loading, error, pagination } = useProducts();
@@ -17,11 +18,10 @@ export default function ProductsPage() {
       {/* Header Section */}
       <div className="mb-12">
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-          Produkte entdecken
+          {TERMINOLOGY.products} entdecken
         </h1>
         <p className="text-lg text-slate-600 max-w-2xl">
-          Durchsuche unsere Auswahl an maßgeschneiderten Produkten von
-          talentierten Schneidern aus aller Welt.
+          Konfiguriere deinen perfekten Maßanzug – gefertigt von erfahrenen Schneidern aus Vietnam.
         </p>
       </div>
 
@@ -35,10 +35,10 @@ export default function ProductsPage() {
         <div className="text-sm text-slate-600">
           {pagination ? (
             <span>
-              {pagination.total} Produkt{pagination.total !== 1 ? "e" : ""} gefunden
+              {pagination.total} {pagination.total !== 1 ? TERMINOLOGY.products : TERMINOLOGY.product} gefunden
             </span>
           ) : (
-            <span>{displayProducts.length} Produkt{displayProducts.length !== 1 ? "e" : ""} gefunden</span>
+            <span>{displayProducts.length} {displayProducts.length !== 1 ? TERMINOLOGY.products : TERMINOLOGY.product} gefunden</span>
           )}
         </div>
       </div>
@@ -69,7 +69,7 @@ export default function ProductsPage() {
       {!loading && displayProducts.length === 0 && (
         <div className="text-center py-20">
           <p className="text-slate-600 text-lg">
-            Keine Produkte gefunden. Bitte versuche es später erneut.
+            Keine {TERMINOLOGY.products} gefunden. Bitte versuche es später erneut.
           </p>
         </div>
       )}

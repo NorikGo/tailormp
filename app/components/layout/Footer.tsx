@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BRAND } from "@/app/lib/constants/brand";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -6,19 +7,19 @@ export default function Footer() {
   return (
     <footer className="bg-slate-50 border-t">
       <div className="container mx-auto px-4 py-12">
-        {/* 3-Spalten Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+        {/* 4-Spalten Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {/* Spalte 1 - Über TailorMarket */}
           <div>
-            <h3 className="text-xl font-bold text-slate-900 mb-4">TailorMarket</h3>
+            <h3 className="text-xl font-bold text-slate-900 mb-4">{BRAND.name}</h3>
             <p className="text-slate-600 text-sm leading-relaxed">
-              Verbindet talentierte Schneider weltweit mit Kunden, die maßgeschneiderte Qualität schätzen.
+              {BRAND.mission}
             </p>
           </div>
 
           {/* Spalte 2 - Links */}
           <div>
-            <h4 className="font-semibold text-slate-900 mb-4">Links</h4>
+            <h4 className="font-semibold text-slate-900 mb-4">Entdecken</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/about" className="text-slate-600 hover:text-slate-900 text-sm transition-colors">
@@ -30,6 +31,28 @@ export default function Footer() {
                   Wie es funktioniert
                 </Link>
               </li>
+              <li>
+                <Link href="/vietnam" className="text-slate-600 hover:text-slate-900 text-sm transition-colors">
+                  Warum Vietnam?
+                </Link>
+              </li>
+              <li>
+                <Link href="/quality" className="text-slate-600 hover:text-slate-900 text-sm transition-colors">
+                  Qualität & Garantien
+                </Link>
+              </li>
+              <li>
+                <Link href="/tailors/apply" className="text-slate-600 hover:text-slate-900 text-sm transition-colors">
+                  Schneider werden
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Spalte 3 - Rechtliches */}
+          <div>
+            <h4 className="font-semibold text-slate-900 mb-4">Rechtliches</h4>
+            <ul className="space-y-2">
               <li>
                 <Link href="/terms" className="text-slate-600 hover:text-slate-900 text-sm transition-colors">
                   AGB
@@ -48,22 +71,34 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Spalte 3 - Kontakt */}
+          {/* Spalte 4 - Kontakt */}
           <div>
             <h4 className="font-semibold text-slate-900 mb-4">Kontakt</h4>
-            <a
-              href="mailto:info@tailormarket.com"
-              className="text-slate-600 hover:text-slate-900 text-sm transition-colors"
-            >
-              info@tailormarket.com
-            </a>
+            <ul className="space-y-2">
+              <li>
+                <a
+                  href={`mailto:${BRAND.contact.email}`}
+                  className="text-slate-600 hover:text-slate-900 text-sm transition-colors"
+                >
+                  {BRAND.contact.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${BRAND.contact.supportEmail}`}
+                  className="text-slate-600 hover:text-slate-900 text-sm transition-colors"
+                >
+                  Support
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
         {/* Copyright */}
         <div className="mt-8 pt-8 border-t border-slate-200">
           <p className="text-center text-sm text-slate-600">
-            © {currentYear} TailorMarket. Alle Rechte vorbehalten.
+            © {currentYear} {BRAND.name}. Alle Rechte vorbehalten.
           </p>
         </div>
       </div>

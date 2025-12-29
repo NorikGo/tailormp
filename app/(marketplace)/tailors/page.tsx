@@ -5,6 +5,7 @@ import { TailorFilters } from "@/components/marketplace/TailorFilters";
 import { useTailors } from "@/app/hooks/useTailors";
 import { dummyTailors } from "@/app/lib/dummyData";
 import { Loader2 } from "lucide-react";
+import { TERMINOLOGY } from "@/app/lib/constants/brand";
 
 export default function TailorsPage() {
   const { tailors, loading, pagination } = useTailors();
@@ -18,11 +19,10 @@ export default function TailorsPage() {
       {/* Header Section */}
       <div className="mb-12 max-w-3xl">
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-          Unsere Schneider
+          {TERMINOLOGY.exploreTailors}
         </h1>
         <p className="text-lg text-slate-600">
-          Entdecke talentierte Schneider aus der ganzen Welt. Jeder Schneider
-          bringt einzigartige Fähigkeiten und jahrelange Erfahrung mit.
+          Lerne unsere erfahrenen Schneider aus Vietnam kennen. Jeder bringt jahrelange Expertise in der Maßanfertigung mit und wird fair bezahlt.
         </p>
       </div>
 
